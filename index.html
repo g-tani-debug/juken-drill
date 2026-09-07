@@ -1,0 +1,2275 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#EDF0EF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0F161A" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="入試ドリル">
+<meta name="description" content="福井県立高校入試の出題形式に合わせた5教科60問の発展・難関ドリル。">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>武生高校 入試ドリル</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --bg:#EDF0EF;
+  --surface:#FFFFFF;
+  --surface-2:#F5F8F7;
+  --ink:#141F27;
+  --ink-2:#54666F;
+  --ink-3:#8598A0;
+  --line:#D5DEDB;
+  --line-2:#E6ECEA;
+  --accent:#14566B;
+  --accent-2:#1B7086;
+  --accent-soft:#DDEAEE;
+  --shu:#C0402C;
+  --shu-soft:#F4E2DE;
+  --ai:#2F4E68;
+  --kokugo:#8C5A4A;
+  --sugaku:#14566B;
+  --eigo:#4A6B8C;
+  --rika:#3B7A62;
+  --shakai:#8A6E3C;
+  --shadow:0 1px 2px rgba(20,31,39,.05), 0 8px 24px -12px rgba(20,31,39,.16);
+  --mincho:"Shippori Mincho", "Yu Mincho", "Hiragino Mincho ProN", serif;
+  --gothic:"Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F161A;
+    --surface:#182026;
+    --surface-2:#1E282F;
+    --ink:#E4EDEA;
+    --ink-2:#9AACB3;
+    --ink-3:#6F838B;
+    --line:#2B373F;
+    --line-2:#232E35;
+    --accent:#74BDD2;
+    --accent-2:#8FCFE0;
+    --accent-soft:#16323D;
+    --shu:#E8785F;
+    --shu-soft:#3A231D;
+    --ai:#9DBBD6;
+    --kokugo:#D19684;
+    --sugaku:#74BDD2;
+    --eigo:#8FAFCE;
+    --rika:#79BE9E;
+    --shakai:#C9AC74;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 26px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F161A;
+  --surface:#182026;
+  --surface-2:#1E282F;
+  --ink:#E4EDEA;
+  --ink-2:#9AACB3;
+  --ink-3:#6F838B;
+  --line:#2B373F;
+  --line-2:#232E35;
+  --accent:#74BDD2;
+  --accent-2:#8FCFE0;
+  --accent-soft:#16323D;
+  --shu:#E8785F;
+  --shu-soft:#3A231D;
+  --ai:#9DBBD6;
+  --kokugo:#D19684;
+  --sugaku:#74BDD2;
+  --eigo:#8FAFCE;
+  --rika:#79BE9E;
+  --shakai:#C9AC74;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 26px -14px rgba(0,0,0,.7);
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--gothic);
+  font-size:16px;
+  line-height:1.7;
+  -webkit-text-size-adjust:100%;
+  padding-bottom:64px;
+}
+h1,h2,h3{margin:0;text-wrap:balance;font-weight:700}
+p{margin:0}
+button{font-family:inherit;font-size:inherit;color:inherit;cursor:pointer;border:none;background:none}
+input,textarea{font-family:inherit;font-size:inherit;color:inherit}
+
+/* ---------- top bar ---------- */
+.bar{
+  position:sticky;top:0;z-index:20;
+  background:color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.bar-in{
+  max-width:760px;margin:0 auto;padding:0 18px;
+  height:52px;display:flex;align-items:center;gap:12px;
+}
+.bar-title{
+  font-family:var(--mincho);font-weight:700;font-size:1rem;letter-spacing:.04em;
+  white-space:nowrap;
+}
+.bar-sub{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;
+  color:var(--ink-3);text-transform:uppercase;
+}
+.bar-spacer{flex:1}
+.bar-meta{
+  font-family:var(--mono);font-size:.78rem;color:var(--ink-2);
+  font-variant-numeric:tabular-nums;white-space:nowrap;
+}
+.iconbtn{
+  width:34px;height:34px;border-radius:8px;display:grid;place-items:center;
+  color:var(--ink-2);border:1px solid transparent;
+}
+.iconbtn:hover{background:var(--surface-2);border-color:var(--line)}
+.iconbtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.wrap{max-width:760px;margin:0 auto;padding:0 18px}
+.screen{display:none}
+.screen.on{display:block}
+
+/* ---------- home ---------- */
+.hero{padding:30px 0 22px}
+.hero-eyebrow{
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;
+  color:var(--ink-3);text-transform:uppercase;margin-bottom:10px;
+}
+.hero h1{
+  font-family:var(--mincho);font-size:1.85rem;line-height:1.35;letter-spacing:.02em;
+}
+.hero-lede{color:var(--ink-2);font-size:.9rem;margin-top:10px;max-width:34em}
+
+.stats{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  border:1px solid var(--line);border-radius:12px;overflow:hidden;
+  background:var(--surface);margin:20px 0 8px;box-shadow:var(--shadow);
+}
+.stat{padding:14px 14px 15px;border-right:1px solid var(--line-2)}
+.stat:last-child{border-right:none}
+.stat-k{
+  font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;
+  color:var(--ink-3);text-transform:uppercase;
+}
+.stat-v{
+  font-family:var(--mono);font-weight:600;font-size:1.5rem;line-height:1.25;
+  margin-top:4px;font-variant-numeric:tabular-nums;
+}
+.stat-v small{font-size:.62em;font-weight:400;color:var(--ink-3);margin-left:2px}
+.note{font-size:.72rem;color:var(--ink-3);line-height:1.6}
+
+.sec-h{
+  display:flex;align-items:baseline;gap:10px;margin:30px 0 12px;
+}
+.sec-h h2{font-family:var(--mincho);font-size:1.05rem;letter-spacing:.05em}
+.sec-h span{
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;color:var(--ink-3);
+}
+
+.subjects{display:flex;flex-direction:column;gap:8px}
+.subj{
+  display:flex;align-items:center;gap:14px;width:100%;text-align:left;
+  background:var(--surface);border:1px solid var(--line);border-radius:11px;
+  padding:13px 15px 13px 0;position:relative;overflow:hidden;
+  transition:border-color .15s, transform .1s;
+}
+.subj:hover{border-color:var(--sc)}
+.subj:active{transform:translateY(1px)}
+.subj:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.subj-rail{width:5px;align-self:stretch;background:var(--sc);flex:none}
+.subj-kanji{
+  font-family:var(--mincho);font-size:1.32rem;font-weight:700;color:var(--sc);
+  width:1.4em;text-align:center;flex:none;margin-left:11px;
+}
+.subj-body{flex:1;min-width:0}
+.subj-name{display:block;font-weight:500;font-size:.95rem;letter-spacing:.02em}
+.subj-meta{
+  display:block;font-family:var(--mono);font-size:.7rem;color:var(--ink-3);
+  font-variant-numeric:tabular-nums;margin-top:2px;
+}
+.subj-ring{flex:none;position:relative;width:40px;height:40px}
+.subj-ring svg{transform:rotate(-90deg)}
+.subj-ring b{
+  position:absolute;inset:0;display:grid;place-items:center;
+  font-family:var(--mono);font-size:.66rem;font-weight:600;
+  font-variant-numeric:tabular-nums;color:var(--ink-2);
+}
+
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.mode{
+  background:var(--surface);border:1px solid var(--line);border-radius:11px;
+  padding:14px 15px;text-align:left;transition:border-color .15s;
+}
+.mode:hover:not(:disabled){border-color:var(--accent)}
+.mode:disabled{opacity:.45;cursor:not-allowed}
+.mode:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.mode-t{font-weight:500;font-size:.9rem}
+.mode-d{font-size:.72rem;color:var(--ink-3);margin-top:3px;line-height:1.5}
+
+.foot{
+  margin:36px 0 10px;padding-top:18px;border-top:1px solid var(--line);
+  display:flex;flex-wrap:wrap;gap:14px;align-items:center;
+}
+.linkbtn{
+  font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;color:var(--ink-3);
+  border-bottom:1px solid var(--line);padding-bottom:1px;
+}
+.linkbtn:hover{color:var(--shu);border-color:var(--shu)}
+
+/* ---------- quiz ---------- */
+.qhead{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  padding:24px 0 0;
+}
+.tag{
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;
+  padding:3px 8px;border-radius:5px;border:1px solid var(--line);
+  color:var(--ink-2);background:var(--surface);
+}
+.tag.tsub{color:var(--sc);border-color:color-mix(in srgb,var(--sc) 35%,transparent)}
+.tag.lv3{color:var(--shu);border-color:color-mix(in srgb,var(--shu) 40%,transparent);background:var(--shu-soft)}
+.tag.lv2{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 35%,transparent);background:var(--accent-soft)}
+
+.qcard{
+  background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  box-shadow:var(--shadow);margin-top:12px;overflow:hidden;
+}
+.qbody{padding:20px 20px 22px;display:flex;gap:16px}
+.qnum{
+  flex:none;font-family:var(--mono);font-weight:600;font-size:.82rem;
+  color:var(--shu);letter-spacing:.04em;padding-left:9px;
+  border-left:2px solid var(--shu);align-self:flex-start;
+}
+.qtext{
+  flex:1;min-width:0;font-family:var(--mincho);font-size:1.02rem;line-height:1.95;
+  letter-spacing:.01em;
+}
+.qtext p+p{margin-top:1em}
+.qtext .lead{font-weight:700}
+.qtext .bousen{
+  text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px;
+  text-decoration-color:var(--shu);
+}
+.qtext .passage{
+  font-size:.95rem;line-height:2.0;background:var(--surface-2);
+  border-left:3px solid var(--line);border-radius:0 8px 8px 0;
+  padding:14px 16px;margin:12px 0;
+}
+.qtext .passage.en{font-family:var(--gothic);line-height:1.85;letter-spacing:0}
+.qtext .src{
+  display:block;text-align:right;font-size:.76rem;color:var(--ink-3);
+  font-family:var(--gothic);margin-top:8px;
+}
+.qtext .frag{
+  font-family:var(--mono);font-size:.9rem;background:var(--surface-2);
+  border:1px solid var(--line-2);border-radius:6px;padding:2px 6px;
+}
+.qwrapscroll{overflow-x:auto}
+.qtext table{
+  border-collapse:collapse;font-family:var(--mono);font-size:.8rem;
+  margin:12px 0;font-variant-numeric:tabular-nums;min-width:100%;
+}
+.qtext th,.qtext td{
+  border:1px solid var(--line);padding:6px 10px;text-align:center;white-space:nowrap;
+}
+.qtext th{background:var(--surface-2);font-weight:500;color:var(--ink-2)}
+.qtext figure{margin:14px 0;text-align:center}
+.qtext figcaption{
+  font-family:var(--mono);font-size:.7rem;color:var(--ink-3);margin-top:6px;
+}
+
+.answer{padding:0 20px 20px}
+.choices{display:flex;flex-direction:column;gap:7px}
+.choice{
+  display:flex;gap:11px;align-items:flex-start;width:100%;text-align:left;
+  border:1px solid var(--line);border-radius:9px;padding:11px 13px;
+  background:var(--surface);transition:border-color .12s, background .12s;
+  line-height:1.65;font-size:.93rem;
+}
+.choice:hover:not(:disabled){border-color:var(--accent);background:var(--surface-2)}
+.choice:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.choice-k{
+  flex:none;font-family:var(--mono);font-size:.78rem;font-weight:600;
+  width:22px;height:22px;border-radius:5px;display:grid;place-items:center;
+  border:1px solid var(--line);color:var(--ink-2);margin-top:1px;
+}
+.choice.sel{border-color:var(--accent);background:var(--accent-soft)}
+.choice.sel .choice-k{background:var(--accent);color:var(--surface);border-color:var(--accent)}
+.choice.ok{border-color:var(--shu);background:var(--shu-soft)}
+.choice.ok .choice-k{background:var(--shu);color:#fff;border-color:var(--shu)}
+.choice.ng{border-color:var(--ai);opacity:.75}
+.choice:disabled{cursor:default}
+
+.field{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+.field input{
+  flex:1;min-width:180px;background:var(--surface-2);
+  border:1px solid var(--line);border-radius:9px;padding:11px 13px;
+  font-family:var(--mono);font-size:1rem;
+}
+.field input:focus{outline:2px solid var(--accent);outline-offset:-1px;border-color:var(--accent)}
+.field .unit{font-family:var(--mono);font-size:.86rem;color:var(--ink-2)}
+.hint{font-size:.74rem;color:var(--ink-3);margin-top:7px}
+textarea.free{
+  width:100%;background:var(--surface-2);border:1px solid var(--line);
+  border-radius:9px;padding:12px 13px;min-height:110px;resize:vertical;
+  font-family:var(--mincho);line-height:1.9;font-size:.97rem;
+}
+textarea.free:focus{outline:2px solid var(--accent);outline-offset:-1px;border-color:var(--accent)}
+
+.actions{display:flex;gap:9px;margin-top:16px;flex-wrap:wrap}
+.btn{
+  border-radius:9px;padding:11px 20px;font-weight:500;font-size:.9rem;
+  border:1px solid var(--accent);background:var(--accent);color:var(--surface);
+  transition:opacity .12s;
+}
+:root[data-theme="dark"] .btn, :root:not([data-theme="light"]) .btn{color:#0F161A}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]) .btn{color:#fff}}
+.btn:hover{opacity:.88}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn.ghost{background:transparent;color:var(--ink-2);border-color:var(--line)}
+.btn.ghost:hover{border-color:var(--ink-3);opacity:1}
+
+/* ---------- marking ---------- */
+.mark{
+  display:flex;align-items:center;gap:12px;padding:16px 20px;
+  border-top:1px solid var(--line-2);background:var(--surface-2);
+}
+.mark svg{flex:none}
+.mark-t{font-family:var(--mincho);font-weight:700;font-size:1.05rem;letter-spacing:.06em}
+.mark.is-ok .mark-t{color:var(--shu)}
+.mark.is-ng .mark-t{color:var(--ai)}
+.mark-s{font-size:.79rem;color:var(--ink-2);margin-top:1px}
+.mark-s b{font-family:var(--mono);font-weight:600;color:var(--ink)}
+.draw{stroke-dasharray:var(--len);stroke-dashoffset:var(--len);animation:draw .55s cubic-bezier(.3,.7,.4,1) forwards}
+.draw.d2{animation-delay:.2s}
+@keyframes draw{to{stroke-dashoffset:0}}
+@media (prefers-reduced-motion: reduce){
+  .draw{animation:none;stroke-dashoffset:0}
+}
+
+.exp{padding:2px 20px 22px;border-top:1px solid var(--line-2)}
+.exp-h{
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;
+  color:var(--ink-3);text-transform:uppercase;margin:18px 0 7px;
+}
+.exp-body{font-size:.9rem;line-height:1.85;color:var(--ink)}
+.exp-body p+p{margin-top:.7em}
+.exp-body .calc{
+  font-family:var(--mono);font-size:.86rem;background:var(--surface-2);
+  border:1px solid var(--line-2);border-radius:7px;padding:9px 12px;margin:9px 0;
+  overflow-x:auto;white-space:pre-wrap;line-height:1.75;
+}
+.exp-ans{
+  font-family:var(--mono);font-weight:600;font-size:1rem;color:var(--shu);
+  background:var(--shu-soft);border-radius:7px;padding:8px 12px;display:inline-block;
+}
+.exp-model{
+  font-family:var(--mincho);font-size:.96rem;line-height:1.9;
+  border-left:3px solid var(--accent);padding:2px 0 2px 13px;
+}
+.exp-tip{
+  background:var(--accent-soft);border-radius:9px;padding:12px 14px;
+  font-size:.85rem;line-height:1.8;
+}
+.exp-tip b{color:var(--accent)}
+.selfgrade{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.sg{
+  flex:1;min-width:88px;border:1px solid var(--line);border-radius:9px;
+  padding:10px 8px;text-align:center;background:var(--surface);
+}
+.sg b{display:block;font-size:1.3rem;font-family:var(--mono);line-height:1.2}
+.sg span{font-size:.7rem;color:var(--ink-3)}
+.sg:hover{border-color:var(--accent)}
+.sg.pick{border-color:var(--shu);background:var(--shu-soft)}
+.sg.pick b{color:var(--shu)}
+
+.nav{display:flex;gap:9px;margin:16px 0 40px;align-items:center}
+.dots{display:flex;gap:4px;flex-wrap:wrap;flex:1}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--line);flex:none}
+.dot.done{background:var(--ink-3)}
+.dot.ok{background:var(--shu)}
+.dot.now{background:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+
+/* ---------- result ---------- */
+.score{
+  background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  padding:26px 22px;text-align:center;margin:24px 0 14px;box-shadow:var(--shadow);
+}
+.score-k{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.16em;
+  color:var(--ink-3);text-transform:uppercase;
+}
+.score-v{
+  font-family:var(--mono);font-weight:600;font-size:3rem;line-height:1.1;
+  margin:6px 0 2px;font-variant-numeric:tabular-nums;
+}
+.score-v small{font-size:.32em;color:var(--ink-3);font-weight:400}
+.score-c{font-family:var(--mincho);font-size:.95rem;color:var(--ink-2);margin-top:8px}
+.review{display:flex;flex-direction:column;gap:7px}
+.rev{
+  display:flex;gap:11px;align-items:baseline;width:100%;text-align:left;
+  background:var(--surface);border:1px solid var(--line);border-radius:9px;
+  padding:11px 13px;font-size:.87rem;line-height:1.6;
+}
+.rev:hover{border-color:var(--accent)}
+.rev-n{font-family:var(--mono);font-size:.72rem;color:var(--ink-3);flex:none}
+.rev-x{color:var(--shu);font-family:var(--mono);flex:none}
+
+@media (max-width:560px){
+  .hero h1{font-size:1.55rem}
+  .qbody{flex-direction:column;gap:9px;padding:17px 16px 18px}
+  .qnum{border-left:none;border-top:2px solid var(--shu);padding:7px 0 0;padding-left:0}
+  .answer{padding:0 16px 18px}
+  .exp{padding:2px 16px 20px}
+  .mark{padding:14px 16px}
+  .stat{padding:12px 11px}
+  .stat-v{font-size:1.28rem}
+  .modes{grid-template-columns:1fr}
+}
+</style>
+
+<div class="bar">
+  <div class="bar-in">
+    <div>
+      <div class="bar-title">武生高校 入試ドリル</div>
+      <div class="bar-sub" id="barsub">Fukui / 5 subjects</div>
+    </div>
+    <div class="bar-spacer"></div>
+    <div class="bar-meta" id="barmeta"></div>
+    <button class="iconbtn" id="themebtn" aria-label="表示テーマを切り替える" title="表示テーマ">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    </button>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ============ HOME ============ -->
+<section class="screen on" id="home">
+  <div class="hero">
+    <div class="hero-eyebrow">福井県立高等学校 一般入学者選抜</div>
+    <h1>本番で差がつく60問を、<br>解けるまで繰り返す。</h1>
+    <p class="hero-lede">福井県入試の出題形式に合わせた発展・難関レベルの問題です。5教科500点満点のうち、上位校で合否を分けるのは「最後の1〜2問」。そこだけを集めました。</p>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-k">Solved</div>
+      <div class="stat-v" id="st-solved">0<small>/60</small></div>
+    </div>
+    <div class="stat">
+      <div class="stat-k">正答率</div>
+      <div class="stat-v" id="st-rate">—<small>%</small></div>
+    </div>
+    <div class="stat">
+      <div class="stat-k">本番まで</div>
+      <div class="stat-v" id="st-days">—<small>日</small></div>
+    </div>
+  </div>
+  <p class="note">※「本番まで」は例年の日程（3月上旬）からの目安です。令和9年度の正式な日程・出題範囲は、福井県教育委員会が10月に公表する実施要項で確認してください。</p>
+
+  <div class="sec-h"><h2>教科から選ぶ</h2><span>12 questions each</span></div>
+  <div class="subjects" id="subjects"></div>
+
+  <div class="sec-h"><h2>まとめて解く</h2><span>mixed / review</span></div>
+  <div class="modes">
+    <button class="mode" id="m-mix">
+      <div class="mode-t">実戦ミックス 10問</div>
+      <div class="mode-d">5教科からランダムに10問。時間を計って本番の感覚をつかむ。</div>
+    </button>
+    <button class="mode" id="m-rev">
+      <div class="mode-t">間違い直し</div>
+      <div class="mode-d" id="m-rev-d">まだ間違いはありません。</div>
+    </button>
+  </div>
+
+  <div class="foot">
+    <span class="note" style="flex:1;min-width:200px">解答の記録はこの端末のブラウザに保存されます。別の端末では引き継がれません。</span>
+    <button class="linkbtn" id="reset">記録をリセット</button>
+  </div>
+</section>
+
+<!-- ============ QUIZ ============ -->
+<section class="screen" id="quiz"></section>
+
+<!-- ============ RESULT ============ -->
+<section class="screen" id="result"></section>
+
+</div>
+
+<script>
+/* =========================================================
+   問題データ
+   福井県立高校 一般入学者選抜の出題形式に合わせた
+   オリジナル問題（発展・難関レベル）
+   lv 1=標準 / 2=発展 / 3=難関
+   ========================================================= */
+
+const SUBJECTS = [
+  {key:'国語', kanji:'国', color:'var(--kokugo)', desc:'論説・小説・古文・文法・作文'},
+  {key:'数学', kanji:'数', color:'var(--sugaku)', desc:'関数・図形・確率・規則性'},
+  {key:'英語', kanji:'英', color:'var(--eigo)',   desc:'文法・整序・長文・英作文'},
+  {key:'理科', kanji:'理', color:'var(--rika)',   desc:'物理・化学・生物・地学'},
+  {key:'社会', kanji:'社', color:'var(--shakai)', desc:'地理・歴史・公民'}
+];
+
+const Q = [];
+
+/* ---------------- 数学 ---------------- */
+Q.push({
+  id:'M01', s:'数学', unit:'平方根', lv:3, type:'short',
+  q:`<p><span class="frag">n</span> を自然数とする。<span class="frag">&radic;(540n)</span> が自然数となるような <span class="frag">n</span> のうち、<span class="lead">2番目に小さいもの</span>を求めなさい。</p>`,
+  hint:'数だけを入力（例：15）', accept:['60'],
+  ans:'60',
+  exp:`<p>540 を素因数分解すると <span class="frag">540 = 2&sup2; &times; 3&sup3; &times; 5</span>。</p>
+<div class="calc">540n が平方数になる
+ → すべての素因数の指数が偶数
+ → 指数が奇数なのは 3（3乗）と 5（1乗）
+ → n は 3 &times; 5 = 15 の倍数で、
+   n = 15k&sup2;（k は自然数）の形</div>
+<p>k=1 のとき n=15（最小）、k=2 のとき n=15&times;4=<b>60</b>。</p>`,
+  tip:'「最小」で止まらないこと。<b>n = 15k&sup2;</b> という一般形まで書けると、3番目（135）も即答できる。'
+});
+
+Q.push({
+  id:'M02', s:'数学', unit:'二次方程式の応用', lv:2, type:'short',
+  q:`<p>横が縦より 4m 長い長方形の土地がある。この土地に、下の図のように<span class="lead">幅 1m の道を縦と横に 1 本ずつ</span>つくったところ、道を除いた部分の面積が 45m&sup2; になった。もとの土地の縦の長さを求めなさい。</p>
+<figure><svg width="230" height="150" viewBox="0 0 230 150" role="img" aria-label="長方形の土地に縦横1本ずつ道が通っている図">
+<rect x="20" y="20" width="190" height="110" fill="none" stroke="var(--ink-2)" stroke-width="1.5"/>
+<rect x="95" y="20" width="16" height="110" fill="var(--line-2)" stroke="var(--ink-3)" stroke-width="1"/>
+<rect x="20" y="72" width="190" height="16" fill="var(--line-2)" stroke="var(--ink-3)" stroke-width="1"/>
+<text x="8" y="78" font-family="IBM Plex Mono" font-size="11" fill="var(--ink-2)" text-anchor="middle">x</text>
+<text x="115" y="14" font-family="IBM Plex Mono" font-size="11" fill="var(--ink-2)" text-anchor="middle">x+4</text>
+</svg><figcaption>道の幅はいずれも 1m</figcaption></figure>`,
+  hint:'数だけを入力（単位不要）', accept:['6'],
+  ans:'6 m',
+  exp:`<p>縦を <span class="frag">x</span> m とすると横は <span class="frag">x+4</span> m。道を<span class="lead">端に寄せて</span>考えると、残った部分は 1 つの長方形にまとまる。</p>
+<div class="calc">(x - 1)(x + 4 - 1) = 45
+(x - 1)(x + 3) = 45
+x&sup2; + 2x - 3 = 45
+x&sup2; + 2x - 48 = 0
+(x + 8)(x - 6) = 0
+x = -8, 6   x &gt; 1 より x = 6</div>
+<p>検算：6m &times; 10m の土地で、残りは 5m &times; 9m = 45m&sup2;。</p>`,
+  tip:'道は必ず<b>端に寄せて 1 つの長方形にまとめる</b>。道の場所を動かしても残りの面積は変わらない（幅が一定だから）。ここを図で示せると記述でも減点されない。'
+});
+
+Q.push({
+  id:'M03', s:'数学', unit:'一次関数と図形', lv:2, type:'short',
+  q:`<p>座標平面上に 3 点 <span class="frag">A(0, 6)</span>、<span class="frag">B(-3, 0)</span>、<span class="frag">C(4, 0)</span> がある。点 A を通り、&triangle;ABC の面積を 2 等分する直線の式を求めなさい。</p>`,
+  hint:'例：y=2x-1（スペースなしで入力）', accept:['y=-12x+6','-12x+6','y=6-12x'],
+  ans:'y = -12x + 6',
+  exp:`<p>頂点 A を通って面積を 2 等分する直線は、<span class="lead">向かい合う辺 BC の中点</span>を通る。</p>
+<div class="calc">BC の中点 M
+  x = (-3 + 4) / 2 = 1/2
+  y = 0
+  M(1/2, 0)
+
+A(0, 6) と M(1/2, 0) を通る直線
+  傾き = (0 - 6) / (1/2 - 0) = -12
+  切片は A より 6
+
+  y = -12x + 6</div>`,
+  tip:'「頂点を通って面積を 2 等分」＝<b>対辺の中点を通る</b>。底辺が等しく高さが共通だから面積も等しい、が理由。図形と関数の融合問題では最初に確認する定石。'
+});
+
+Q.push({
+  id:'M04', s:'数学', unit:'関数 y=ax²', lv:2, type:'short',
+  q:`<p>放物線 <span class="frag">y = (1/2)x&sup2;</span> 上に 2 点 A、B があり、A の <span class="frag">x</span> 座標は <span class="frag">-2</span>、B の <span class="frag">x</span> 座標は <span class="frag">4</span> である。原点を O とするとき、&triangle;OAB の面積を求めなさい。</p>`,
+  hint:'数だけを入力', accept:['12'],
+  ans:'12',
+  exp:`<div class="calc">A(-2, 2)、B(4, 8)
+
+直線 AB
+  傾き = (8 - 2) / (4 - (-2)) = 1
+  y = x + 4  →  y 軸との交点 C(0, 4)
+
+&triangle;OAB = &triangle;OAC + &triangle;OBC
+  = 1/2 &times; 4 &times; 2 + 1/2 &times; 4 &times; 4
+  = 4 + 8 = 12</div>`,
+  tip:'放物線と直線でできる三角形は、<b>y 軸との交点で 2 つに割る</b>のが基本。OC を共通の底辺、A と B の x 座標の絶対値を高さとして足す。'
+});
+
+Q.push({
+  id:'M05', s:'数学', unit:'確率', lv:3, type:'short',
+  q:`<p>大小 2 つのさいころを同時に投げ、大きいさいころの出た目を <span class="frag">a</span>、小さいさいころの出た目を <span class="frag">b</span> とする。直線 <span class="frag">y = ax - b</span> が、点 <span class="frag">(2, 5)</span> より<span class="lead">上を通る</span>確率を求めなさい。<br>（＝ x = 2 のときの直線上の y 座標が 5 より大きくなる確率）</p>`,
+  hint:'分数で入力（例：1/6）', accept:['1/3','12/36','4/12'],
+  ans:'1/3',
+  exp:`<p>条件は <span class="frag">2a - b &gt; 5</span>、つまり <span class="frag">b &lt; 2a - 5</span>。</p>
+<div class="calc">a=1 → b < -3  … 0 通り
+a=2 → b < -1  … 0 通り
+a=3 → b <  1  … 0 通り
+a=4 → b <  3  … b=1,2      2 通り
+a=5 → b <  5  … b=1,2,3,4  4 通り
+a=6 → b <  7  … b=1〜6     6 通り
+
+計 12 通り / 全 36 通り = 1/3</div>`,
+  tip:'不等式を <b>b &lt; （a の式）</b>の形に直してから a を 1 つずつ動かす。表を全部書くより速く、書き落としも減る。「以上／より大きい」の境界を必ず確認すること。'
+});
+
+Q.push({
+  id:'M06', s:'数学', unit:'データの活用', lv:2, type:'choice',
+  q:`<p>あるクラス 30 人が受けたテストの得点を、箱ひげ図に表した。この図から<span class="lead">必ず正しいと言えるもの</span>を 1 つ選びなさい。</p>
+<figure><svg width="360" height="90" viewBox="0 0 360 90" role="img" aria-label="最小値12、第1四分位数22、中央値30、第3四分位数38、最大値48の箱ひげ図">
+<line x1="40" y1="66" x2="330" y2="66" stroke="var(--line)" stroke-width="1"/>
+<g font-family="IBM Plex Mono" font-size="10" fill="var(--ink-3)" text-anchor="middle">
+<text x="40" y="80">0</text><text x="96" y="80">10</text><text x="152" y="80">20</text><text x="208" y="80">30</text><text x="264" y="80">40</text><text x="320" y="80">50</text>
+</g>
+<g stroke="var(--ink-3)" stroke-width="1">
+<line x1="40" y1="62" x2="40" y2="66"/><line x1="96" y1="62" x2="96" y2="66"/><line x1="152" y1="62" x2="152" y2="66"/><line x1="208" y1="62" x2="208" y2="66"/><line x1="264" y1="62" x2="264" y2="66"/><line x1="320" y1="62" x2="320" y2="66"/>
+</g>
+<line x1="107" y1="34" x2="163" y2="34" stroke="var(--ink-2)" stroke-width="1.4"/>
+<line x1="253" y1="34" x2="309" y2="34" stroke="var(--ink-2)" stroke-width="1.4"/>
+<line x1="107" y1="22" x2="107" y2="46" stroke="var(--ink-2)" stroke-width="1.6"/>
+<line x1="309" y1="22" x2="309" y2="46" stroke="var(--ink-2)" stroke-width="1.6"/>
+<rect x="163" y="18" width="90" height="32" fill="var(--surface-2)" stroke="var(--ink-2)" stroke-width="1.5"/>
+<line x1="208" y1="18" x2="208" y2="50" stroke="var(--shu)" stroke-width="2"/>
+<g font-family="IBM Plex Mono" font-size="9" fill="var(--ink-3)" text-anchor="middle">
+<text x="107" y="13">12</text><text x="163" y="13">22</text><text x="208" y="11">30</text><text x="253" y="13">38</text><text x="309" y="13">48</text>
+</g>
+</svg><figcaption>30人の得点の箱ひげ図（単位：点）</figcaption></figure>`,
+  choices:[
+    '38 点以上の生徒が 8 人以上いる。',
+    'このクラスの平均点は 30 点である。',
+    'ちょうど 30 点だった生徒が必ずいる。',
+    '得点の範囲は、箱の横の長さと等しい。'
+  ],
+  ansIdx:0, ans:'ア',
+  exp:`<p>30 人を小さい順に並べると、第 3 四分位数 38 点は<span class="lead">上位 15 人の真ん中＝全体で 23 番目</span>の値。23 番目から 30 番目までの 8 人は 38 点以上なので、<b>ア</b>は必ず正しい。</p>
+<div class="calc">イ… 箱ひげ図から平均値は読み取れない（中央値と平均値は別物）
+ウ… 中央値は 15 番目と 16 番目の平均。
+    たとえば 28 点と 32 点でも中央値は 30 点になる
+エ… 範囲 = 48 - 12 = 36 点
+    箱の長さ（四分位範囲）= 38 - 22 = 16 点</div>`,
+  tip:'箱ひげ図で<b>読み取れないもの</b>を覚えておく――平均値、最頻値、分布の細かい形。「必ず言える」を選ぶ問題では、反例を 1 つ作れるかで判断する。'
+});
+
+Q.push({
+  id:'M07', s:'数学', unit:'相似・線分の比', lv:3, type:'short',
+  q:`<p>&triangle;ABC において、&ang;A の二等分線と辺 BC の交点を D とする。<span class="frag">AB = 6cm</span>、<span class="frag">AC = 4cm</span>、<span class="frag">BC = 7.5cm</span> のとき、線分 BD の長さを求めなさい。</p>`,
+  hint:'数だけを入力（単位不要）', accept:['4.5','9/2'],
+  ans:'4.5 cm',
+  exp:`<p>点 C を通り AD に平行な直線を引き、辺 BA の延長との交点を E とする。</p>
+<div class="calc">AD // EC より
+  &ang;BAD = &ang;AEC（同位角）
+  &ang;DAC = &ang;ACE（錯角）
+AD は &ang;A の二等分線 → &ang;BAD = &ang;DAC
+  よって &ang;AEC = &ang;ACE
+  → &triangle;ACE は二等辺三角形、AE = AC = 4
+
+&triangle;BEC で AD // EC より
+  BD : DC = BA : AE = 6 : 4 = 3 : 2
+
+BD = 7.5 &times; 3/(3+2) = 4.5</div>`,
+  tip:'結論だけ言えば<b>角の二等分線は対辺を隣り合う 2 辺の比に分ける</b>。ただし記述で問われたら上の「平行線を引いて二等辺三角形をつくる」証明が要る。上位校では導出まで書かせる年がある。'
+});
+
+Q.push({
+  id:'M08', s:'数学', unit:'円と相似', lv:2, type:'short',
+  q:`<p>円 O の周上に 4 点 A、B、C、D がこの順にある。弦 AC と弦 BD の交点を P とする。<span class="frag">AP = 6cm</span>、<span class="frag">PC = 4cm</span>、<span class="frag">BP = 8cm</span> のとき、線分 PD の長さを求めなさい。</p>`,
+  hint:'数だけを入力（単位不要）', accept:['3'],
+  ans:'3 cm',
+  exp:`<div class="calc">&triangle;APB と &triangle;DPC において
+  &ang;BAP = &ang;CDP（BC に対する円周角）
+  &ang;APB = &ang;DPC（対頂角）
+  → 2 組の角がそれぞれ等しい
+  → &triangle;APB &#8765; &triangle;DPC
+
+AP : DP = BP : CP
+6 : PD = 8 : 4
+8 &times; PD = 24
+PD = 3</div>`,
+  tip:'円の中で弦が交わったら、まず<b>同じ弧に立つ円周角</b>を探して相似をつくる。結果として AP&times;PC = BP&times;PD（＝方べきの定理）になるが、答案には相似の根拠を書くこと。'
+});
+
+Q.push({
+  id:'M09', s:'数学', unit:'空間図形・三平方', lv:3, type:'choice',
+  q:`<p>1 辺 6cm の立方体 ABCD-EFGH がある。辺 AE 上に <span class="frag">AP = 2cm</span> となる点 P をとる。頂点 G から立方体の<span class="lead">表面を通って</span>点 P に至る道のりのうち、最も短いものを選びなさい。</p>
+<figure><svg width="250" height="185" viewBox="0 0 250 185" role="img" aria-label="立方体ABCD-EFGHと辺AE上の点P">
+<g stroke="var(--ink-2)" stroke-width="1.5" fill="none">
+<path d="M50 55 L170 55 L170 175 L50 175 Z"/>
+<path d="M90 30 L210 30 L210 150"/>
+<path d="M50 55 L90 30"/><path d="M170 55 L210 30"/><path d="M170 175 L210 150"/>
+</g>
+<g stroke="var(--ink-3)" stroke-width="1.2" fill="none" stroke-dasharray="4 3">
+<path d="M90 150 L210 150"/><path d="M90 30 L90 150"/><path d="M50 175 L90 150"/>
+</g>
+<circle cx="50" cy="95" r="3.5" fill="var(--shu)"/>
+<g font-family="IBM Plex Mono" font-size="11" fill="var(--ink-2)">
+<text x="38" y="52">A</text><text x="174" y="52">B</text><text x="214" y="28">C</text><text x="80" y="26">D</text>
+<text x="38" y="180">E</text><text x="174" y="182">F</text><text x="216" y="152">G</text><text x="82" y="150">H</text>
+</g>
+<text x="32" y="99" font-family="IBM Plex Mono" font-size="11" fill="var(--shu)">P</text>
+</svg><figcaption>AP = 2cm、立方体の 1 辺は 6cm</figcaption></figure>`,
+  choices:[
+    '4&radic;10 cm',
+    '2&radic;34 cm',
+    '6&radic;5 cm',
+    '14 cm'
+  ],
+  ansIdx:1, ans:'イ（2√34 cm）',
+  exp:`<p>展開図は 1 通りではない。<span class="lead">通る面の組み合わせを変えて全部比べる</span>のがこの問題の核心。</p>
+<div class="calc">経路① 面ABFE → 面BFGC（横に展開）
+  P(0, 2)、G(12, 6)
+  &radic;(12&sup2; + 4&sup2;) = &radic;160 = 4&radic;10 &#8786; 12.65
+
+経路② 面ABFE → 面EFGH（下に展開）
+  P(0, 2)、G(6, 12)
+  &radic;(6&sup2; + 10&sup2;) = &radic;136 = 2&radic;34 &#8786; 11.66  ← 最短
+
+経路③ 面ADHE → 面EFGH
+  ②と対称なので同じ 2&radic;34
+
+経路④ 面ABFE → 面ABCD → 面BCGF
+  &radic;(12&sup2; + 8&sup2;) = &radic;208 &#8786; 14.42</div>
+<p>よって最短は <b>2&radic;34 cm</b>。</p>`,
+  tip:'最短経路は<b>展開図を 2〜3 通りかいて比べる</b>。ひとつ目で満足すると必ず落とす。P が辺の途中にあるときは、P が「底面側に寄っている」ほど底面を通る経路が有利になる、と当たりをつけると速い。'
+});
+
+Q.push({
+  id:'M10', s:'数学', unit:'回転体の体積', lv:3, type:'choice',
+  q:`<p>&ang;B = 90&deg;、<span class="frag">AB = 3cm</span>、<span class="frag">BC = 4cm</span> の直角三角形 ABC を、<span class="lead">斜辺 AC を軸として</span> 1 回転させてできる立体の体積を選びなさい。</p>`,
+  choices:['12&pi; cm&sup3;','16&pi; cm&sup3;','48&pi;/5 cm&sup3;','96&pi;/5 cm&sup3;'],
+  ansIdx:2, ans:'ウ（48π/5 cm³）',
+  exp:`<p>できる立体は、<span class="lead">底面が共通の円錐 2 つを底面どうしで貼り合わせた形</span>。</p>
+<div class="calc">AC = &radic;(3&sup2; + 4&sup2;) = 5
+
+B から AC におろした垂線の足を H とすると
+BH は回転体の底面の半径
+  &triangle;ABC の面積 = 1/2 &times; 3 &times; 4 = 6
+  = 1/2 &times; 5 &times; BH
+  BH = 12/5
+
+2 つの円錐の高さの和 = AH + HC = AC = 5
+
+V = 1/3 &times; &pi; &times; (12/5)&sup2; &times; 5
+  = 1/3 &times; &pi; &times; 144/25 &times; 5
+  = 48&pi;/5</div>`,
+  tip:'斜辺を軸にする回転体は、<b>2 つの円錐に分けて高さを足す</b>。高さを別々に求める必要はなく、和が斜辺の長さになる。底面の半径は「面積を 2 通りに表す」で出す。'
+});
+
+Q.push({
+  id:'M11', s:'数学', unit:'規則性', lv:2, type:'short',
+  q:`<p>碁石を、下の図のように正方形の形に並べていく。1 番目は 1 個、2 番目からは前の図形の周りをぐるりと囲むように並べる。<span class="lead">10 番目の図形をつくるときに新しく加える碁石</span>の個数を求めなさい。</p>
+<figure><svg width="300" height="110" viewBox="0 0 300 110" role="img" aria-label="1番目1個、2番目3行3列、3番目5行5列に並ぶ碁石">
+<g fill="var(--ink-2)">
+<circle cx="30" cy="55" r="4.5"/>
+</g>
+<g fill="var(--ink-3)">
+<circle cx="90" cy="35" r="4.5"/><circle cx="108" cy="35" r="4.5"/><circle cx="126" cy="35" r="4.5"/>
+<circle cx="90" cy="55" r="4.5"/><circle cx="126" cy="55" r="4.5"/>
+<circle cx="90" cy="75" r="4.5"/><circle cx="108" cy="75" r="4.5"/><circle cx="126" cy="75" r="4.5"/>
+</g>
+<circle cx="108" cy="55" r="4.5" fill="var(--ink-2)"/>
+<g fill="var(--ink-3)">
+<circle cx="190" cy="15" r="4.5"/><circle cx="208" cy="15" r="4.5"/><circle cx="226" cy="15" r="4.5"/><circle cx="244" cy="15" r="4.5"/><circle cx="262" cy="15" r="4.5"/>
+<circle cx="190" cy="35" r="4.5"/><circle cx="262" cy="35" r="4.5"/>
+<circle cx="190" cy="55" r="4.5"/><circle cx="262" cy="55" r="4.5"/>
+<circle cx="190" cy="75" r="4.5"/><circle cx="262" cy="75" r="4.5"/>
+<circle cx="190" cy="95" r="4.5"/><circle cx="208" cy="95" r="4.5"/><circle cx="226" cy="95" r="4.5"/><circle cx="244" cy="95" r="4.5"/><circle cx="262" cy="95" r="4.5"/>
+</g>
+<g fill="var(--ink-2)">
+<circle cx="208" cy="35" r="4.5"/><circle cx="226" cy="35" r="4.5"/><circle cx="244" cy="35" r="4.5"/>
+<circle cx="208" cy="55" r="4.5"/><circle cx="226" cy="55" r="4.5"/><circle cx="244" cy="55" r="4.5"/>
+<circle cx="208" cy="75" r="4.5"/><circle cx="226" cy="75" r="4.5"/><circle cx="244" cy="75" r="4.5"/>
+</g>
+<g font-family="IBM Plex Mono" font-size="10" fill="var(--ink-3)" text-anchor="middle">
+<text x="30" y="105">1番目</text><text x="108" y="105">2番目</text><text x="226" y="110">3番目</text>
+</g>
+</svg><figcaption>薄い色が、そのとき新しく加えた碁石</figcaption></figure>`,
+  hint:'数だけを入力（単位不要）', accept:['72'],
+  ans:'72 個',
+  exp:`<p><span class="frag">n</span> 番目の図形は 1 辺 <span class="frag">2n - 1</span> 個の正方形。使う碁石の総数は <span class="frag">(2n - 1)&sup2;</span> 個。</p>
+<div class="calc">n 番目に新しく加える個数
+ = (2n - 1)&sup2; - (2n - 3)&sup2;
+ = {(2n-1) + (2n-3)}{(2n-1) - (2n-3)}
+ = (4n - 4) &times; 2
+ = 8n - 8
+
+n = 10 のとき
+ 8 &times; 10 - 8 = 72</div>
+<p>（確かめ：19&sup2; - 17&sup2; = 361 - 289 = 72）</p>`,
+  tip:'差を求めるときは<b>因数分解の公式 a&sup2;-b&sup2;=(a+b)(a-b)</b> を使う。展開して引くより速く、計算ミスが激減する。<b>8n-8</b> のような一般式まで出しておけば、続く小問（「加える数が 200 個になるのは何番目か」）にもそのまま答えられる。'
+});
+
+Q.push({
+  id:'M12', s:'数学', unit:'動点と関数', lv:2, type:'choice',
+  q:`<p>1 辺 8cm の正方形 ABCD がある。点 P は頂点 A を出発し、毎秒 2cm の速さで辺上を A &rarr; B &rarr; C の順に動く。P が出発してから <span class="frag">x</span> 秒後の &triangle;APD の面積を <span class="frag">y</span> cm&sup2; とするとき、<span class="frag">y = 32</span> となる <span class="frag">x</span> の値または範囲として正しいものを選びなさい。</p>`,
+  choices:['x = 4','4 &#8806; x &#8806; 8','x = 4 と x = 8 の 2 つ','0 &#8806; x &#8806; 4'],
+  ansIdx:1, ans:'イ（4 ≦ x ≦ 8）',
+  exp:`<div class="calc">P が B に着くのは x = 4、C に着くのは x = 8
+
+[1] 0 &#8806; x &#8806; 4（P は辺 AB 上）
+  AP = 2x、AD = 8、&ang;A = 90&deg;
+  y = 1/2 &times; 8 &times; 2x = 8x
+
+[2] 4 &#8806; x &#8806; 8（P は辺 BC 上）
+  底辺 AD = 8
+  高さは P から辺 AD までの距離 = AB = 8（一定）
+  y = 1/2 &times; 8 &times; 8 = 32（一定）</div>
+<p>[1] で <span class="frag">8x = 32</span> より <span class="frag">x = 4</span>。これは [2] の左端と同じ点なので、結局 <b>4 &#8806; x &#8806; 8</b> の間ずっと y = 32。</p>`,
+  tip:'動点問題は<b>「点」ではなく「範囲」で答えになることがある</b>。P が底辺と平行に動いている区間は高さが変わらず、面積が一定になる。グラフをかくと平らな部分として見えるので、必ずグラフまでかいて確認する。'
+});
+
+/* ---------------- 英語 ---------------- */
+Q.push({
+  id:'E01', s:'英語', unit:'現在完了進行形', lv:2, type:'choice',
+  q:`<p class="passage en">It ( &nbsp;&nbsp; ) heavily since last night, so the river is still rising.</p><p>( ) に入る最も適切なものを選びなさい。</p>`,
+  choices:['has been raining','is raining','rained','was raining'],
+  ansIdx:0, ans:'ア（has been raining）',
+  exp:`<p><span class="frag">since last night</span>（昨夜からずっと）は<span class="lead">過去のある時点から今まで続いている</span>ことを表す。rain のような「動作」を表す動詞で継続を言うときは<b>現在完了進行形 have[has] been ~ing</b> を使う。</p>
+<div class="calc">継続の合図になる語句
+  since + 起点（since last night / since 2020）
+  for + 期間（for three hours）
+
+  状態動詞（know, live, want …） → 現在完了 have known
+  動作動詞（rain, run, study, wait …） → 現在完了進行形</div>`,
+  tip:'イ is raining は「今降っている」だけで since と結びつかない。ウ rained は過去に終わった動作で、後半の <b>is still rising</b>（今も増水中）と時制が合わない。<b>後半の時制を見てから選ぶ</b>のが鉄則。'
+});
+
+Q.push({
+  id:'E02', s:'英語', unit:'関係代名詞', lv:3, type:'choice',
+  q:`<p class="passage en">The book ( &nbsp;&nbsp; ) cover is torn belongs to my sister.</p><p>( ) に入る最も適切なものを選びなさい。</p>`,
+  choices:['which','whose','who','that'],
+  ansIdx:1, ans:'イ（whose）',
+  exp:`<p>「その本<span class="lead">の</span>表紙が破れている」＝ <span class="frag">the book</span> と <span class="frag">cover</span> が<b>所有の関係</b>。所有格の関係代名詞 <b>whose</b> を使う。</p>
+<div class="calc">The book belongs to my sister.
++ Its cover is torn.
+→ The book whose cover is torn belongs to my sister.
+   （表紙が破れているその本は、姉のものだ）</div>
+<p>which / that を入れると、後ろが <span class="frag">cover is torn</span> となって主語が 2 つになり文が成立しない。who は人にしか使えない。</p>`,
+  tip:'whose の直後には<b>冠詞なしの名詞</b>が来る（whose cover / whose father）。この形を見たら所有格だと即断できる。中学範囲では発展だが、上位校では出題される。'
+});
+
+Q.push({
+  id:'E03', s:'英語', unit:'語順整序', lv:2, type:'short',
+  q:`<p>[ &nbsp;] 内の語を並べかえて、意味の通る英文を完成させなさい。</p>
+<p class="passage en">[ how / me / could / to / you / tell / get ] to the station?</p>`,
+  hint:'完成した英文を to the station? まで含めて入力', accept:['couldyoutellmehowtogettothestation'],
+  ans:'Could you tell me how to get to the station?',
+  exp:`<p><b>Could you tell me how to get to the station?</b>（駅への行き方を教えていただけますか）</p>
+<div class="calc">Could you tell me ~ ?  ていねいな依頼
+  + 間接疑問／疑問詞 + to 不定詞
+
+how to ~   ～のしかた、～する方法
+what to ~  何を～すべきか
+where to ~ どこへ～すべきか
+when to ~  いつ～すべきか</div>`,
+  tip:'tell は <b>tell + 人 + もの</b> の語順（tell me how ...）。整序では<b>動詞のあとに人が来るか</b>を先に決めると、残りが一気に決まる。'
+});
+
+Q.push({
+  id:'E04', s:'英語', unit:'語順整序（接触節）', lv:3, type:'short',
+  q:`<p>[ &nbsp;] 内の語を並べかえて、「<span class="lead">彼が私にくれた本は、とてもおもしろかった。</span>」という意味の英文を完成させなさい。</p>
+<p class="passage en">[ he / the / me / gave / book ] was very interesting.</p>`,
+  hint:'完成した英文を was very interesting. まで含めて入力',
+  accept:['thebookhegavemewasveryinteresting'],
+  ans:'The book he gave me was very interesting.',
+  exp:`<p><b>The book he gave me was very interesting.</b></p>
+<div class="calc">The book [ he gave me ] was very interesting.
+   主語 ←―― 後ろから修飾 ――↑
+
+名詞のすぐ後ろに〈主語＋動詞〉を置いて
+前の名詞を修飾する形（接触節）。
+関係代名詞 which / that が省略された形と同じ。</div>`,
+  tip:'この文の主語は <b>The book he gave me</b> までのかたまり。<b>動詞 was が 2 つ目に出てくる動詞</b>だと気づけば構造が見える。長文でもこの形は頻出なので、「名詞のあとにいきなり主語＋動詞が来たら修飾」と覚える。'
+});
+
+Q.push({
+  id:'E05', s:'英語', unit:'動名詞', lv:1, type:'short',
+  q:`<p>( ) 内の語を適切な形に直しなさい（1 語）。</p>
+<p class="passage en">She is looking forward to ( see ) you again next spring.</p>`,
+  hint:'英単語 1 語を入力', accept:['seeing'],
+  ans:'seeing',
+  exp:`<p><b>look forward to ~ing</b>（～するのを楽しみに待つ）。この <span class="frag">to</span> は<span class="lead">不定詞の to ではなく前置詞</span>なので、後ろには動名詞（~ing）が来る。</p>
+<div class="calc">前置詞 to をとる熟語（動名詞が続く）
+  look forward to ~ing   ～を楽しみにする
+  be used to ~ing        ～に慣れている
+  object to ~ing         ～に反対する</div>`,
+  tip:'to のあとを原形にするか ~ing にするかは、<b>to が前置詞か不定詞か</b>で決まる。to の前が動詞ひとつ（want to など）なら不定詞、熟語の一部（forward to など）なら前置詞、と切り分ける。'
+});
+
+Q.push({
+  id:'E06', s:'英語', unit:'会話表現', lv:2, type:'choice',
+  q:`<p class="passage en">A: I'm afraid I can't finish this report by Friday.<br>B: ( &nbsp;&nbsp; ) I'll ask Mr. Sato to help you.</p><p>( ) に入る最も適切なものを選びなさい。</p>`,
+  choices:['Don\'t mention it.','That\'s too bad.','Take your time.','Here you are.'],
+  ansIdx:1, ans:'イ（That\'s too bad.）',
+  exp:`<p>A は「金曜までに終わりそうにない」と<span class="lead">困っている</span>。B はそれを受けて「佐藤さんに手伝いを頼もう」と提案している。間に入るのは相手の状況に同情する <b>That's too bad.</b>（それは大変だね）。</p>
+<div class="calc">ア Don't mention it.  どういたしまして（お礼への返事）
+ウ Take your time.    ゆっくりどうぞ（急がなくていい場面）
+エ Here you are.      はいどうぞ（物を手渡すとき）</div>
+<p>ウ は「急がなくていい」の意味なので、そのあと助けを手配するのは不自然。</p>`,
+  tip:'会話文の空所は<b>直後の文が決め手</b>になる。ここでは「手伝いを頼む」＝相手が困っていると認識している、という流れから逆算する。選択肢の直訳だけで選ばない。'
+});
+
+Q.push({
+  id:'E07', s:'英語', unit:'長文読解（内容理解）', lv:3, type:'choice',
+  q:`<p class="passage en">Last summer, Kenta visited a paper studio in Echizen, Fukui. Echizen has made <i>washi</i>, traditional Japanese paper, for more than 1,500 years. At the studio, an old craftsman showed him how to make it. Kenta put his hands in the cold water and moved a wooden frame again and again. It looked easy when the craftsman did it, but Kenta's paper was too thick in some places and too thin in others.<br><br>
+"Making the same thing every day sounds boring," Kenta said.<br><br>
+The craftsman smiled. "I have made paper for fifty years, and I have never made the same sheet twice. The water changes, the plants change, and I change too. That is why I can keep going."<br><br>
+Kenta thought about <u>these words</u> on the way home. He had wanted to find a job that was always exciting. Now he understood something different.</p>
+<p>職人が <span class="frag">I have never made the same sheet twice.</span> と言ったのはなぜか。最も適切なものを選びなさい。</p>`,
+  choices:[
+    'He made a mistake every time he made paper.',
+    'The conditions and he himself were always changing, so no two sheets were the same.',
+    'He tried to make a different kind of paper each day.',
+    'He could not remember the sheets he had made before.'
+  ],
+  ansIdx:1, ans:'イ',
+  exp:`<p>直後の <span class="frag">The water changes, the plants change, and I change too.</span>（水も変わる、植物も変わる、そして自分も変わる）が理由をそのまま述べている。<span class="lead">同じ作業に見えても条件が毎回違うから、同じ紙は 2 度とできない</span>。</p>
+<div class="calc">ア「毎回失敗した」→ 本文に失敗の話はない
+ウ「毎日ちがう種類の紙を作ろうとした」
+   → 種類を変えるのではなく、同じ紙が違ってしまう話
+エ「覚えていなかった」→ 本文と無関係</div>`,
+  tip:'理由を問われたら<b>下線部の直後の 1〜2 文</b>を最優先で見る。英語の説明文は「主張 → 理由」の順に並ぶことが多い。選択肢は本文の語（changes）を言い換えた <b>conditions</b> のような語に置き換えられているので、直訳の一致ではなく<b>内容の一致</b>で選ぶ。'
+});
+
+Q.push({
+  id:'E08', s:'英語', unit:'長文読解（記述）', lv:3, type:'free',
+  q:`<p class="passage en">"I have made paper for fifty years, and I have never made the same sheet twice. The water changes, the plants change, and I change too. That is why I can keep going."<br><br>
+Kenta thought about <u>these words</u> on the way home. He had wanted to find a job that was always exciting. Now he understood something different.</p>
+<p>E07 の英文について、下線部 <span class="frag">these words</span> を聞いて、健太の考えはどのように変わったか。<span class="lead">日本語で</span>書きなさい。</p>`,
+  hint:'40〜60字程度',
+  model:'これまでは、いつも刺激のある仕事に就きたいと思っていたが、毎日同じ仕事の中にも新しいものを見つけられるのだと考えるようになった。',
+  points:`<b>採点の観点（3点）</b><br>
+&#9312; 変化の「前」＝いつも刺激的な（わくわくする）仕事を探したいと思っていた … 1点<br>
+&#9313; 変化の「後」＝同じ仕事の中にも新しいもの・変化を見いだせる … 1点<br>
+&#9314; 「～と思っていたが、～と考えるようになった」と<b>前後の対比</b>の形で書けている … 1点`,
+  exp:`<p>本文の <span class="frag">He <u>had wanted</u> to find a job that was always exciting.</span> の<span class="lead">過去完了（had + 過去分詞）</span>が、「それ以前はそう思っていた（今は違う）」ことを示す合図。ここが変化の「前」。</p>
+<p>変化の「後」は職人の言葉そのもの――同じ作業でも水・材料・自分が変わるから同じものは 2 度とできない。つまり<b>同じ仕事の中に毎日新しさがある</b>。</p>`,
+  tip:'「どう変わったか」を問われたら、必ず<b>前と後の両方</b>を書く。片方だけだと半分の点しかもらえない。日本語記述では<b>本文の言葉を写すのではなく、自分の言葉で言いかえる</b>と加点されやすい。'
+});
+
+Q.push({
+  id:'E09', s:'英語', unit:'条件英作文', lv:3, type:'free',
+  q:`<p>あなたは、日本に来たばかりの留学生 Emma に、日本の中学校の<span class="lead">「そうじの時間」</span>について説明することになった。次の条件に合うように、英語で書きなさい。</p>
+<p class="passage">&#12539; 25 語程度（3 文以上）<br>&#12539; 生徒が自分たちでそうじをすることに触れる<br>&#12539; なぜそうしているのか、あなたの考えを 1 つ入れる</p>`,
+  hint:'25語程度・3文以上',
+  model:'In Japan, students clean their own classrooms every day after lunch. We do not have cleaning staff at school. I think this is because we learn to take care of the place we use.',
+  points:`<b>採点の観点（6点）</b><br>
+&#9312; 生徒が自分たちで教室（学校）をそうじすることが書けている … 2点<br>
+&#9313; 理由・自分の考えが 1 つ書けている（I think ... because ... など）… 2点<br>
+&#9314; 語数・文数の条件を満たしている … 1点<br>
+&#9315; 文法・つづりの誤りが少ない（大きな誤りが 1 つまで）… 1点`,
+  exp:`<p>解答例の組み立て：</p>
+<div class="calc">1文目 事実  In Japan, students clean their own classrooms
+             every day after lunch.
+2文目 補足  We do not have cleaning staff at school.
+3文目 意見  I think this is because we learn to take care
+             of the place we use.</div>
+<p>他の理由の言い方：<span class="frag">It teaches us to work together.</span>（協力することを学べる）／<span class="frag">We take better care of the school because we clean it ourselves.</span></p>`,
+  tip:'自由英作文は<b>難しい表現を狙わない</b>。知っている構文だけで書ききるほうが点になる。書き終えたら必ず &#9312; 三単現の s &#9313; 名詞の複数形 &#9314; 冠詞 a / the の 3 点を見直すこと。この 3 つで落とす減点がいちばん多い。'
+});
+
+Q.push({
+  id:'E10', s:'英語', unit:'語彙・文脈推測', lv:2, type:'choice',
+  q:`<p class="passage en">Many wild animals are in danger of ( &nbsp;&nbsp; ) because their forests are being cut down.</p><p>( ) に入る最も適切なものを選びなさい。</p>`,
+  choices:['extinction','invention','tradition','population'],
+  ansIdx:0, ans:'ア（extinction）',
+  exp:`<p><span class="frag">be in danger of ~</span>（～の危機にある）。森林が伐採されている &rarr; 野生動物は<span class="lead">絶滅</span>の危機にある。<b>extinction</b> = 絶滅。</p>
+<div class="calc">extinction  絶滅  （動詞 die out / become extinct）
+invention   発明
+tradition   伝統
+population  人口・個体数</div>`,
+  tip:'環境の話題は入試の定番。<b>environment / endangered / extinct / recycle / global warming / renewable</b> はまとめて覚える。知らない単語が出ても、<b>because 以下の理由</b>から意味を推測できることが多い。'
+});
+
+Q.push({
+  id:'E11', s:'英語', unit:'前置詞', lv:1, type:'short',
+  q:`<p>( ) に入る適切な 1 語を書きなさい。</p>
+<p class="passage en">He is proud ( &nbsp;&nbsp; ) his hometown and its long history.</p>`,
+  hint:'英単語 1 語を入力', accept:['of'],
+  ans:'of',
+  exp:`<p><b>be proud of ~</b>（～を誇りに思う）。</p>
+<div class="calc">be + 形容詞 + 前置詞（頻出）
+  be proud of ~        ～を誇りに思う
+  be afraid of ~       ～を恐れる
+  be full of ~         ～でいっぱいだ
+  be interested in ~   ～に興味がある
+  be famous for ~      ～で有名だ
+  be different from ~  ～と違う
+  be good at ~         ～が得意だ</div>`,
+  tip:'この形は<b>まとめて音で覚える</b>。単語カードで 1 つずつ覚えるより、上のリストを声に出して通しで言うほうが定着する。'
+});
+
+Q.push({
+  id:'E12', s:'英語', unit:'仮定法', lv:3, type:'choice',
+  q:`<p class="passage en">If I ( &nbsp;&nbsp; ) you, I would tell her the truth right now.</p><p>( ) に入る最も適切なものを選びなさい。</p>`,
+  choices:['am','was','were','will be'],
+  ansIdx:2, ans:'ウ（were）',
+  exp:`<p>「もし私が<span class="lead">あなただったら</span>」――現実にはありえないことの仮定。<b>仮定法過去</b>では、主語が I や he でも be 動詞は <b>were</b> を使う。</p>
+<div class="calc">If + 主語 + 動詞の過去形 ~, 主語 + would + 動詞の原形 ~.
+  If I were you, I would tell her the truth.
+  もし私があなたなら、彼女に本当のことを言うだろう。
+
+I wish + 主語 + 動詞の過去形
+  I wish I could fly.  飛べたらいいのに。</div>`,
+  tip:'見分け方は<b>主節に would / could があるか</b>。あれば仮定法なので、if 節は過去形（be 動詞は were）。なければ単なる条件文で現在形（If it rains tomorrow, ...）。ここを取り違える人が多い。'
+});
+
+/* ---------------- 国語 ---------------- */
+Q.push({
+  id:'J01', s:'国語', unit:'漢字（読み）', lv:2, type:'short',
+  q:`<p>次の――線部の漢字の読みを、ひらがなで書きなさい。</p>
+<p class="passage">祖父は、口数の少ない<span class="bousen">寡黙</span>な職人だった。</p>`,
+  hint:'ひらがなで入力', accept:['かもく'],
+  ans:'かもく',
+  exp:`<p><b>寡黙（かもく）</b>＝口数が少ないこと。</p>
+<div class="calc">「寡」を使う語
+  寡黙（かもく） 口数が少ない
+  寡少（かしょう）非常に少ない
+  多寡（たか）   多いことと少ないこと
+  衆寡（しゅうか）多数と少数</div>`,
+  tip:'「寡」は<b>少ない</b>という意味。同じ漢字を含む語をセットで覚えると、初見の熟語でも意味の見当がつく。'
+});
+
+Q.push({
+  id:'J02', s:'国語', unit:'漢字（書き）', lv:2, type:'short',
+  q:`<p>次の――線部のカタカナを、漢字に直して書きなさい。</p>
+<p class="passage">事態の<span class="bousen">スイイ</span>を慎重に見守る。</p>`,
+  hint:'漢字2字で入力', accept:['推移'],
+  ans:'推移',
+  exp:`<p><b>推移（すいい）</b>＝時間とともに移り変わること。</p>
+<div class="calc">同音で書き分けが問われる語
+  推移（すいい） 移り変わり
+  遂行（すいこう）やりとげる
+  衰退（すいたい）おとろえる
+  水位（すいい） 水面の高さ  ← 同音異義語に注意</div>`,
+  tip:'「スイイを見守る」なら<b>推移</b>、「川のスイイが上がる」なら<b>水位</b>。書き取りは必ず<b>文脈で意味を確かめてから</b>書く。'
+});
+
+Q.push({
+  id:'J03', s:'国語', unit:'四字熟語', lv:2, type:'choice',
+  q:`<p>次の文の（ ）に入る四字熟語として、最も適切なものを選びなさい。</p>
+<p class="passage">部長の方針は（ &nbsp;&nbsp; ）で、会議のたびに前回と違うことを言うので、部員はついていけずにいる。</p>`,
+  choices:['一朝一夕','朝令暮改','温故知新','大同小異'],
+  ansIdx:1, ans:'イ（朝令暮改）',
+  exp:`<p><b>朝令暮改（ちょうれいぼかい）</b>＝朝に出した命令を夕方には改めること。<span class="lead">方針や命令がころころ変わって定まらない</span>ことのたとえ。</p>
+<div class="calc">一朝一夕（いっちょういっせき）
+  わずかな期間。「一朝一夕には成らない」
+温故知新（おんこちしん）
+  昔のことを研究して新しい知識を得る
+大同小異（だいどうしょうい）
+  細かい違いはあるが、だいたい同じ</div>`,
+  tip:'四字熟語は<b>漢字の意味から組み立てる</b>――朝に令（命令）し、暮（夕方）に改める。丸暗記より、字面から意味を復元できるようにしておくと初見にも強い。'
+});
+
+Q.push({
+  id:'J04', s:'国語', unit:'慣用句', lv:1, type:'choice',
+  q:`<p>「<span class="lead">話の腰を折る</span>」の意味として、最も適切なものを選びなさい。</p>`,
+  choices:[
+    '相手の話に上手に調子を合わせる。',
+    '話の途中で口をはさんで、話の流れをさまたげる。',
+    '長い話を要領よく短くまとめる。',
+    '遠回しな言い方をやめて、本題に入る。'
+  ],
+  ansIdx:1, ans:'イ',
+  exp:`<p><b>話の腰を折る</b>＝人が話している途中で口を出し、その話をさえぎってしまうこと。「腰を折る」は、まっすぐ続いているものを途中で曲げてしまうイメージ。</p>
+<div class="calc">体の一部を使う慣用句
+  腰が重い    なかなか行動しない
+  腰を据える  落ち着いて取り組む
+  舌を巻く    ひどく感心する
+  肩を持つ    味方をする
+  歯が立たない かなわない</div>`,
+  tip:'慣用句は<b>体の部位ごと</b>にまとめると覚えやすい。意味を選ぶ問題では、選択肢に「もっともらしいが少しずれた説明」が必ず混ざる。ここではアが「調子を合わせる」で正反対。'
+});
+
+Q.push({
+  id:'J05', s:'国語', unit:'文法（助動詞の識別）', lv:3, type:'choice',
+  q:`<p>次の――線部と<span class="lead">同じ意味・用法</span>のものを、あとから 1 つ選びなさい。</p>
+<p class="passage">校長先生が、全校生徒に話<span class="bousen">され</span>る。</p>`,
+  choices:[
+    '故郷のことが自然と思い出される。',
+    '弟に大事な本を破られる。',
+    'お客様が三時に来られる。',
+    '早起きすれば、始発に乗られる。'
+  ],
+  ansIdx:2, ans:'ウ',
+  exp:`<p>問題文の「話される」は、校長先生に対する<span class="lead">尊敬</span>。同じく<b>ウ「お客様が来られる」</b>が尊敬。</p>
+<div class="calc">助動詞「れる・られる」の 4 用法
+
+受身  弟に本を破られる（～される）
+      → 「～によって」を補える
+自発  故郷が思い出される（自然と～する）
+      → 「自然と」を補える。思う・感じる系の動詞
+可能  始発に乗られる（～できる）
+      → 「～することができる」に言いかえられる
+尊敬  お客様が来られる（～なさる）
+      → 動作主が敬うべき人。「お～になる」に置きかえ可</div>`,
+  tip:'見分けの手順は &#9312; <b>動作主が敬うべき人か</b>（尊敬）&#9313; <b>「～できる」に言いかえられるか</b>（可能）&#9314; <b>「自然と」を補えるか</b>（自発）&#9315; 残れば受身。この順で当てはめると確実。'
+});
+
+Q.push({
+  id:'J06', s:'国語', unit:'論説文（記述）', lv:3, type:'free',
+  q:`<p class="passage">　情報を「わかりやすく」伝えることは、いつでも善いことのように思われている。しかし、わかりやすさとは、対象の複雑さを削り落として、受け手がすでに持っている枠組みに収まる形へと変形する作業でもある。削り落とされるのは、たいてい例外や、まだ言葉になっていない部分である。<br>
+　私たちが何かを本当に理解したと感じる瞬間を思い出してほしい。それは、すらすらと頭に入ってきたときではなく、むしろ、うまく飲み込めない何かにしばらく付き合わされたあとに訪れたのではないか。<span class="bousen">わかりにくさは、理解を妨げる障害ではなく、対象がこちらの枠組みに収まりきらないことを教える信号なのである。</span><br>
+　だからこそ、わかりやすい説明ばかりを受け取り続けることには危うさがある。世界の側が自分に合わせて整えられているうちは、自分の枠組みそのものを疑う機会は訪れない。わかりやすさは理解の入口としては有効だが、それを出口だと思い込んだとき、私たちは考えることをやめてしまう。</p>
+<p>――線部について、筆者がこのように言えるのはなぜか。<span class="lead">五十五字以内</span>で説明しなさい。</p>`,
+  hint:'55字以内',
+  model:'本当の理解は、すぐには飲み込めないものに付き合ったあとに訪れるものであり、わかりにくさは自分の枠組みの限界を知らせるから。',
+  points:`<b>採点の観点（5点）</b><br>
+&#9312; 本当の理解は、すぐに飲み込めないものに付き合った<b>あとに</b>訪れる … 2点<br>
+&#9313; わかりにくさは、対象が自分の枠組みに<b>収まりきらない</b>ことを示す（＝枠組みの限界を知らせる）… 2点<br>
+&#9314; 「～から。」と<b>理由の形</b>で結び、字数内に収まっている … 1点`,
+  exp:`<p>理由を問う設問なので、根拠は――線部の<span class="lead">直前</span>にある。</p>
+<div class="calc">直前の一文
+「本当に理解したと感じる瞬間は、すらすら頭に入って
+ きたときではなく、うまく飲み込めない何かに
+ しばらく付き合わされたあとに訪れた」
+
+  = わかりにくさは理解の「前段階」であって
+    「障害」ではない  ← 根拠&#9312;
+
+「対象がこちらの枠組みに収まりきらないことを教える」
+  = わかりにくさが起きる原因は、自分の枠組みの側
+    ← 根拠&#9313;（――線部の後半をそのまま使う）</div>`,
+  tip:'理由説明は<b>「～から。」で結ぶ</b>のが絶対条件。字数が余ったら本文の言葉を足し、足りなければ言いかえて削る。<b>指示語（それ・こちら）は必ず中身に置きかえて</b>書くこと――「こちらの枠組み」→「自分の枠組み」。ここで減点される答案が非常に多い。'
+});
+
+Q.push({
+  id:'J07', s:'国語', unit:'論説文（要旨）', lv:2, type:'choice',
+  q:`<p>J06 の文章について、筆者の主張として最も適切なものを選びなさい。</p>`,
+  choices:[
+    'わかりやすい説明は理解の妨げになるので、避けるべきである。',
+    'わかりやすさを理解の到達点とみなすと、自分の考え方を問い直す機会を失う。',
+    '複雑な対象は、複雑なままに伝えることが最も誠実な態度である。',
+    '情報の受け手は、削り落とされた例外にこそ常に注目すべきである。'
+  ],
+  ansIdx:1, ans:'イ',
+  exp:`<p>最終段落の <span class="frag">わかりやすさは理解の入口としては有効だが、それを出口だと思い込んだとき、私たちは考えることをやめてしまう</span> が結論。<b>イ</b>はこれを言いかえたもの。</p>
+<div class="calc">ア 「避けるべき」は言いすぎ。
+   筆者は「入口としては有効」と認めている
+ウ 「複雑なまま伝えよ」とは書かれていない
+エ 例外の話は第一段落の説明の一部にすぎず、
+   文章全体の主張ではない</div>`,
+  tip:'要旨を選ぶ問題では<b>「言いすぎ」の選択肢</b>が最大の落とし穴。「～すべきだ」「～してはならない」のような強い断定が本文にあるかを必ず確かめる。筆者が<b>譲歩している部分（～としては有効だが）</b>を消してしまう選択肢は誤り。'
+});
+
+Q.push({
+  id:'J08', s:'国語', unit:'小説（心情）', lv:3, type:'choice',
+  q:`<p class="passage">　県大会の予選が終わった帰り道、遥はわざと自転車を押して歩いた。<br>
+　同じ部の千夏は、少し前を歩きながら何度もこちらを振り返った。何か言いたそうにして、そのたびに前を向く。遥のタイムは自己ベストだった。それでも決勝には届かなかった。千夏は決勝に残った。<br>
+「先に帰っていいよ」<br>
+　そう言うと、千夏は立ち止まって、それから戻ってきた。<br>
+「遥のフォーム、最後の五十メートル、すごくきれいだった」<br>
+　遥は返事をしなかった。褒められたことが嬉しいのか、悔しいのか、自分でも区別がつかなかった。ただ、千夏がそれを言うために立ち止まったことだけは分かった。<br>
+　信号が青に変わる。遥はサドルにまたがり、片足を地面につけたまま言った。<br>
+「明日、朝練、いつもの時間でいい？」<br>
+　<span class="bousen">千夏の返事を待たずに、遥はペダルを踏み込んだ。</span>夕方の風が、まだ濡れたままの髪を乱暴に乾かしていった。</p>
+<p>――線部から読み取れる遥の心情として、最も適切なものを選びなさい。</p>`,
+  choices:[
+    '先を越された悔しさが強く、もう千夏とは顔を合わせたくないと思っている。',
+    '千夏の言葉を受け止めきれず、その場から早く逃げ出したいと感じている。',
+    '負けた悔しさを抱えたまま、それでも練習を続けていこうと気持ちを固めている。',
+    '千夏に励まされたことで、負けた悔しさがすっかり消えている。'
+  ],
+  ansIdx:2, ans:'ウ',
+  exp:`<p>直前の遥のせりふは <span class="frag">「明日、朝練、いつもの時間でいい？」</span>――<span class="lead">明日も練習を続ける</span>ことを自分から口にしている。返事を待たずに漕ぎ出したのは、決意を口にした照れくささと、答えを聞くまでもないという確信の両方。</p>
+<div class="calc">ア 「顔を合わせたくない」→ 明日の朝練を自分から誘っている
+イ 「逃げ出したい」→ 千夏が言うために立ち止まったことを
+   「分かった」と受け止めている
+エ 「すっかり消えている」→ 「嬉しいのか悔しいのか区別が
+   つかなかった」とあり、悔しさは残っている</div>`,
+  tip:'小説の心情は<b>行動と直前のせりふ</b>から読む。地の文の「悔しい」という語だけを拾うと ア・イ に引っかかる。<b>「すっかり」「もう～ない」「まったく」など極端な語を含む選択肢は誤りであることが多い</b>――人物の心は普通、一色には塗りつぶされない。'
+});
+
+Q.push({
+  id:'J09', s:'国語', unit:'古文（歴史的仮名遣い）', lv:1, type:'short',
+  q:`<p>次の古文中の――線部「<span class="bousen">いふ</span>」を、<span class="lead">現代仮名遣い</span>に直して、すべてひらがなで書きなさい。</p>
+<p class="passage">高名の木のぼりと<span class="bousen">いふ</span>をのこ、人をおきてて、高き木にのぼせて梢を切らせしに……<span class="src">『徒然草』より</span></p>`,
+  hint:'ひらがなで入力', accept:['いう'],
+  ans:'いう',
+  exp:`<div class="calc">歴史的仮名遣い → 現代仮名遣い の原則
+
+&#9312; 語頭以外の は・ひ・ふ・へ・ほ
+   → わ・い・う・え・お
+   いふ→いう  かは→かわ  こひ→こい
+
+&#9313; ゐ・ゑ・を → い・え・お
+   ゐる→いる  こゑ→こえ
+
+&#9314; ぢ・づ → じ・ず
+   もみぢ→もみじ
+
+&#9315; au → ô、iu → yû など
+   けふ→きょう  てふ→ちょう  やうやう→ようよう</div>`,
+  tip:'&#9312; は<b>「語頭以外」</b>が条件。「はな（花）」の「は」は語頭なのでそのまま。ここを落とす人が多い。'
+});
+
+Q.push({
+  id:'J10', s:'国語', unit:'古文（内容理解）', lv:3, type:'choice',
+  q:`<p class="passage">　高名の木のぼりといひしをのこ、人をおきてて、高き木にのぼせて梢を切らせしに、いと危ふく見えしほどはいふ事もなくて、下るる時に、軒長ばかりになりて、「あやまちすな。心して降りよ」と言葉をかけ侍りしを、「かばかりになりては、飛び降るとも降りなん。いかにかく言ふぞ」と申し侍りしかば、「その事に候ふ。目くるめき、枝あやふきほどは、己が恐れ侍れば申さず。あやまちは、やすき所になりて、必ず仕る事に候ふ」と言ふ。<span class="src">『徒然草』第百九段より</span></p>
+<p>木のぼりの名人が「あやまちすな」と声をかけたのは<span class="lead">どの場面か</span>。最も適切なものを選びなさい。</p>`,
+  choices:[
+    '男が木に登り始めたとき。',
+    '男が高い枝の先で梢を切っているとき。',
+    '男が軒の高さぐらいまで降りてきたとき。',
+    '男が地面に降り立ったあと。'
+  ],
+  ansIdx:2, ans:'ウ',
+  exp:`<p><span class="frag">下るる時に、軒長ばかりになりて</span>＝降りてきて、<span class="lead">軒（のき）の高さくらいになったとき</span>に声をかけた。</p>
+<div class="calc">名人の理屈（本文後半）
+「目くるめき、枝あやふきほどは、己が恐れ侍れば申さず」
+  目がくらむような、枝が危ない高さのときは、
+  本人が自分で恐れているから何も言わない
+
+「あやまちは、やすき所になりて、必ず仕る事に候ふ」
+  失敗は、簡単な（安全な）所まで来てから
+  必ず起こるものです
+
+  = 油断したときにこそ失敗する、という教訓</div>`,
+  tip:'古文は<b>会話文（「　」）の中に主張がある</b>ことが多い。まず「　」を探し、そこを現代語に直してから前後をつなぐ。<b>「あやまち」＝失敗・けが</b>、<b>「やすし」＝簡単だ・安心だ</b>という古語の意味を知っていれば一気に読める。'
+});
+
+Q.push({
+  id:'J11', s:'国語', unit:'敬語', lv:2, type:'choice',
+  q:`<p>敬語の使い方として<span class="lead">正しいもの</span>を 1 つ選びなさい。</p>`,
+  choices:[
+    '先生がおっしゃられたとおりに書きました。',
+    'お客様が、受付でお待ちしております。',
+    '明日、私が先生のお宅に伺います。',
+    'ご不明な点は、あちらの係の者にお聞きになってください。'
+  ],
+  ansIdx:2, ans:'ウ',
+  exp:`<div class="calc">ア × 二重敬語
+   「おっしゃる」（尊敬）＋「れる」（尊敬）
+   → 正しくは「おっしゃったとおりに」
+
+イ × 謙譲語を相手の動作に使っている
+   「お待ちする」は謙譲語
+   → 正しくは「お待ちになっています」
+     「お待ちです」
+
+ウ ○ 「伺う」は「行く・訪ねる」の謙譲語。
+   自分の動作なので正しい
+
+エ × 身内（係の者）の動作に尊敬語
+   「お聞きになる」を使っている
+   → 正しくは「お聞きください」
+     「お尋ねください」</div>`,
+  tip:'敬語の判定は<b>「誰の動作か」</b>を先に決める。相手・目上の動作なら尊敬語、<b>自分や身内（自分の会社・家族・学校の仲間）の動作なら謙譲語</b>。エのように「うちの係の者」を高めてしまう誤りは入試頻出。'
+});
+
+Q.push({
+  id:'J12', s:'国語', unit:'条件作文', lv:3, type:'free',
+  q:`<p>次は、ある中学校で行われた「1 日のスマートフォンの使用時間」の調査結果である。</p>
+<div class="qwrapscroll"><table>
+<tr><th>使用時間</th><th>1年生</th><th>2年生</th><th>3年生</th></tr>
+<tr><th>1時間未満</th><td>28%</td><td>19%</td><td>12%</td></tr>
+<tr><th>1〜2時間</th><td>35%</td><td>31%</td><td>26%</td></tr>
+<tr><th>2〜4時間</th><td>27%</td><td>34%</td><td>39%</td></tr>
+<tr><th>4時間以上</th><td>10%</td><td>16%</td><td>23%</td></tr>
+</table></div>
+<p>この資料について、次の条件に従って書きなさい。</p>
+<p class="passage">&#12539; 二段落構成とする<br>&#12539; 第一段落では、資料から<span class="lead">読み取ったこと</span>を書く<br>&#12539; 第二段落では、それについての<span class="lead">あなたの考えと、その理由</span>を書く<br>&#12539; 百六十字以上、二百字以内</p>`,
+  hint:'160〜200字・二段落',
+  model:'　資料から、学年が上がるにつれてスマートフォンの使用時間が長くなっていることが読み取れる。一時間未満の生徒は一年生の二十八パーセントから三年生では十二パーセントに減り、逆に四時間以上の生徒は十パーセントから二十三パーセントへと倍以上に増えている。\n　私は、これは行動範囲や人間関係が広がることの表れでもあると考える。上級生になるほど部活動や友人との連絡が増え、必要な連絡の分だけ画面を見る時間も長くなるからだ。ただし四時間以上となると生活に影響が出るため、使う目的を自分で決めておくことが大切だと思う。',
+  points:`<b>採点の観点（10点）</b><br>
+&#9312; 二段落構成になっている … 1点<br>
+&#9313; 第一段落で、資料の<b>具体的な数値</b>を引用している … 2点<br>
+&#9314; 第一段落で、学年による<b>変化の傾向</b>をとらえている … 2点<br>
+&#9315; 第二段落で、自分の考えを<b>はっきり</b>述べている … 2点<br>
+&#9316; その<b>理由</b>が考えと結びついている … 2点<br>
+&#9317; 字数（160〜200字）・原稿用紙の使い方・誤字脱字 … 1点`,
+  exp:`<p>資料作文の型は決まっている。</p>
+<div class="calc">第一段落（読み取り）
+  &#9312; 全体の傾向を一文で
+     「学年が上がるにつれて～が増えている」
+  &#9313; その根拠となる数値を 2 つ引く
+     「28%から12%へ」「10%から23%へ」
+     ※ 増えたものと減ったものを一組にすると
+        傾向がはっきり示せる
+
+第二段落（考えと理由）
+  &#9314; 自分の立場を一文で
+     「私は～だと考える」
+  &#9315; 理由を「なぜなら／～だからだ」で
+  &#9316; 余裕があれば留保を一文
+     「ただし～」で締めると厚みが出る</div>`,
+  tip:'資料作文で最も配点が高いのは<b>「数値を引いたか」</b>。「増えている」だけでは点にならず、<b>どこからどこへ変わったか</b>を書いて初めて読み取りと認められる。感想（「驚いた」「よくないと思う」）だけで終わらせないこと。'
+});
+
+/* ---------------- 理科 ---------------- */
+Q.push({
+  id:'S01', s:'理科', unit:'運動の記録', lv:2, type:'short',
+  q:`<p>1 秒間に 50 打点する記録タイマーを使って、斜面を下る台車の運動を記録した。テープを <span class="lead">5 打点ごと</span>に切り、順に並べたところ、長さは下の表のようになった。</p>
+<div class="qwrapscroll"><table>
+<tr><th>テープ</th><td>1本目</td><td>2本目</td><td>3本目</td><td>4本目</td></tr>
+<tr><th>長さ(cm)</th><td>2.0</td><td>3.6</td><td>5.2</td><td>6.8</td></tr>
+</table></div>
+<p>4 本目のテープの区間における、台車の平均の速さは何 cm/s か。</p>`,
+  hint:'数だけを入力（単位不要）', accept:['68'],
+  ans:'68 cm/s',
+  exp:`<div class="calc">1 秒間に 50 打点 → 1 打点は 1/50 秒 = 0.02 秒
+5 打点ごとに切る → 1 本のテープは
+  0.02 &times; 5 = 0.1 秒間の記録
+
+平均の速さ = 距離 &divide; 時間
+  = 6.8 cm &divide; 0.1 s
+  = 68 cm/s</div>
+<p>ちなみにテープの長さは 1.6cm ずつ規則的に増えている＝<span class="lead">速さが一定の割合で増える等加速度の運動</span>で、斜面上の台車の特徴。</p>`,
+  tip:'記録タイマーは<b>東日本 50Hz（1打点 = 0.02秒）／西日本 60Hz（1打点 = 1/60秒）</b>。福井県は 60Hz 地域だが、問題文で「1 秒間に何打点」と必ず指定されるので、<b>暗記ではなく問題文の数値を使う</b>こと。'
+});
+
+Q.push({
+  id:'S02', s:'理科', unit:'電流と発熱', lv:3, type:'short',
+  q:`<p>20&Omega; の電熱線 A と 30&Omega; の電熱線 B を<span class="lead">直列</span >につなぎ、6.0V の電源につないだ。電熱線 A が 5 分間に発生する熱量は何 J か。</p>`,
+  hint:'数だけを入力（単位不要）', accept:['86.4','86.40'],
+  ans:'86.4 J',
+  exp:`<div class="calc">直列なので、まず回路全体の抵抗
+  20 + 30 = 50 &Omega;
+
+回路に流れる電流（直列＝どこも同じ）
+  I = 6.0 V &divide; 50 &Omega; = 0.12 A
+
+電熱線 A にかかる電圧
+  V = 0.12 A &times; 20 &Omega; = 2.4 V
+
+A の電力
+  P = 2.4 V &times; 0.12 A = 0.288 W
+
+5 分 = 300 秒 の熱量
+  Q = 0.288 W &times; 300 s = 86.4 J</div>`,
+  tip:'直列回路は<b>電流が共通</b>、並列回路は<b>電圧が共通</b>。ここを取り違えると全部ずれる。時間は<b>必ず秒に直す</b>――「5 分」のまま計算して 1/60 の答えを書く誤りが最も多い。'
+});
+
+Q.push({
+  id:'S03', s:'理科', unit:'凸レンズ', lv:2, type:'choice',
+  q:`<p>焦点距離 12cm の凸レンズがある。レンズから 18cm 離れた位置に物体を置き、レンズの反対側でスクリーンを動かしてはっきりした像を映した。このときの<span class="lead">レンズからスクリーンまでの距離</span>と<span class="lead">像の大きさ</span>の組み合わせとして正しいものを選びなさい。</p>`,
+  choices:[
+    '12cm ／ 物体と同じ大きさ',
+    '24cm ／ 物体と同じ大きさ',
+    '36cm ／ 物体より大きい',
+    '36cm ／ 物体より小さい'
+  ],
+  ansIdx:2, ans:'ウ（36cm・物体より大きい）',
+  exp:`<p>焦点距離 <span class="frag">f = 12cm</span>、物体までの距離 <span class="frag">18cm</span> は <span class="frag">f</span> と <span class="frag">2f = 24cm</span> の<span class="lead">あいだ</span>。</p>
+<div class="calc">物体の位置と実像の関係
+
+物体が 2f より遠い
+  → 像は f と 2f の間、実物より小さい
+物体が ちょうど 2f
+  → 像も 2f、実物と同じ大きさ
+物体が f と 2f の間   ← この問題
+  → 像は 2f より遠い、実物より大きい
+物体が ちょうど f
+  → 像はできない
+物体が f より近い
+  → 実像はできず、虚像が見える（拡大）
+
+作図で求めると 36cm、倍率は 2 倍
+（像は上下左右が逆の倒立実像）</div>`,
+  tip:'この 5 パターンの表は<b>丸暗記する価値がある</b>。作図してもよいが、試験では時間がかかる。「2f を基準に、物体が近づくほど像は遠く大きくなる」と覚えると一瞬で判断できる。'
+});
+
+Q.push({
+  id:'S04', s:'理科', unit:'中和とイオン', lv:3, type:'short',
+  q:`<p>うすい塩酸 10cm&sup3; に BTB 溶液を数滴加え、こまごめピペットでうすい水酸化ナトリウム水溶液を少しずつ加えていったところ、8cm&sup3; 加えたところで溶液の色が緑色になった。</p>
+<p>ここからさらに水酸化ナトリウム水溶液を 4cm&sup3; 加えたとき、<span class="lead">水溶液中に最も多く存在するイオン</span>は何か。イオンを表す化学式で答えなさい。</p>`,
+  hint:'化学式で入力（例：Cl-）', accept:['na+','ナトリウムイオン'],
+  ans:'Na+（ナトリウムイオン）',
+  exp:`<p>塩酸 10cm&sup3; 中の塩化水素の量を <span class="frag">n</span> とすると、水酸化ナトリウム水溶液 8cm&sup3; 中の水酸化ナトリウムも <span class="frag">n</span>（ちょうど中和したから）。合計 12cm&sup3; 加えたときは <span class="frag">1.5n</span>。</p>
+<div class="calc">Cl&#8315;  … n（最初からあり、反応で減らない）
+Na&#8314;  … 1.5n（加えた分すべてが電離）
+OH&#8315; … 1.5n - n = 0.5n（余った分）
+H&#8314;  … ほぼ 0（すべて中和された）
+
+最も多いのは Na&#8314;</div>
+<p>中和は <span class="frag">H&#8314; + OH&#8315; &rarr; H&#8322;O</span> であって、<span class="lead">Na&#8314; と Cl&#8315; は反応に関わらない</span>（水中でイオンのまま存在する）。</p>`,
+  tip:'中和のイオン数のグラフは頻出。<b>Cl&#8315; は水平（一定）／H&#8314; は減って 0 になる／Na&#8314; はずっと増え続ける／OH&#8315; は中和点まで 0、その後増える</b>――この 4 本の形をセットで覚える。'
+});
+
+Q.push({
+  id:'S05', s:'理科', unit:'化学変化と質量', lv:3, type:'short',
+  q:`<p>銅の粉末を空気中で十分に加熱すると、すべて酸化銅に変化する。銅 2.0g を十分に加熱したところ、酸化銅が 2.5g できた。</p>
+<p>いま、銅 6.0g をステンレス皿にとって加熱したところ、加熱が不十分で、加熱後の物質の質量は 7.2g であった。このとき、<span class="lead">反応せずに残っている銅</span>は何 g か。</p>`,
+  hint:'数だけを入力（単位不要）', accept:['1.2'],
+  ans:'1.2 g',
+  exp:`<div class="calc">銅と結びつく酸素の質量比を求める
+  銅 2.0g → 酸化銅 2.5g
+  結びついた酸素 = 2.5 - 2.0 = 0.5g
+  銅 : 酸素 = 2.0 : 0.5 = 4 : 1
+
+反応した銅を x g とすると
+  結びついた酸素 = x/4 g
+
+加熱による質量の増加分が酸素の質量
+  7.2 - 6.0 = 1.2 g
+  x/4 = 1.2
+  x = 4.8 g（反応した銅）
+
+残っている銅 = 6.0 - 4.8 = 1.2 g</div>`,
+  tip:'この手の問題は<b>「増えた質量 ＝ 結びついた酸素の質量」</b>が突破口。「加熱後の質量 7.2g」から直接 4:1 を使おうとすると必ず間違える。<b>まず増加分を出す</b>という手順を体に入れておくこと。'
+});
+
+Q.push({
+  id:'S06', s:'理科', unit:'電気分解', lv:2, type:'choice',
+  q:`<p>塩化銅水溶液に炭素棒を入れて電流を流した。このときのようすとして正しいものを選びなさい。</p>`,
+  choices:[
+    '陽極の表面に赤色の物質が付着する。',
+    '陰極から、鼻をさすようなにおいの気体が発生する。',
+    '陽極から発生した気体には、漂白作用（色を消すはたらき）がある。',
+    '電流を流し続けても、水溶液の青色はまったく変化しない。'
+  ],
+  ansIdx:2, ans:'ウ',
+  exp:`<div class="calc">塩化銅 CuCl&#8322; → Cu&sup2;&#8314; + 2Cl&#8315;
+
+陰極（&#8722;） 銅イオンが電子を受け取る
+   Cu&sup2;&#8314; + 2e&#8315; → Cu
+   → 赤色の銅が付着する
+
+陽極（&#8314;） 塩化物イオンが電子を渡す
+   2Cl&#8315; → Cl&#8322; + 2e&#8315;
+   → 塩素が発生する
+     ・刺激臭（プールの消毒のにおい）
+     ・黄緑色
+     ・水に溶けやすい
+     ・漂白作用、殺菌作用がある</div>
+<p>ア は陰極と陽極が逆。イ は気体が出るのは陽極。エ は Cu&sup2;&#8314;（青色のもと）が減るので<span class="lead">青色はしだいにうすくなる</span>。</p>`,
+  tip:'<b>陽イオンは陰極へ、陰イオンは陽極へ</b>――名前が逆なので必ず確認する。「銅は<b>陰</b>極、塩素は<b>陽</b>極」。塩素は水に溶けやすいので、発生量が少なく見える点も出題される。'
+});
+
+Q.push({
+  id:'S07', s:'理科', unit:'遺伝', lv:3, type:'short',
+  q:`<p>エンドウの種子の形には丸としわがあり、丸が顕性（優性）形質である。丸の純系としわの純系をかけ合わせると、子（F&#8321;）はすべて丸になった。</p>
+<p>この子（F&#8321;）を自家受粉させて孫（F&#8322;）を得た。孫のうち<span class="lead">丸い種子だけ</span>を取り出してそれぞれ自家受粉させたとき、次の代（F&#8323;）に現れる<span class="lead">しわの種子の割合</span>を分数で答えなさい。</p>`,
+  hint:'分数で入力（例：1/4）', accept:['1/6'],
+  ans:'1/6',
+  exp:`<div class="calc">丸の遺伝子を A、しわを a とする
+
+親  AA &times; aa  →  子 F&#8321; はすべて Aa（丸）
+
+F&#8321;（Aa）の自家受粉
+  F&#8322; = AA : Aa : aa = 1 : 2 : 1
+
+F&#8322; の「丸」だけを取り出すと
+  AA : Aa = 1 : 2
+  → 丸のうち 1/3 が AA、2/3 が Aa
+
+それぞれ自家受粉すると
+  AA → 全部丸（しわは 0）
+  Aa → 丸 : しわ = 3 : 1（しわは 1/4）
+
+F&#8323; でしわになる割合
+  = 1/3 &times; 0 + 2/3 &times; 1/4
+  = 1/6</div>`,
+  tip:'F&#8322; の丸は <b>AA : Aa = 1 : 2</b> であって 1:1 ではない。ここを間違えると 1/8 になる。「見た目が同じでも遺伝子の組み合わせは違う」――<b>表現型と遺伝子型を必ず分けて書く</b>ことが、この単元の得点源。'
+});
+
+Q.push({
+  id:'S08', s:'理科', unit:'蒸散', lv:2, type:'short',
+  q:`<p>葉の大きさと枚数がほぼ同じアジサイの枝を 4 本用意し、下のように処理して、水を入れたメスシリンダーにさし、水面に油を浮かべて 3 時間放置した。減った水の量は表のとおりであった。</p>
+<div class="qwrapscroll"><table>
+<tr><th></th><th>処理</th><th>減った水の量(cm&sup3;)</th></tr>
+<tr><th>A</th><td>何もしない</td><td>12.0</td></tr>
+<tr><th>B</th><td>葉の表側にワセリンをぬる</td><td>8.5</td></tr>
+<tr><th>C</th><td>葉の裏側にワセリンをぬる</td><td>4.5</td></tr>
+<tr><th>D</th><td>葉をすべて取り除く</td><td>1.0</td></tr>
+</table></div>
+<p>葉の<span class="lead">裏側</span>から蒸散した水の量は何 cm&sup3; か。</p>`,
+  hint:'数だけを入力（単位不要）', accept:['7.5'],
+  ans:'7.5 cm³',
+  exp:`<p>ワセリンをぬった面からは蒸散が起こらない。茎からの蒸散は D で 1.0cm&sup3; と分かる。</p>
+<div class="calc">A（何もしない）= 表 + 裏 + 茎 = 12.0
+B（表をふさぐ）=      裏 + 茎 =  8.5
+C（裏をふさぐ）= 表 +      茎 =  4.5
+D（葉を取る）  =           茎 =  1.0
+
+裏 = A - C = 12.0 - 4.5 = 7.5
+   （または B - D = 8.5 - 1.0 = 7.5）
+
+表 = A - B = 12.0 - 8.5 = 3.5
+   （または C - D = 4.5 - 1.0 = 3.5）
+
+検算 3.5 + 7.5 + 1.0 = 12.0 ✓</div>
+<p>裏側のほうが多いのは、<span class="lead">気孔が葉の裏に多く分布している</span>ため。</p>`,
+  tip:'この実験は<b>「何をふさいだか」ではなく「どこから蒸散しているか」で式を立てる</b>。表・裏・茎の 3 つの文字を置き、A〜D を 4 本の式にして引き算するだけ。<b>水面に油を浮かべる</b>のは水面からの蒸発を防ぐため――記述で問われる定番。'
+});
+
+Q.push({
+  id:'S09', s:'理科', unit:'だ液のはたらき', lv:2, type:'choice',
+  q:`<p>だ液のはたらきを調べるため、次の 3 本の試験管を用意した。</p>
+<div class="qwrapscroll"><table>
+<tr><th>A</th><td>デンプン溶液 ＋ だ液</td><td>40&deg;C に保つ</td></tr>
+<tr><th>B</th><td>デンプン溶液 ＋ 水</td><td>40&deg;C に保つ</td></tr>
+<tr><th>C</th><td>デンプン溶液 ＋ だ液</td><td>5&deg;C に保つ</td></tr>
+</table></div>
+<p>「<span class="lead">だ液のはたらきによってデンプンがなくなった</span>」ことを確かめるために、ヨウ素液を使って比べるべき試験管の組み合わせを選びなさい。</p>`,
+  choices:['A と B','A と C','B と C','A と B と C'],
+  ansIdx:0, ans:'ア（A と B）',
+  exp:`<p>調べたいのは<span class="lead">「だ液があるかないか」</span>の違いによる結果。だから、それ以外の条件（温度）は同じにそろえる必要がある。</p>
+<div class="calc">A  デンプン + だ液  40&deg;C
+B  デンプン + 水    40&deg;C   ← 温度が同じ、だ液だけが違う
+C  デンプン + だ液   5&deg;C   ← だ液は同じ、温度が違う
+
+A と B を比べる
+  → 違いは「だ液の有無」だけ
+  → だ液のはたらきが分かる（対照実験）
+
+A と C を比べる
+  → 違いは「温度」だけ
+  → だ液が体温付近でよくはたらくことが分かる
+    （別の問いの答え）
+
+結果：A はヨウ素液が変化しない（デンプンなし）
+      B は青紫色になる（デンプンあり）</div>`,
+  tip:'対照実験は<b>「調べたい条件だけを変え、他はすべて同じにする」</b>。「A と B と C 全部」を選びたくなるが、比較は必ず<b>2 本 1 組</b>。なお「糖ができたこと」を確かめるならベネジクト液で <b>A と B</b> を比べ、加熱して赤褐色の沈殿を見る。'
+});
+
+Q.push({
+  id:'S10', s:'理科', unit:'地層・柱状図', lv:3, type:'short',
+  q:`<p>ある地域の 3 地点 A、B、C でボーリング調査を行った。A は B の真西 100m、C は B の真北 100m の位置にある。各地点の標高と、鍵層である凝灰岩層の上面までの<span class="lead">地表からの深さ</span>は下の表のとおりであった。</p>
+<div class="qwrapscroll"><table>
+<tr><th>地点</th><th>A</th><th>B</th><th>C</th></tr>
+<tr><th>標高(m)</th><td>60</td><td>65</td><td>70</td></tr>
+<tr><th>凝灰岩層上面までの深さ(m)</th><td>12</td><td>17</td><td>17</td></tr>
+</table></div>
+<p>この地域の地層が一定の向きに傾いているとするとき、B の<span class="lead">真東 100m</span> にある地点 D（標高 68m）では、凝灰岩層の上面は地表から何 m の深さにあるか。</p>`,
+  hint:'数だけを入力（単位不要）', accept:['20'],
+  ans:'20 m',
+  exp:`<p>まず、凝灰岩層上面の<span class="lead">標高</span>にそろえて考える。</p>
+<div class="calc">凝灰岩層上面の標高 = 地表の標高 - 深さ
+
+A（西）  60 - 12 = 48 m
+B（中央）65 - 17 = 48 m
+C（北）  70 - 17 = 53 m
+
+東西方向（A → B）
+  48 m → 48 m  … 変化なし＝東西には傾いていない
+
+南北方向（C → B）
+  北の C が 53 m、南の B が 48 m
+  … 南へ行くほど低い（南に傾いている）
+
+D は B の真東 → 東西方向には傾いていないので
+  D の凝灰岩層上面の標高も 48 m
+
+深さ = 68 - 48 = 20 m</div>`,
+  tip:'柱状図の問題は<b>「深さ」のまま比べない。必ず標高に直す</b>――これが唯一にして最大のコツ。地表の高さがばらばらだから、深さだけ見ても傾きは分からない。東西と南北を<b>別々に</b>調べるのも定石。'
+});
+
+Q.push({
+  id:'S11', s:'理科', unit:'天体（金星）', lv:3, type:'choice',
+  q:`<p>ある日の日没直後、西の空に金星が見えた。天体望遠鏡で観察すると、<span class="lead">右側が半分ほど光って</span>見えた。この後 1 か月間、同じ時刻に観察を続けたときの金星の見え方の変化として最も適切なものを選びなさい。（金星の公転周期は約 0.62 年）</p>`,
+  choices:[
+    '見かけの大きさは小さくなり、丸い形に近づいていく。',
+    '見かけの大きさは大きくなり、形は細くなっていく。',
+    '見かけの大きさは変わらず、光る側が左側に変わる。',
+    'しだいに明け方の東の空に見えるようになる。'
+  ],
+  ansIdx:1, ans:'イ',
+  exp:`<p>日没後の西の空に見える金星は<span class="lead">よいの明星</span>。半分光って見えるのは、地球から見て太陽から最も離れて見える位置（東方最大離角）のあたり。</p>
+<div class="calc">よいの明星のこれからの動き
+
+金星は地球より内側を速く公転しているので、
+最大離角のあとは地球に近づいていく
+
+  地球に近づく → 見かけの大きさは大きくなる
+  地球に近づく → 太陽・金星・地球の角度が
+                 小さくなり、光る部分は細くなる
+
+  つまり「大きく、細く」なっていく
+  （最後は太陽に近づいて見えなくなる）</div>
+<p>ア は逆（遠ざかる場合）。ウ の光る側は、よいの明星ならつねに<span class="lead">太陽のある側＝西側（望遠鏡では右側）</span>で変わらない。エ のように明けの明星へ移るには内合を通るため 1 か月では起こらない。</p>`,
+  tip:'金星は<b>「大きいときは細い、小さいときは丸い」</b>が鉄則――地球に近いほど大きく、かつ夜の側を向けるから。この 1 行を覚えるだけで、この単元の選択肢はほぼ切れる。'
+});
+
+Q.push({
+  id:'S12', s:'理科', unit:'湿度・露点', lv:3, type:'short',
+  q:`<p>気温 20&deg;C、湿度 70% の空気 1m&sup3; がある。この空気を 10&deg;C まで冷やしたとき、<span class="lead">生じる水滴</span>は何 g か。小数第 2 位を四捨五入して答えなさい。</p>
+<div class="qwrapscroll"><table>
+<tr><th>気温(&deg;C)</th><td>10</td><td>12</td><td>14</td><td>16</td><td>18</td><td>20</td></tr>
+<tr><th>飽和水蒸気量(g/m&sup3;)</th><td>9.4</td><td>10.7</td><td>12.1</td><td>13.6</td><td>15.4</td><td>17.3</td></tr>
+</table></div>`,
+  hint:'数だけを入力（単位不要）', accept:['2.7'],
+  ans:'約 2.7 g',
+  exp:`<div class="calc">いま含まれている水蒸気量
+  = 20&deg;C の飽和水蒸気量 &times; 湿度
+  = 17.3 &times; 0.70
+  = 12.11 g/m&sup3;
+
+（この値は 14&deg;C の飽和水蒸気量 12.1 とほぼ同じ
+  → この空気の露点は約 14&deg;C）
+
+10&deg;C まで冷やすと、
+10&deg;C の飽和水蒸気量 9.4 g/m&sup3; までしか
+含んでいられない
+
+生じる水滴
+  = 12.11 - 9.4
+  = 2.71
+  &#8786; 2.7 g</div>`,
+  tip:'湿度の計算は<b>&#9312; 今ある水蒸気量を出す &#9313; 冷やした先の飽和水蒸気量と比べる</b>の 2 段階。露点を聞かれたら &#9312; の値に等しい飽和水蒸気量の温度を表から探す。<b>湿度を % のまま掛けない</b>（0.70 に直す）ことも忘れずに。'
+});
+
+/* ---------------- 社会 ---------------- */
+Q.push({
+  id:'C01', s:'社会', unit:'時差', lv:2, type:'choice',
+  q:`<p>日本（東経 135 度を標準時子午線とする）の空港を <span class="lead">3 月 10 日午後 4 時</span>に出発した飛行機が、12 時間の飛行でイギリスのロンドン（経度 0 度）に到着した。ロンドンに到着したときの<span class="lead">現地の日時</span>を選びなさい。（サマータイムは考えない）</p>`,
+  choices:[
+    '3 月 10 日 午前 7 時',
+    '3 月 10 日 午後 7 時',
+    '3 月 11 日 午前 4 時',
+    '3 月 10 日 午前 11 時'
+  ],
+  ansIdx:1, ans:'イ（3月10日 午後7時）',
+  exp:`<div class="calc">&#9312; 時差を求める
+  経度の差 = 135 - 0 = 135 度
+  15 度で 1 時間 → 135 &divide; 15 = 9 時間
+  日本のほうが東なので 9 時間進んでいる
+
+&#9313; 到着時刻を日本時間で出す
+  3月10日 16:00 + 12 時間
+  = 3月11日 4:00（日本時間）
+
+&#9314; ロンドン時間に直す（9 時間もどす）
+  3月11日 4:00 - 9 時間
+  = 3月10日 19:00 = 午後 7 時</div>`,
+  tip:'時差の問題は<b>「先に飛行時間を足して出発地の時刻で到着時を出す」→「そのあと時差を引く（足す）」</b>の順が安全。逆順にすると日付をまたぐときに混乱する。<b>東へ行くほど時刻は進む</b>（日本は世界でも早いほう）。'
+});
+
+Q.push({
+  id:'C02', s:'社会', unit:'世界の気候', lv:2, type:'choice',
+  q:`<p>ある都市の気候の特徴は次のとおりである。この都市として最も適切なものを選びなさい。</p>
+<p class="passage">&#12539; 1 月の平均気温が 1 年で最も高い<br>&#12539; 7 月の降水量が 1 年で最も少なく、夏は乾燥する<br>&#12539; 冬（6〜8 月ではない季節）に降水が集中する</p>`,
+  choices:['シンガポール','ケープタウン','ロンドン','リヤド'],
+  ansIdx:1, ans:'イ（ケープタウン）',
+  exp:`<div class="calc">&#9312; 1 月が最も暖かい → 南半球
+&#9313; 夏（南半球では 12〜2 月）に乾燥し、
+   冬（6〜8 月）に雨が多い → 地中海性気候
+
+  南半球 &times; 地中海性気候
+    = ケープタウン（南アフリカ）
+      パース（オーストラリア）
+      サンティアゴ（チリ）
+
+ア シンガポール 熱帯雨林気候・赤道直下
+   年中高温多雨、気温の差がほとんどない
+ウ ロンドン 北半球・西岸海洋性気候
+   1 月が最も寒い。降水は年中平均
+エ リヤド 北半球・砂漠気候
+   1 月は涼しく、年中ほとんど雨が降らない</div>`,
+  tip:'雨温図の判定は<b>&#9312; 気温の山が 1 月か 7 月か（＝南半球か北半球か）&#9313; 雨の多い季節</b>の 2 段階。南半球であることを見落として北半球の都市を選ぶ誤答が最も多い。'
+});
+
+Q.push({
+  id:'C03', s:'社会', unit:'日本の農業', lv:2, type:'choice',
+  q:`<p>次の表は、りんご・みかん・ぶどう・ももの収穫量上位 3 県を示したものである（順不同）。<span class="lead">ぶどう</span>にあたるものを選びなさい。</p>
+<div class="qwrapscroll"><table>
+<tr><th></th><th>1位</th><th>2位</th><th>3位</th></tr>
+<tr><th>ア</th><td>青森県</td><td>長野県</td><td>岩手県</td></tr>
+<tr><th>イ</th><td>山梨県</td><td>福島県</td><td>長野県</td></tr>
+<tr><th>ウ</th><td>和歌山県</td><td>愛媛県</td><td>静岡県</td></tr>
+<tr><th>エ</th><td>山梨県</td><td>長野県</td><td>岡山県</td></tr>
+</table></div>`,
+  choices:['ア','イ','ウ','エ'],
+  ansIdx:3, ans:'エ',
+  exp:`<div class="calc">ア りんご
+   青森・長野・岩手 → 涼しい地方（東北・高地）
+イ もも
+   山梨・福島・長野
+ウ みかん
+   和歌山・愛媛・静岡 → 温暖で日当たりのよい斜面
+エ ぶどう
+   山梨・長野・岡山 → 岡山県が入るのが決め手</div>
+<p>山梨県は<span class="lead">ぶどう・ももの両方で 1 位</span>なので、山梨が 1 位というだけでは決まらない。<b>3 位に岡山県（マスカット）</b>が入っているかどうかで見分ける。</p>`,
+  tip:'果物の産地は<b>「山梨が 1 位の 2 つ（ぶどう・もも）をどう見分けるか」</b>が勝負どころ。<b>ぶどう → 岡山県</b>、<b>もも → 福島県</b>を目印にする。りんご＝青森、みかん＝和歌山は基本。'
+});
+
+Q.push({
+  id:'C04', s:'社会', unit:'地形図', lv:3, type:'short',
+  q:`<p>2 万 5 千分の 1 の地形図上で、ある果樹園が縦 2cm、横 2cm の正方形で表されている。この果樹園の<span class="lead">実際の面積</span>は何 ha（ヘクタール）か。</p>`,
+  hint:'数だけを入力（単位不要）', accept:['25'],
+  ans:'25 ha',
+  exp:`<div class="calc">&#9312; 長さを実際の距離に直す
+  地図上 2cm
+  = 2 &times; 25000 = 50000 cm
+  = 500 m
+
+&#9313; 面積を求める
+  500 m &times; 500 m = 250000 m&sup2;
+
+&#9314; ha に直す
+  1 ha = 10000 m&sup2;
+  250000 &divide; 10000 = 25 ha</div>
+<p><span class="lead">面積の縮尺は、長さの縮尺の 2 乗</span>になる。地図上の面積 4cm&sup2; に 25000&sup2; を掛けても同じ結果になるが、<b>長さを先に実際の距離に直してから面積を計算する</b>ほうが間違えにくい。</p>`,
+  tip:'単位の換算をまとめて覚える――<b>1 a（アール）= 100 m&sup2;／1 ha = 10000 m&sup2; = 100 a／1 km&sup2; = 100 ha</b>。地形図では 2 万 5 千分の 1 で <b>地図上 4cm = 実際 1km</b>、5 万分の 1 で <b>地図上 2cm = 実際 1km</b> も覚えておくと速い。'
+});
+
+Q.push({
+  id:'C05', s:'社会', unit:'歴史（年代整序）', lv:2, type:'choice',
+  q:`<p>次の 4 つのできごとを、<span class="lead">年代の古い順</span>に並べたものを選びなさい。</p>
+<p class="passage">ア 保元の乱が起こる<br>イ 壇ノ浦の戦いで平氏が滅びる<br>ウ 平治の乱が起こる<br>エ 平清盛が太政大臣になる</p>`,
+  choices:['ア → ウ → エ → イ','ウ → ア → エ → イ','ア → エ → ウ → イ','ウ → ア → イ → エ'],
+  ansIdx:0, ans:'ア（ア→ウ→エ→イ）',
+  exp:`<div class="calc">ア 保元の乱     1156年
+   天皇家・摂関家の争い。源義朝と平清盛が
+   後白河天皇方につく
+
+ウ 平治の乱     1159年
+   源義朝と平清盛が対立し、清盛が勝つ
+   → 源頼朝は伊豆へ流される
+
+エ 太政大臣就任 1167年
+   武士として初めて。平氏の全盛期
+   （日宋貿易・大輪田泊の修築）
+
+イ 壇ノ浦の戦い 1185年
+   源義経らが平氏を滅ぼす
+   → 同年、守護・地頭の設置</div>`,
+  tip:'<b>保元（1156）→ 平治（1159）</b>の順は「ほう・へい」＝五十音順と覚えると迷わない。この 4 つは「平氏がのし上がって滅びるまで」の一続きの流れ。<b>できごとを単独で暗記せず、因果でつなぐ</b>のが年代整序に強くなる唯一の方法。'
+});
+
+Q.push({
+  id:'C06', s:'社会', unit:'歴史（史料）', lv:2, type:'short',
+  q:`<p>次の史料は、ある人物が出した法令の一部を、わかりやすく書き直したものである。この法令を出した人物名を<span class="lead">漢字で</span>答えなさい。</p>
+<p class="passage">　諸国の百姓が、刀・脇差・弓・やり・鉄砲、そのほかの武具のたぐいを持つことを、かたく禁止する。<br>　……取り上げた刀などは、今度つくる大仏のくぎやかすがいに用いる。</p>`,
+  hint:'人物名を漢字で入力', accept:['豊臣秀吉','とよとみひでよし'],
+  ans:'豊臣秀吉',
+  exp:`<p>これは <b>刀狩令（1588 年）</b>。豊臣秀吉が出した。</p>
+<div class="calc">刀狩の目的
+  &#9312; 一揆を防ぐ（百姓から武器を取り上げる）
+  &#9313; 武士と百姓の身分をはっきり分ける（兵農分離）
+
+「方広寺の大仏のくぎに使う」というのは、
+百姓に納得させるための口実。
+実際の狙いは &#9312;&#9313;。
+
+秀吉の政策セット
+  太閤検地（1582〜）  全国の田畑の面積・
+                      収穫高を調査、village 単位で年貢
+  刀狩令（1588）      武器の没収
+  → 兵農分離が完成し、身分の区別が固定される
+  バテレン追放令（1587）
+  朝鮮出兵（1592文禄・1597慶長の役）</div>`,
+  tip:'史料問題は<b>キーワードを 1 つ見つければ勝ち</b>。ここでは「百姓」「刀」「大仏のくぎ」。史料の言葉をそのまま覚える必要はなく、<b>誰の・何のための法令か</b>が答えられればよい。太閤検地と刀狩は<b>セットで「兵農分離」</b>と結論まで言えるようにしておく。'
+});
+
+Q.push({
+  id:'C07', s:'社会', unit:'歴史（明治維新）', lv:2, type:'choice',
+  q:`<p>1873 年に始まった地租改正の内容として正しいものを選びなさい。</p>`,
+  choices:[
+    '収穫高を基準として、米で納めさせた。',
+    '地価の 3% を、土地の所有者が現金で納めた。',
+    '地価の 3% を、実際に耕作している者が米で納めた。',
+    '収穫高の 3% を、土地の所有者が現金で納めた。'
+  ],
+  ansIdx:1, ans:'イ',
+  exp:`<div class="calc">地租改正（1873年）の 3 つの変更点
+
+  基準  収穫高  → 地価（土地の値段）
+  納め方 米     → 現金
+  納める人 耕作者 → 土地の所有者（地券の持ち主）
+
+  税率は地価の 3%
+  → 一揆が各地で起こり、1877 年に 2.5% へ引き下げ</div>
+<p>政府の狙いは<span class="lead">豊作・凶作に左右されない安定した税収を得ること</span>。米で納めさせると、米価の変動で収入が上下してしまう。</p>`,
+  tip:'地租改正は<b>「何を基準に・何で・誰が」の 3 点セット</b>で覚える。「地価の 3% を現金で地主が」。<b>なぜ現金にしたのか＝財政を安定させるため</b>という理由まで書けると記述にも対応できる。'
+});
+
+Q.push({
+  id:'C08', s:'社会', unit:'歴史（記述）', lv:3, type:'free',
+  q:`<p>江戸幕府は、参勤交代を制度として大名に義務づけた。幕府がこの制度によって<span class="lead">大名を統制しようとしたねらい</span>を、「<span class="frag">費用</span>」という語を使って説明しなさい。</p>`,
+  hint:'40〜60字程度・「費用」を使う',
+  model:'大名に領地と江戸を一年おきに往復させ、その多額の費用を負担させることで大名の経済力を弱め、幕府に反抗できないようにするため。',
+  points:`<b>採点の観点（4点）</b><br>
+&#9312; 大名が江戸と領地を<b>一年おきに往復</b>する（＝妻子を江戸に置く）ことに触れている … 1点<br>
+&#9313; その<b>費用</b>を大名に負担させることに触れている … 1点<br>
+&#9314; 結果として大名の<b>経済力を弱める</b>ことにつながると書けている … 1点<br>
+&#9315; 「幕府に反抗（対抗）できないようにするため」という<b>最終的なねらい</b>で結んでいる … 1点`,
+  exp:`<div class="calc">参勤交代（1635年 武家諸法度で制度化・徳川家光）
+
+  制度の中身
+    大名は 1 年ごとに領地と江戸を往復
+    妻子は江戸に住まわせる（実質の人質）
+
+  大名の負担
+    大行列の旅費、江戸屋敷の維持費
+    → 藩の財政の大きな部分を占めた
+
+  幕府のねらい
+    経済力をそぎ、軍事的に反抗させない
+    あわせて、将軍への服従を形で示させる
+
+  副次的な影響（発展）
+    五街道と宿場町の発達
+    江戸の人口増加・消費都市化
+    各地の文化・物産の交流</div>`,
+  tip:'記述は<b>「ねらい」を聞かれたら必ず「～ため。」で結ぶ</b>。指定語句（費用）は<b>必ず使い、使った箇所が答えの中心になる</b>ように組み立てる。指定語句を飾りで入れただけの答案は減点される。'
+});
+
+Q.push({
+  id:'C09', s:'社会', unit:'三権分立', lv:2, type:'choice',
+  q:`<p>日本国憲法のもとで、<span class="lead">国会が裁判所に対して</span>持っている権限として正しいものを選びなさい。</p>`,
+  choices:[
+    '法律や命令が憲法に違反していないかを審査する。',
+    'ふさわしくない行いをした裁判官を辞めさせるかどうかを判断する裁判所を設ける。',
+    '最高裁判所長官を指名する。',
+    '国民審査によって最高裁判所の裁判官をやめさせる。'
+  ],
+  ansIdx:1, ans:'イ（弾劾裁判所の設置）',
+  exp:`<div class="calc">三権のおもな抑制関係
+
+国会 → 内閣   内閣不信任の決議（衆議院のみ）
+内閣 → 国会   衆議院の解散
+
+国会 → 裁判所 弾劾裁判所の設置      ← 本問
+裁判所 → 国会 法律の違憲審査
+
+内閣 → 裁判所 最高裁判所長官の指名
+              その他の裁判官の任命
+裁判所 → 内閣 命令・処分の違憲審査
+
+国民 → 裁判所 国民審査（最高裁の裁判官）
+国民 → 国会   選挙
+国民 → 内閣   世論</div>
+<p>ア は裁判所が持つ権限（違憲審査権）、ウ は内閣が行うこと、エ は国民が行うこと。</p>`,
+  tip:'三権分立は<b>矢印の図を自分で書けるようにする</b>のが最短。「誰が誰に対して」を取り違える選択肢ばかりが並ぶので、<b>主語を必ず確認</b>すること。国民からの 3 本の矢印（選挙・国民審査・世論）も忘れずに。'
+});
+
+Q.push({
+  id:'C10', s:'社会', unit:'市場経済', lv:2, type:'choice',
+  q:`<p>ある商品の価格が、<span class="lead">均衡価格よりも高い</span>状態にあるとき、市場で起こることとして正しいものを選びなさい。</p>`,
+  choices:[
+    '需要量が供給量を上回り、品不足になるため、価格は上がっていく。',
+    '供給量が需要量を上回り、売れ残りが生じるため、価格は下がっていく。',
+    '需要量と供給量が一致しているので、価格は変化しない。',
+    '生産者が損をするため、生産量を減らそうとして価格は上がる。'
+  ],
+  ansIdx:1, ans:'イ',
+  exp:`<div class="calc">価格が高い
+  → 買いたい人は減る（需要量が減る）
+  → 売りたい人は増える（供給量が増える）
+  → 供給量 > 需要量 ＝ 売れ残り
+  → 売り手が値下げする
+  → 均衡価格に近づく
+
+価格が安い
+  → 需要量 > 供給量 ＝ 品不足
+  → 買い手が競い合って値上がりする
+  → 均衡価格に近づく
+
+均衡価格
+  需要量と供給量が一致する価格</div>`,
+  tip:'需要曲線（右下がり）と供給曲線（右上がり）を<b>実際に書いて、価格の線を上に引いてみる</b>と、供給曲線のほうが右にはみ出す＝売れ残りだと目で分かる。<b>需要＝買う側、供給＝売る側</b>の対応を絶対に取り違えないこと。'
+});
+
+Q.push({
+  id:'C11', s:'社会', unit:'財政・租税', lv:3, type:'choice',
+  q:`<p>消費税について指摘される「<span class="lead">逆進性</span>」とはどのようなことか。最も適切なものを選びなさい。</p>`,
+  choices:[
+    '所得が高い人ほど、高い税率が適用されること。',
+    '所得が低い人ほど、所得に占める税の負担の割合が高くなること。',
+    '所得にかかわらず税額が同じになるので、負担が公平になること。',
+    '生活必需品には課税されないため、低所得者の負担が軽くなること。'
+  ],
+  ansIdx:1, ans:'イ',
+  exp:`<p>消費税は誰が買っても税率が同じ。しかし<span class="lead">所得の低い人ほど、収入のうち消費に回す割合が大きい</span>ため、所得に対する負担の割合が重くなる。</p>
+<div class="calc">例（税率 10%、年間の消費額で比較）
+
+  年収 200万円の人が 180万円を消費
+    消費税 18万円 → 所得の 9.0%
+
+  年収 800万円の人が 400万円を消費
+    消費税 40万円 → 所得の 5.0%
+
+  税額は後者が多いが、所得に占める割合は
+  前者のほうが高い ＝ 逆進性
+
+ア は累進課税（所得税・相続税）の説明
+エ は軽減税率の説明。日本では飲食料品などに
+   8% の軽減税率があるが、逆進性を完全には
+   なくせない</div>`,
+  tip:'<b>直接税（所得税・法人税・相続税）＝累進課税で所得の再分配に向く／間接税（消費税・酒税・関税）＝景気に左右されにくいが逆進性がある</b>。この対比で覚えると、財政の記述問題にもそのまま使える。'
+});
+
+Q.push({
+  id:'C12', s:'社会', unit:'選挙（記述）', lv:3, type:'free',
+  q:`<p>次の表は、ある国の 2 つの選挙区の有権者数と議員定数を示したものである。</p>
+<div class="qwrapscroll"><table>
+<tr><th>選挙区</th><th>有権者数</th><th>議員定数</th></tr>
+<tr><th>A</th><td>48万人</td><td>1人</td></tr>
+<tr><th>B</th><td>12万人</td><td>1人</td></tr>
+</table></div>
+<p>この表から読み取れる問題点を、「<span class="frag">一票の価値</span>」という語を使い、日本国憲法が定める<span class="lead">原則との関係</span>にふれて説明しなさい。</p>`,
+  hint:'50〜80字程度・「一票の価値」を使う',
+  model:'A選挙区の有権者の一票の価値は、B選挙区の四分の一しかない。有権者数に対して定数が不公平に配分されており、憲法が定める法の下の平等（平等選挙の原則）に反するおそれがある。',
+  points:`<b>採点の観点（5点）</b><br>
+&#9312; A と B の一票の価値に<b>4 倍の差</b>があることを、数値で示している … 2点<br>
+&#9313; 指定語句「<b>一票の価値</b>」を使っている … 1点<br>
+&#9314; <b>法の下の平等</b>（または平等選挙の原則・第14条）に触れている … 1点<br>
+&#9315; 「反するおそれがある」など、<b>問題点として</b>結んでいる … 1点`,
+  exp:`<div class="calc">計算
+  A 48万人で 1 議席 → 1 議席あたり 48万人
+  B 12万人で 1 議席 → 1 議席あたり 12万人
+  48 &divide; 12 = 4
+  → A の有権者 1 人の一票の価値は
+    B の 1/4（B は A の 4 倍）
+
+関わる憲法の原則
+  第14条 法の下の平等
+  選挙の 4 原則のうち「平等選挙」
+    （普通選挙・平等選挙・直接選挙・秘密選挙）
+
+現実の動き
+  最高裁判所が「違憲状態」と判断した例が
+  くり返しあり、選挙区の区割りや定数の
+  見直し（10増10減など）が行われてきた</div>`,
+  tip:'一票の格差は<b>「1 議席あたりの有権者数」で割り算する</b>のが第一歩。<b>有権者が多い選挙区のほうが一票の価値は低い</b>――ここを逆に書く答案が非常に多い。指定語句と憲法の原則名の両方を必ず入れること。'
+});
+
+/* =========================================================
+   アプリ本体
+   ========================================================= */
+
+const KEY = 'takefu-drill-v1';
+const EXAM = new Date(2027, 2, 4); // 令和9年度 一般選抜（例年3月上旬）の目安
+
+let store = load();
+function load(){
+  try{
+    const raw = localStorage.getItem(KEY);
+    if(raw) return JSON.parse(raw);
+  }catch(e){}
+  return {rec:{}};
+}
+function save(){
+  try{ localStorage.setItem(KEY, JSON.stringify(store)); }catch(e){}
+}
+
+/* ---- theme ---- */
+try{
+  const t = localStorage.getItem(KEY+'-theme');
+  if(t) document.documentElement.setAttribute('data-theme', t);
+}catch(e){}
+document.getElementById('themebtn').addEventListener('click', ()=>{
+  const cur = document.documentElement.getAttribute('data-theme');
+  const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const next = cur ? (cur==='dark'?'light':'dark') : (dark?'light':'dark');
+  document.documentElement.setAttribute('data-theme', next);
+  try{ localStorage.setItem(KEY+'-theme', next); }catch(e){}
+});
+
+/* ---- helpers ---- */
+function norm(s){
+  return (s||'').trim()
+    .replace(/[！-～]/g, c => String.fromCharCode(c.charCodeAt(0)-0xFEE0))
+    .replace(/[\s　]/g,'')
+    .replace(/[.,!?？。、'"’”]/g,'')
+    .toLowerCase();
+}
+const KANA = ['ア','イ','ウ','エ','オ'];
+const LV = {1:'標準', 2:'発展', 3:'難関'};
+const subjOf = k => SUBJECTS.find(s=>s.key===k);
+const qById = id => Q.find(q=>q.id===id);
+
+function rec(id){ return store.rec[id] || null; }
+function isCorrect(id){ const r = rec(id); return r && r.v === 1; }
+function isWrong(id){ const r = rec(id); return r && r.v < 1; }
+function score(){
+  let n = 0, sum = 0;
+  for(const q of Q){ const r = rec(q.id); if(r){ n++; sum += r.v; } }
+  return {n, sum, rate: n ? Math.round(sum/n*100) : null};
+}
+function subjScore(key){
+  const list = Q.filter(q=>q.s===key);
+  let n = 0, sum = 0;
+  for(const q of list){ const r = rec(q.id); if(r){ n++; sum += r.v; } }
+  return {n, total:list.length, sum, rate: n ? Math.round(sum/n*100) : null};
+}
+function daysLeft(){
+  const now = new Date();
+  const d = Math.ceil((EXAM - new Date(now.getFullYear(), now.getMonth(), now.getDate()))/86400000);
+  return d > 0 ? d : 0;
+}
+
+/* ---- screens ---- */
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on', s.id===id));
+  window.scrollTo(0,0);
+}
+
+function renderHome(){
+  const sc = score();
+  document.getElementById('st-solved').innerHTML = sc.n + '<small>/'+Q.length+'</small>';
+  document.getElementById('st-rate').innerHTML = (sc.rate===null?'—':sc.rate) + '<small>%</small>';
+  document.getElementById('st-days').innerHTML = daysLeft() + '<small>日</small>';
+  document.getElementById('barmeta').textContent = sc.n>0 ? sc.n+'/'+Q.length+' 問' : '';
+  document.getElementById('barsub').textContent = 'Fukui / 5 subjects / 60 questions';
+
+  const box = document.getElementById('subjects');
+  box.innerHTML = '';
+  for(const s of SUBJECTS){
+    const st = subjScore(s.key);
+    const pct = st.rate===null ? 0 : st.rate;
+    const b = document.createElement('button');
+    b.className = 'subj';
+    b.style.setProperty('--sc', s.color);
+    b.innerHTML =
+      '<span class="subj-rail"></span>' +
+      '<span class="subj-kanji">'+s.kanji+'</span>' +
+      '<span class="subj-body">' +
+        '<span class="subj-name">'+s.key+'</span>' +
+        '<span class="subj-meta">'+st.n+' / '+st.total+' 問　'+s.desc+'</span>' +
+      '</span>' +
+      '<span class="subj-ring">' +
+        '<svg width="40" height="40" viewBox="0 0 40 40">' +
+          '<circle cx="20" cy="20" r="16" fill="none" stroke="var(--line)" stroke-width="3"/>' +
+          '<circle cx="20" cy="20" r="16" fill="none" stroke="'+s.color+'" stroke-width="3" stroke-linecap="round" stroke-dasharray="'+(2*Math.PI*16)+'" stroke-dashoffset="'+(2*Math.PI*16*(1-pct/100))+'"/>' +
+        '</svg>' +
+        '<b>'+(st.rate===null?'—':st.rate)+'</b>' +
+      '</span>';
+    b.addEventListener('click', ()=> startSet(Q.filter(q=>q.s===s.key).map(q=>q.id), s.key));
+    box.appendChild(b);
+  }
+
+  const wrongIds = Q.filter(q=>isWrong(q.id)).map(q=>q.id);
+  const rb = document.getElementById('m-rev');
+  rb.disabled = wrongIds.length === 0;
+  document.getElementById('m-rev-d').textContent = wrongIds.length
+    ? '間違えた・あやしい問題が '+wrongIds.length+' 問あります。正解できるまで繰り返す。'
+    : 'まだ間違いはありません。';
+}
+
+document.getElementById('m-mix').addEventListener('click', ()=>{
+  const pool = Q.map(q=>q.id);
+  for(let i=pool.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); [pool[i],pool[j]]=[pool[j],pool[i]]; }
+  startSet(pool.slice(0,10), '実戦ミックス');
+});
+document.getElementById('m-rev').addEventListener('click', ()=>{
+  startSet(Q.filter(q=>isWrong(q.id)).map(q=>q.id), '間違い直し');
+});
+document.getElementById('reset').addEventListener('click', ()=>{
+  if(confirm('これまでの解答記録をすべて消します。よろしいですか？')){
+    store = {rec:{}}; save(); renderHome();
+  }
+});
+
+/* ---- quiz ---- */
+let SET = null;
+
+function startSet(ids, label){
+  if(!ids.length) return;
+  SET = {ids, label, i:0, results:{}, t0:Date.now()};
+  show('quiz');
+  renderQ();
+}
+
+function renderQ(){
+  const q = qById(SET.ids[SET.i]);
+  const s = subjOf(q.s);
+  const el = document.getElementById('quiz');
+  document.getElementById('barsub').textContent = SET.label;
+  document.getElementById('barmeta').textContent = (SET.i+1)+' / '+SET.ids.length;
+
+  let ansHTML = '';
+  if(q.type === 'choice'){
+    ansHTML = '<div class="choices">' + q.choices.map((c,i)=>
+      '<button class="choice" data-i="'+i+'"><span class="choice-k">'+KANA[i]+'</span><span>'+c+'</span></button>'
+    ).join('') + '</div>';
+  }else if(q.type === 'short'){
+    ansHTML = '<div class="field"><input type="text" id="in" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="解答を入力"></div>' +
+      '<p class="hint">'+(q.hint||'')+'</p>' +
+      '<div class="actions"><button class="btn" id="go">採点する</button></div>';
+  }else{
+    ansHTML = '<textarea class="free" id="in" placeholder="ここに解答を書く"></textarea>' +
+      '<p class="hint">'+(q.hint||'')+'　／　書き終えたら模範解答と見比べて自己採点します。</p>' +
+      '<div class="actions"><button class="btn" id="go">模範解答を見る</button></div>';
+  }
+
+  el.innerHTML =
+    '<div class="qhead" style="--sc:'+s.color+'">' +
+      '<span class="tag tsub">'+q.s+'</span>' +
+      '<span class="tag">'+q.unit+'</span>' +
+      '<span class="tag lv'+q.lv+'">'+LV[q.lv]+'</span>' +
+      (rec(q.id) ? '<span class="tag">'+(isCorrect(q.id)?'前回 ○':'前回 ×')+'</span>' : '') +
+    '</div>' +
+    '<div class="qcard">' +
+      '<div class="qbody"><div class="qnum">'+q.id+'</div><div class="qtext">'+q.q+'</div></div>' +
+      '<div class="answer" id="ansbox">'+ansHTML+'</div>' +
+    '</div>' +
+    '<div class="nav">' +
+      '<div class="dots">'+SET.ids.map((id,i)=>{
+        let cls = 'dot';
+        if(i === SET.i) cls += ' now';
+        else if(SET.results[id] !== undefined) cls += (SET.results[id]===1 ? ' ok' : ' done');
+        return '<span class="'+cls+'"></span>';
+      }).join('')+'</div>' +
+      '<button class="btn ghost" id="quit">中断してもどる</button>' +
+    '</div>';
+
+  document.getElementById('quit').addEventListener('click', ()=>{ show('home'); renderHome(); });
+
+  if(q.type === 'choice'){
+    el.querySelectorAll('.choice').forEach(b=>{
+      b.addEventListener('click', ()=> grade(q, Number(b.dataset.i)));
+    });
+  }else{
+    const inp = document.getElementById('in');
+    document.getElementById('go').addEventListener('click', ()=> grade(q, inp.value));
+    if(q.type === 'short'){
+      inp.addEventListener('keydown', e=>{ if(e.key === 'Enter') grade(q, inp.value); });
+    }
+    inp.focus();
+  }
+}
+
+function grade(q, given){
+  const card = document.querySelector('#quiz .qcard');
+  const box = document.getElementById('ansbox');
+  let ok = null;
+
+  if(q.type === 'choice'){
+    ok = (given === q.ansIdx);
+    box.querySelectorAll('.choice').forEach((b,i)=>{
+      b.disabled = true;
+      if(i === q.ansIdx) b.classList.add('ok');
+      else if(i === given) b.classList.add('ng');
+    });
+  }else if(q.type === 'short'){
+    ok = q.accept.some(a => norm(a) === norm(given));
+    box.innerHTML = '<div class="field"><input type="text" value="'+String(given).replace(/"/g,'&quot;')+'" disabled></div>';
+  }else{
+    box.innerHTML = '<div class="hint" style="margin:0">あなたの解答</div>' +
+      '<div class="exp-model" style="margin-top:6px;border-color:var(--line)">'+
+      (String(given).trim() ? String(given).replace(/[<>&]/g, c=>({'<':'&lt;','>':'&gt;','&':'&amp;'}[c])).replace(/\n/g,'<br>') : '<span style="color:var(--ink-3)">（未記入）</span>')+
+      '</div>';
+  }
+
+  // 採点マーク
+  if(ok !== null){
+    const markHTML = ok
+      ? '<div class="mark is-ok"><svg width="46" height="46" viewBox="0 0 46 46" fill="none" aria-hidden="true">' +
+        '<circle class="draw" style="--len:113" cx="23" cy="23" r="18" stroke="var(--shu)" stroke-width="3" stroke-linecap="round"/></svg>' +
+        '<div><div class="mark-t">正解</div><div class="mark-s">正答 <b>'+q.ans+'</b></div></div></div>'
+      : '<div class="mark is-ng"><svg width="46" height="46" viewBox="0 0 46 46" fill="none" aria-hidden="true">' +
+        '<path class="draw" style="--len:34" d="M11 11 L35 35" stroke="var(--ai)" stroke-width="3" stroke-linecap="round"/>' +
+        '<path class="draw d2" style="--len:34" d="M35 11 L11 35" stroke="var(--ai)" stroke-width="3" stroke-linecap="round"/></svg>' +
+        '<div><div class="mark-t">不正解</div><div class="mark-s">正答 <b>'+q.ans+'</b></div></div></div>';
+    card.insertAdjacentHTML('beforeend', markHTML);
+  }
+
+  // 解説
+  let exp = '<div class="exp">';
+  if(q.type === 'free'){
+    exp += '<div class="exp-h">模範解答</div><div class="exp-model">'+q.model.replace(/\n/g,'<br>')+'</div>';
+    exp += '<div class="exp-h">採点の観点</div><div class="exp-body">'+q.points+'</div>';
+  }
+  exp += '<div class="exp-h">解説</div><div class="exp-body">'+q.exp+'</div>';
+  exp += '<div class="exp-h">ここで差がつく</div><div class="exp-tip">'+q.tip+'</div>';
+  if(q.type === 'free'){
+    exp += '<div class="exp-h">自己採点</div>' +
+      '<div class="selfgrade">' +
+        '<button class="sg" data-v="1"><b>&#9711;</b><span>書けた</span></button>' +
+        '<button class="sg" data-v="0.5"><b>&#9651;</b><span>おしい</span></button>' +
+        '<button class="sg" data-v="0"><b>&#215;</b><span>書けなかった</span></button>' +
+      '</div>' +
+      '<div class="actions" id="nextbox"></div>';
+  }else{
+    exp += '<div class="actions" id="nextbox"></div>';
+  }
+  exp += '</div>';
+  card.insertAdjacentHTML('beforeend', exp);
+
+  if(q.type === 'free'){
+    card.querySelectorAll('.sg').forEach(b=>{
+      b.addEventListener('click', ()=>{
+        card.querySelectorAll('.sg').forEach(x=>x.classList.remove('pick'));
+        b.classList.add('pick');
+        commit(q, Number(b.dataset.v));
+        showNext();
+      });
+    });
+  }else{
+    commit(q, ok ? 1 : 0);
+    showNext();
+  }
+
+  function showNext(){
+    const nb = document.getElementById('nextbox');
+    if(!nb || nb.dataset.on) return;
+    nb.dataset.on = '1';
+    const last = SET.i === SET.ids.length - 1;
+    nb.innerHTML = '<button class="btn" id="next">'+(last ? '結果を見る' : '次の問題へ')+'</button>';
+    document.getElementById('next').addEventListener('click', ()=>{
+      if(last){ renderResult(); }
+      else { SET.i++; renderQ(); }
+    });
+    nb.scrollIntoView({behavior:'smooth', block:'nearest'});
+  }
+}
+
+function commit(q, v){
+  SET.results[q.id] = v;
+  store.rec[q.id] = {v, t: Date.now()};
+  save();
+}
+
+/* ---- result ---- */
+function renderResult(){
+  const ids = SET.ids;
+  let sum = 0;
+  ids.forEach(id => sum += (SET.results[id] || 0));
+  const pct = Math.round(sum / ids.length * 100);
+  const min = Math.max(1, Math.round((Date.now() - SET.t0)/60000));
+
+  let comment;
+  if(pct >= 90) comment = 'この難度でこの正答率なら、本番の大問後半でも十分に戦えます。';
+  else if(pct >= 70) comment = '合格ラインの手応え。落とした問題の「ここで差がつく」を読み直しておくこと。';
+  else if(pct >= 40) comment = '解ける問題と解けない問題がはっきり分かれています。間違い直しをそのまま繰り返すのが最短。';
+  else comment = 'ここは発展・難関レベルの問題です。まず解説を読んで、解き方の型を覚えるところから。';
+
+  const wrong = ids.filter(id => (SET.results[id]||0) < 1);
+  const el = document.getElementById('result');
+  document.getElementById('barsub').textContent = SET.label + ' / 結果';
+  document.getElementById('barmeta').textContent = '';
+
+  el.innerHTML =
+    '<div class="score">' +
+      '<div class="score-k">'+SET.label+'</div>' +
+      '<div class="score-v">'+pct+'<small>%</small></div>' +
+      '<div class="score-k">'+ids.length+' 問中 '+(Math.round(sum*10)/10)+' 問正解　/　'+min+' 分</div>' +
+      '<div class="score-c">'+comment+'</div>' +
+    '</div>' +
+    (wrong.length
+      ? '<div class="sec-h"><h2>解き直す問題</h2><span>'+wrong.length+' questions</span></div>' +
+        '<div class="review">'+wrong.map(id=>{
+          const q = qById(id);
+          return '<button class="rev" data-id="'+id+'"><span class="rev-x">&#215;</span><span class="rev-n">'+q.id+'</span><span>'+q.s+'　'+q.unit+'</span></button>';
+        }).join('')+'</div>'
+      : '<div class="sec-h"><h2>全問正解</h2><span>perfect</span></div><p class="note">このセットは全問できています。別の教科か、実戦ミックスへ。</p>') +
+    '<div class="actions" style="margin:22px 0 40px">' +
+      (wrong.length ? '<button class="btn" id="again">間違えた '+wrong.length+' 問をやり直す</button>' : '') +
+      '<button class="btn ghost" id="home2">ホームへもどる</button>' +
+    '</div>';
+
+  el.querySelectorAll('.rev').forEach(b=>{
+    b.addEventListener('click', ()=> startSet([b.dataset.id], '解き直し'));
+  });
+  const ag = document.getElementById('again');
+  if(ag) ag.addEventListener('click', ()=> startSet(wrong, '間違い直し'));
+  document.getElementById('home2').addEventListener('click', ()=>{ show('home'); renderHome(); });
+
+  show('result');
+}
+
+renderHome();
+</script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('sw.js').catch(function () {});
+  });
+}
+</script>
