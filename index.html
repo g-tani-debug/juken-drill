@@ -167,6 +167,29 @@ input,textarea{font-family:inherit;font-size:inherit;color:inherit}
 .stat-v small{font-size:.62em;font-weight:400;color:var(--ink-3);margin-left:2px}
 .note{font-size:.72rem;color:var(--ink-3);line-height:1.6}
 
+/* きょうの記録（スクショ用） */
+.today{margin:20px 0 10px}
+.today-h{display:flex;align-items:baseline;gap:11px;margin-bottom:9px;flex-wrap:wrap}
+.today-d{font-family:var(--mincho);font-size:1.05rem;font-weight:700;letter-spacing:.04em}
+.today-t{
+  font-family:var(--mono);font-size:.64rem;letter-spacing:.14em;
+  color:var(--ink-3);text-transform:uppercase;
+}
+.today .stats{margin:0}
+.pbar-row{display:flex;align-items:center;gap:11px;margin-top:10px}
+.pbar{flex:1;height:6px;border-radius:3px;background:var(--line-2);overflow:hidden}
+.pbar i{display:block;height:100%;width:0;background:var(--shu);transition:width .35s}
+.pbar-t{
+  font-family:var(--mono);font-size:.74rem;color:var(--ink-2);
+  font-variant-numeric:tabular-nums;flex:none;
+}
+.score-sum{
+  margin-top:15px;padding-top:13px;border-top:1px solid var(--line-2);
+  font-family:var(--mono);font-size:.78rem;color:var(--ink-2);
+  font-variant-numeric:tabular-nums;
+}
+.score-sum b{color:var(--ink);font-size:1.05rem;font-weight:600}
+
 .sec-h{
   display:flex;align-items:baseline;gap:10px;margin:30px 0 12px;
 }
@@ -536,21 +559,28 @@ textarea.free.tate{
     <p class="hero-lede">福井県入試の出題形式に合わせた発展・難関レベルの問題です。5教科500点満点のうち、上位校で合否を分けるのは「最後の1〜2問」。そこだけを集めました。</p>
   </div>
 
-  <div class="stats">
-    <div class="stat">
-      <div class="stat-k">Solved</div>
-      <div class="stat-v" id="st-solved">0<small>/60</small></div>
+  <div class="today">
+    <div class="today-h">
+      <span class="today-d" id="td-date">—</span>
+      <span class="today-t">score</span>
     </div>
-    <div class="stat">
-      <div class="stat-k">正答率</div>
-      <div class="stat-v" id="st-rate">—<small>%</small></div>
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-k">正解</div>
+        <div class="stat-v" id="st-ok">0<small>/60</small></div>
+      </div>
+      <div class="stat">
+        <div class="stat-k">きょうの正解</div>
+        <div class="stat-v" id="st-today">0<small>/0問</small></div>
+      </div>
+      <div class="stat">
+        <div class="stat-k">本番まで</div>
+        <div class="stat-v" id="st-days">—<small>日</small></div>
+      </div>
     </div>
-    <div class="stat">
-      <div class="stat-k">本番まで</div>
-      <div class="stat-v" id="st-days">—<small>日</small></div>
-    </div>
+    <div class="pbar-row"><span class="pbar"><i id="pbar-i"></i></span><span class="pbar-t" id="pbar-t">0%</span></div>
   </div>
-  <p class="note">※「本番まで」は例年の日程（3月上旬）からの目安です。令和9年度の正式な日程・出題範囲は、福井県教育委員会が10月に公表する実施要項で確認してください。</p>
+  <p class="note">※「正解」は60問それぞれの<b>いちばん新しい解答</b>が○だった数です。解き直して正解すれば増えます。「本番まで」は例年の日程（3月上旬）からの目安で、令和9年度の正式な日程・出題範囲は、福井県教育委員会が10月に公表する実施要項で確認してください。</p>
 
   <div class="sec-h"><h2>教科から選ぶ</h2><span>12 questions each</span></div>
   <div class="subjects" id="subjects"></div>
@@ -2117,6 +2147,28 @@ function subjScore(key){
   for(const q of list){ const r = rec(q.id); if(r){ n++; sum += r.v; } }
   return {n, total:list.length, sum, rate: n ? Math.round(sum/n*100) : null};
 }
+// その日のうちに解いた分を数えるための日付キー
+function dayKey(d){
+  d = d || new Date();
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+function dateLabel(){
+  const d = new Date();
+  return d.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日（'+['日','月','火','水','木','金','土'][d.getDay()]+'）';
+}
+// ok = 60問それぞれの「いちばん新しい解答」が○だった数
+function stats(){
+  const tk = dayKey();
+  let ok = 0, solved = 0, tOk = 0, tN = 0;
+  for(const q of Q){
+    const r = rec(q.id);
+    if(!r) continue;
+    solved++;
+    if(r.v >= 1) ok++;
+    if(r.t && dayKey(new Date(r.t)) === tk){ tN++; if(r.v >= 1) tOk++; }
+  }
+  return {ok, solved, tOk, tN, total:Q.length};
+}
 function daysLeft(){
   const now = new Date();
   const d = Math.ceil((EXAM - new Date(now.getFullYear(), now.getMonth(), now.getDate()))/86400000);
@@ -2130,11 +2182,15 @@ function show(id){
 }
 
 function renderHome(){
-  const sc = score();
-  document.getElementById('st-solved').innerHTML = sc.n + '<small>/'+Q.length+'</small>';
-  document.getElementById('st-rate').innerHTML = (sc.rate===null?'—':sc.rate) + '<small>%</small>';
+  const S = stats();
+  const pct = Math.round(S.ok / S.total * 100);
+  document.getElementById('td-date').textContent = dateLabel();
+  document.getElementById('st-ok').innerHTML = S.ok + '<small>/'+S.total+'</small>';
+  document.getElementById('st-today').innerHTML = S.tOk + '<small>/'+S.tN+'問</small>';
   document.getElementById('st-days').innerHTML = daysLeft() + '<small>日</small>';
-  document.getElementById('barmeta').textContent = sc.n>0 ? sc.n+'/'+Q.length+' 問' : '';
+  document.getElementById('pbar-i').style.width = pct + '%';
+  document.getElementById('pbar-t').textContent = pct + '%';
+  document.getElementById('barmeta').textContent = S.ok+'/'+S.total+' 正解';
   document.getElementById('barsub').textContent = 'Fukui / 5 subjects / 60 questions';
 
   const box = document.getElementById('subjects');
@@ -2390,6 +2446,7 @@ function renderResult(){
       '<div class="score-v">'+pct+'<small>%</small></div>' +
       '<div class="score-k">'+ids.length+' 問中 '+(Math.round(sum*10)/10)+' 問正解　/　'+min+' 分</div>' +
       '<div class="score-c">'+comment+'</div>' +
+      '<div class="score-sum">'+dateLabel()+'　通算 <b>'+stats().ok+' / '+stats().total+'</b> 問正解</div>' +
     '</div>' +
     (wrong.length
       ? '<div class="sec-h"><h2>解き直す問題</h2><span>'+wrong.length+' questions</span></div>' +
