@@ -569,6 +569,10 @@ textarea.free.tate{
 .rev-n{font-family:var(--mono);font-size:.72rem;color:var(--ink-3);flex:none}
 .rev-x{color:var(--shu);font-family:var(--mono);flex:none}
 
+#diag{margin-top:14px;padding:14px;border:1px solid var(--line);border-radius:10px;background:var(--surface-2)}
+#diag[hidden]{display:none}
+#diaginfo{font-size:.7rem;line-height:1.7}
+
 /* 書いている間は、入力欄を画面のいちばん上まで持ち上げられるように
    下へ余白を足す。余白が無いと、スマホでキーボードが出たとき
    入力欄が画面の下のほうに残り、書いた字がキーボードの裏に隠れる（2026-09-12） */
@@ -655,7 +659,14 @@ textarea.free.tate{
 
   <div class="foot">
     <span class="note" style="flex:1;min-width:200px">解答の記録はこの端末のブラウザに保存されます。別の端末では引き継がれません。1セット終わるたびに、<b>点数だけ</b>がお父さんに届きます（答えた中身は送られません）。<span id="buildtag"></span></span>
+    <button class="linkbtn" id="diagbtn">うまく書けないとき</button>
     <button class="linkbtn" id="reset">記録をリセット</button>
+  </div>
+
+  <div id="diag" hidden>
+    <div class="counter" id="diaginfo" style="flex-wrap:wrap"></div>
+    <textarea class="free" id="diagin" placeholder="ここに試しに書いてみてください"></textarea>
+    <p class="hint">書けなくなったところで、<b>この画面をそのまま写真に撮って送ってください</b>。どこで止まっているかが分かります。</p>
   </div>
 </section>
 
@@ -2094,7 +2105,7 @@ Q.push({
 
 const KEY = 'takefu-drill-v1';
 // 配信用に build_web.py が日時へ置き換える。置き換わっていなければ出さない
-const BUILD = '20260912-2151';
+const BUILD = '20260912-2203';
 const EXAM = new Date(2027, 2, 4); // 令和9年度 一般選抜（例年3月上旬）の目安
 
 let store = load();
@@ -2200,8 +2211,11 @@ function followCaret(el){
   el.scrollLeft = -max;
   if(el.scrollLeft === 0) el.scrollLeft = max;
 }
+// 日本語を変換している最中（IME）に欄の高さを変えると、iPhone では
+// 変換が途切れたり文字が入らなくなることがある。変換中はいっさい触らない。
+let IME = false;
 function autoGrow(el){
-  if(!el || el.tagName !== 'TEXTAREA') return;
+  if(!el || el.tagName !== 'TEXTAREA' || IME) return;
   const room = roomFor(el);
   if(el.classList.contains('tate')){
     // 縦書きは高さ＝1列に入る字数。見えている範囲いっぱいまで使う
@@ -2209,8 +2223,11 @@ function autoGrow(el){
     followCaret(el);
     return;
   }
-  el.style.height = 'auto';
-  el.style.height = Math.min(Math.max(el.scrollHeight + 2, 110), Math.max(room, 130)) + 'px';
+  // 横書きも「見えている範囲いっぱい」に開ける。
+  // 中身に合わせて伸ばすには height:auto で測り直す必要があり、
+  // その一瞬のレイアウトの揺れが iPhone の日本語入力をじゃまする恐れがある。
+  // 先に開けておけば、書いている間は高さを一度も触らずに済む（200字でも入る）。
+  el.style.height = Math.min(Math.max(room, 130), 560) + 'px';
 }
 // 書きはじめたら、欄を画面の上のほうへ寄せてから高さを合わせる。
 // キーボードが出きるまで少し待つ（出た瞬間に visualViewport の resize でもう一度合わせる）
@@ -2229,16 +2246,24 @@ function liftUp(el){
   autoGrow(el);
 }
 function focusWriting(el){
+  IME = false;                                 // 変換の途中で抜けていた場合の戻し
   const q = document.getElementById('quiz');
   if(q) q.classList.add('writing');            // 下に余白（これが無いと上まで持ち上がらない）
   // requestAnimationFrame は画面が裏にまわると止まるので使わない（2026-09-12 実測）
   setTimeout(()=>liftUp(el), 0);
-  setTimeout(()=>liftUp(el), 200);
-  setTimeout(()=>liftUp(el), 550);
-  setTimeout(()=>liftUp(el), 1100);            // iPhone はキーボードが出きるまで遅い
+  // 書いている最中に画面が何度も飛ぶと書きづらい。
+  // 2回目からは「欄が見えていない／はみ出している」ときだけ直す
+  const fix = ()=>{
+    if(IME) return;
+    const r = el.getBoundingClientRect();
+    if(r.top < 0 || r.bottom > visibleBottom() + 8) liftUp(el);
+  };
+  setTimeout(fix, 350);
+  setTimeout(fix, 900);                        // iPhone はキーボードが出きるまで遅い
 }
 if(window.visualViewport){
   const refit = ()=>{
+    if(IME) return;
     const inp = document.getElementById('in');
     if(inp && inp.tagName === 'TEXTAREA' && document.activeElement === inp) autoGrow(inp);
   };
@@ -2345,6 +2370,35 @@ function daysLeft(){
   return d > 0 ? d : 0;
 }
 
+/* ---- うまく書けないときの診断（この画面を撮って送ってもらう） ---- */
+function diagUpdate(){
+  const t  = document.getElementById('diagin');
+  const vv = window.visualViewport;
+  const ua = navigator.userAgent.replace(/^Mozilla\/5\.0\s*/, '').slice(0, 70);
+  document.getElementById('diaginfo').textContent =
+    '版 ' + BUILD +
+    '／画面 ' + window.innerWidth + '×' + window.innerHeight +
+    '／見えている高さ ' + (vv ? Math.round(vv.height) : '—') +
+    '／欄 ' + t.clientHeight + 'px' +
+    '／' + t.value.length + '字' +
+    '／' + (window.matchMedia('(display-mode: standalone)').matches ? 'アプリ' : 'ブラウザ') +
+    '／' + ua;
+}
+function setupDiag(){
+  const btn = document.getElementById('diagbtn');
+  const box = document.getElementById('diag');
+  const t   = document.getElementById('diagin');
+  if(!btn || !box || !t) return;
+  btn.addEventListener('click', ()=>{
+    box.hidden = !box.hidden;
+    if(!box.hidden){ diagUpdate(); t.focus(); }
+  });
+  t.addEventListener('input', diagUpdate);
+  t.addEventListener('compositionend', diagUpdate);
+  t.addEventListener('focus', ()=> focusWriting(t));
+  if(window.visualViewport) window.visualViewport.addEventListener('resize', diagUpdate);
+}
+
 /* ---- screens ---- */
 function show(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on', s.id===id));
@@ -2361,6 +2415,7 @@ function renderHome(){
   renderResume();
   const bt = document.getElementById('buildtag');
   if(bt) bt.textContent = BUILD.indexOf('_') < 0 ? '　版 ' + BUILD : '';
+  if(!renderHome._diag){ renderHome._diag = true; setupDiag(); }
   document.getElementById('td-date').textContent = dateLabel();
   document.getElementById('st-ok').innerHTML = S.ok + '<small>/'+S.total+'</small>';
   document.getElementById('st-today').innerHTML = S.tOk + '<small>/'+S.tN+'問</small>';
@@ -2657,7 +2712,11 @@ function renderQ(){
     if(q.type === 'short'){
       inp.addEventListener('keydown', e=>{ if(e.key === 'Enter') grade(q, inp.value); });
     }else{
-      inp.addEventListener('input', ()=>{ updateCounter(q); autoGrow(inp); });
+      // 入力のたびに高さを変えない（iPhone の変換をじゃまするため）。
+      // 高さを決めるのは、書きはじめたときとキーボードが開け閉めされたときだけ
+      inp.addEventListener('input', ()=> updateCounter(q));
+      inp.addEventListener('compositionstart', ()=>{ IME = true; });
+      inp.addEventListener('compositionend', ()=>{ IME = false; updateCounter(q); });
       inp.addEventListener('focus', ()=> focusWriting(inp));
       updateCounter(q);
       autoGrow(inp);
