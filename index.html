@@ -649,7 +649,7 @@ textarea.free.tate{
   </div>
 
   <div class="foot">
-    <span class="note" style="flex:1;min-width:200px">解答の記録はこの端末のブラウザに保存されます。別の端末では引き継がれません。</span>
+    <span class="note" style="flex:1;min-width:200px">解答の記録はこの端末のブラウザに保存されます。別の端末では引き継がれません。<span id="buildtag"></span></span>
     <button class="linkbtn" id="reset">記録をリセット</button>
   </div>
 </section>
@@ -2088,6 +2088,8 @@ Q.push({
    ========================================================= */
 
 const KEY = 'takefu-drill-v1';
+// 配信用に build_web.py が日時へ置き換える。置き換わっていなければ出さない
+const BUILD = '20260912-1348';
 const EXAM = new Date(2027, 2, 4); // 令和9年度 一般選抜（例年3月上旬）の目安
 
 let store = load();
@@ -2293,6 +2295,8 @@ function renderHome(){
   document.getElementById('mbar-t').textContent = '習得 ' + S.mst + '　のこり ' + S.left;
   renderMasterBox(S);
   renderResume();
+  const bt = document.getElementById('buildtag');
+  if(bt) bt.textContent = BUILD.indexOf('_') < 0 ? '　版 ' + BUILD : '';
   document.getElementById('td-date').textContent = dateLabel();
   document.getElementById('st-ok').innerHTML = S.ok + '<small>/'+S.total+'</small>';
   document.getElementById('st-today').innerHTML = S.tOk + '<small>/'+S.tN+'問</small>';
