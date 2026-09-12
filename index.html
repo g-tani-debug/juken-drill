@@ -649,7 +649,7 @@ textarea.free.tate{
   </div>
 
   <div class="foot">
-    <span class="note" style="flex:1;min-width:200px">解答の記録はこの端末のブラウザに保存されます。別の端末では引き継がれません。<span id="buildtag"></span></span>
+    <span class="note" style="flex:1;min-width:200px">解答の記録はこの端末のブラウザに保存されます。別の端末では引き継がれません。1セット終わるたびに、<b>点数だけ</b>がお父さんに届きます（答えた中身は送られません）。<span id="buildtag"></span></span>
     <button class="linkbtn" id="reset">記録をリセット</button>
   </div>
 </section>
@@ -2089,7 +2089,7 @@ Q.push({
 
 const KEY = 'takefu-drill-v1';
 // 配信用に build_web.py が日時へ置き換える。置き換わっていなければ出さない
-const BUILD = '20260912-1349';
+const BUILD = '20260912-1418';
 const EXAM = new Date(2027, 2, 4); // 令和9年度 一般選抜（例年3月上旬）の目安
 
 let store = load();
@@ -2355,6 +2355,53 @@ document.getElementById('m-mix').addEventListener('click', ()=>{
 document.getElementById('m-rev').addEventListener('click', ()=>{
   startSet(shuffle(activeIds().filter(id=>isWrong(id))), '間違い直し');
 });
+
+/* ---- 1セット終わったら、お父さんへ知らせる ----
+   送るのは「教科・問題数・正解数・通算・習得・かかった時間・時刻」だけ。
+   答えの中身や個人が分かるものは送らない。合言葉が合った分だけ受け取られ、
+   文面は PC 側（report_watch.py）で組んで、橘 静から谷さんへ Slack の DM で届く。 */
+const REPORT_URL  = 'https://hook.eu1.make.com/fjbiqu2ui7w2j1p7svns4c9lyd9yd54k';
+const REPORT_WORD = 'jd7x2m9qkt4v';
+
+function reportDone(label, ok, n, mins){
+  const S = stats();
+  const now = new Date();
+  const q = {
+    k:   REPORT_WORD,
+    id:  String(Date.now()),
+    t:   String(label || '').slice(0, 14),
+    ok:  Math.round(ok * 10) / 10,
+    n:   n,
+    p:   n ? Math.round(ok / n * 100) : 0,
+    tot: S.ok,
+    mst: S.mst,
+    min: mins,
+    d:   (now.getMonth() + 1) + '月' + now.getDate() + '日',
+    hm:  String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0')
+  };
+  sendReport(REPORT_URL + '?' +
+    Object.keys(q).map(k => k + '=' + encodeURIComponent(q[k])).join('&'));
+}
+// 電波が無いときは貯めておいて、次に開いたときに送る
+function sendReport(url){
+  if(navigator.onLine === false){ queueReport(url); return; }
+  try{
+    fetch(url, {mode:'no-cors', cache:'no-store', keepalive:true}).catch(()=> queueReport(url));
+  }catch(e){ queueReport(url); }
+}
+function queueReport(url){
+  const box = Array.isArray(store.outbox) ? store.outbox : [];
+  box.push(url);
+  store.outbox = box.slice(-20);
+  save();
+}
+function flushReports(){
+  const box = Array.isArray(store.outbox) ? store.outbox : [];
+  if(!box.length || navigator.onLine === false) return;
+  store.outbox = [];
+  save();
+  box.forEach(u => sendReport(u));
+}
 
 /* ---- 前回の続き（とちゅうで終わったセット）----
    「採点が済んで答え・解説が出た問題」を終わったものとみなし、その次から再開する。
@@ -2665,6 +2712,8 @@ function renderResult(){
   else if(pct >= 40) comment = '解ける問題と解けない問題がはっきり分かれています。間違い直しをそのまま繰り返すのが最短。';
   else comment = 'ここは発展・難関レベルの問題です。まず解説を読んで、解き方の型を覚えるところから。';
 
+  if(!SET.sent){ SET.sent = true; reportDone(SET.label, sum, ids.length, min); }
+
   const wrong = ids.filter(id => (SET.results[id]||0) < 1);
   const el = document.getElementById('result');
   document.getElementById('barsub').textContent = SET.label + ' / 結果';
@@ -2704,6 +2753,7 @@ function renderResult(){
 }
 
 renderHome();
+flushReports();      // 前に送れなかった結果があれば、ここで送る
 </script>
 
 <script>
