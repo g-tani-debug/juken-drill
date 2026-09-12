@@ -452,7 +452,7 @@ textarea.free.tate{
 
 /* ---------- 字数カウンタ ---------- */
 .counter{
-  display:flex;align-items:center;gap:10px;margin:0 0 8px;
+  display:flex;align-items:center;gap:10px;margin:0 0 8px;scroll-margin-top:61px;
   font-family:var(--mono);font-size:.76rem;color:var(--ink-2);
   font-variant-numeric:tabular-nums;
 }
@@ -2094,7 +2094,7 @@ Q.push({
 
 const KEY = 'takefu-drill-v1';
 // 配信用に build_web.py が日時へ置き換える。置き換わっていなければ出さない
-const BUILD = '20260912-2130';
+const BUILD = '20260912-2138';
 const EXAM = new Date(2027, 2, 4); // 令和9年度 一般選抜（例年3月上旬）の目安
 
 let store = load();
@@ -2190,10 +2190,15 @@ function roomFor(el){
   const top = el.getBoundingClientRect().top;
   return Math.round(visibleBottom() - top - 64);
 }
-// 縦書きは新しい列が左に増える。末尾を書いているあいだは左端を見せる
-// （vertical-rl の scrollLeft は 0 が右端で、左へ行くほど負。実測で確認）
+// 縦書きは新しい列が左に増える。末尾を書いているあいだは左端を見せる。
+// vertical-rl の scrollLeft は Chrome では「0 が右端・左へ行くほど負」（実測）。
+// iPhone（WebKit）で符号が逆でも動くよう、両方ためす
 function followCaret(el){
-  if(el.selectionStart === el.value.length) el.scrollLeft = -el.scrollWidth;
+  if(el.selectionStart !== el.value.length) return;
+  const max = el.scrollWidth - el.clientWidth;
+  if(max <= 0) return;
+  el.scrollLeft = -max;
+  if(el.scrollLeft === 0) el.scrollLeft = max;
 }
 function autoGrow(el){
   if(!el || el.tagName !== 'TEXTAREA') return;
@@ -2217,6 +2222,10 @@ function liftUp(el){
   const off = (bar ? bar.getBoundingClientRect().height : 0) + 8;
   const y = head.getBoundingClientRect().top + window.scrollY - off;
   window.scrollTo(0, Math.max(0, y));
+  // iPhone はキーボードが出ている間 scrollTo が効かないことがある。ずれていたら別の手で寄せる
+  if(Math.abs(head.getBoundingClientRect().top - off) > 40 && head.scrollIntoView){
+    try{ head.scrollIntoView({block:'start'}); }catch(e){ head.scrollIntoView(true); }
+  }
   autoGrow(el);
 }
 function focusWriting(el){
@@ -2225,7 +2234,8 @@ function focusWriting(el){
   // requestAnimationFrame は画面が裏にまわると止まるので使わない（2026-09-12 実測）
   setTimeout(()=>liftUp(el), 0);
   setTimeout(()=>liftUp(el), 200);
-  setTimeout(()=>liftUp(el), 550);             // キーボードが出きるのを待ってもう一度
+  setTimeout(()=>liftUp(el), 550);
+  setTimeout(()=>liftUp(el), 1100);            // iPhone はキーボードが出きるまで遅い
 }
 if(window.visualViewport){
   const refit = ()=>{
@@ -2233,6 +2243,7 @@ if(window.visualViewport){
     if(inp && inp.tagName === 'TEXTAREA' && document.activeElement === inp) autoGrow(inp);
   };
   window.visualViewport.addEventListener('resize', refit);
+  window.visualViewport.addEventListener('scroll', refit);   // iPhone はキーボードでページごとずれる
 }
 function updateCounter(q){
   const el = document.getElementById('cnt');
