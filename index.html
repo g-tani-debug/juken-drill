@@ -452,7 +452,7 @@ textarea.free.tate{
 
 /* ---------- 字数カウンタ ---------- */
 .counter{
-  display:flex;align-items:center;gap:10px;margin-top:8px;
+  display:flex;align-items:center;gap:10px;margin:0 0 8px;
   font-family:var(--mono);font-size:.76rem;color:var(--ink-2);
   font-variant-numeric:tabular-nums;
 }
@@ -568,6 +568,11 @@ textarea.free.tate{
 .rev:hover{border-color:var(--accent)}
 .rev-n{font-family:var(--mono);font-size:.72rem;color:var(--ink-3);flex:none}
 .rev-x{color:var(--shu);font-family:var(--mono);flex:none}
+
+/* 書いている間は、入力欄を画面のいちばん上まで持ち上げられるように
+   下へ余白を足す。余白が無いと、スマホでキーボードが出たとき
+   入力欄が画面の下のほうに残り、書いた字がキーボードの裏に隠れる（2026-09-12） */
+#quiz.writing::after{content:'';display:block;height:82vh}
 
 @media (max-width:560px){
   .hero h1{font-size:1.55rem}
@@ -2089,7 +2094,7 @@ Q.push({
 
 const KEY = 'takefu-drill-v1';
 // 配信用に build_web.py が日時へ置き換える。置き換わっていなければ出さない
-const BUILD = '20260912-1423';
+const BUILD = '20260912-2130';
 const EXAM = new Date(2027, 2, 4); // 令和9年度 一般選抜（例年3月上旬）の目安
 
 let store = load();
@@ -2171,15 +2176,63 @@ function counterHTML(q){
       '<span class="cbar"><i></i></span>' +
     '</div>';
 }
-// 記述欄は書いたぶんだけ伸ばす。
-// 高さを固定していると、40〜60字の問題で書いた文字が枠の外に出て見えなくなる
-// （端末の文字サイズを大きくしていると30字あたりで隠れる。2026-09-12 谷さんの指摘）
+/* 記述欄は「いま見えている範囲」に収める。
+   スマホはキーボードが出ると画面の半分が隠れるのに、vh も innerHeight も縮まない。
+   高さを決め打ちにすると、縦書きは1列がキーボードの裏まで伸びて、
+   30字あたりから書いた字が見えなくなる（2026-09-12 谷さんの指摘・2回目）。
+   visualViewport が「キーボードの上までの高さ」を教えてくれるので、それに合わせる。 */
+function visibleBottom(){
+  const vv = window.visualViewport;
+  return vv ? (vv.offsetTop + vv.height) : (window.innerHeight || 700);
+}
+// 欄の上端から、画面の見えている下端までの余り（カウンタ・ボタンのぶんを残す）
+function roomFor(el){
+  const top = el.getBoundingClientRect().top;
+  return Math.round(visibleBottom() - top - 64);
+}
+// 縦書きは新しい列が左に増える。末尾を書いているあいだは左端を見せる
+// （vertical-rl の scrollLeft は 0 が右端で、左へ行くほど負。実測で確認）
+function followCaret(el){
+  if(el.selectionStart === el.value.length) el.scrollLeft = -el.scrollWidth;
+}
 function autoGrow(el){
   if(!el || el.tagName !== 'TEXTAREA') return;
-  if(el.classList.contains('tate')) return;        // 縦書きは横に伸びるので別扱い
+  const room = roomFor(el);
+  if(el.classList.contains('tate')){
+    // 縦書きは高さ＝1列に入る字数。見えている範囲いっぱいまで使う
+    el.style.height = Math.min(Math.max(room, 200), 560) + 'px';
+    followCaret(el);
+    return;
+  }
   el.style.height = 'auto';
-  const max = Math.round((window.innerHeight || 700) * 0.6);
-  el.style.height = Math.min(Math.max(el.scrollHeight + 2, 110), max) + 'px';
+  el.style.height = Math.min(Math.max(el.scrollHeight + 2, 110), Math.max(room, 130)) + 'px';
+}
+// 書きはじめたら、欄を画面の上のほうへ寄せてから高さを合わせる。
+// キーボードが出きるまで少し待つ（出た瞬間に visualViewport の resize でもう一度合わせる）
+function liftUp(el){
+  // 字数カウンタごと持ち上げる（欄だけ上端に寄せるとカウンタが画面の外に出る）。
+  // 上の帯（.bar）は貼りついたままなので、その高さのぶん下に寄せる
+  const head = document.getElementById('cnt') || el;
+  const bar = document.querySelector('.bar');
+  const off = (bar ? bar.getBoundingClientRect().height : 0) + 8;
+  const y = head.getBoundingClientRect().top + window.scrollY - off;
+  window.scrollTo(0, Math.max(0, y));
+  autoGrow(el);
+}
+function focusWriting(el){
+  const q = document.getElementById('quiz');
+  if(q) q.classList.add('writing');            // 下に余白（これが無いと上まで持ち上がらない）
+  // requestAnimationFrame は画面が裏にまわると止まるので使わない（2026-09-12 実測）
+  setTimeout(()=>liftUp(el), 0);
+  setTimeout(()=>liftUp(el), 200);
+  setTimeout(()=>liftUp(el), 550);             // キーボードが出きるのを待ってもう一度
+}
+if(window.visualViewport){
+  const refit = ()=>{
+    const inp = document.getElementById('in');
+    if(inp && inp.tagName === 'TEXTAREA' && document.activeElement === inp) autoGrow(inp);
+  };
+  window.visualViewport.addEventListener('resize', refit);
 }
 function updateCounter(q){
   const el = document.getElementById('cnt');
@@ -2519,6 +2572,8 @@ function startSet(ids, label){
 
 function renderQ(){
   saveRun();                      // ここまでの進み具合を毎回残す（落ちても続きから）
+  const qsec = document.getElementById('quiz');
+  if(qsec) qsec.classList.remove('writing');
   const q = qById(SET.ids[SET.i]);
   const s = subjOf(q.s);
   const tate = tateOn(q);
@@ -2536,8 +2591,9 @@ function renderQ(){
       '<p class="hint">'+(q.hint||'')+'</p>' +
       '<div class="actions"><button class="btn" id="go">採点する</button></div>';
   }else{
-    ansHTML = '<textarea class="free'+(tate?' tate':'')+'" id="in" placeholder="ここに解答を書く"></textarea>' +
-      counterHTML(q) +
+    // カウンタは欄の「上」。欄が画面いっぱいに伸びると、下に置いた字数が見えなくなる
+    ansHTML = counterHTML(q) +
+      '<textarea class="free'+(tate?' tate':'')+'" id="in" placeholder="ここに解答を書く"></textarea>' +
       '<p class="hint">'+(q.hint||'')+'　／　書き終えたら模範解答と見比べて自己採点します。</p>' +
       '<div class="actions"><button class="btn" id="go">模範解答を見る</button></div>';
   }
@@ -2588,6 +2644,7 @@ function renderQ(){
       inp.addEventListener('keydown', e=>{ if(e.key === 'Enter') grade(q, inp.value); });
     }else{
       inp.addEventListener('input', ()=>{ updateCounter(q); autoGrow(inp); });
+      inp.addEventListener('focus', ()=> focusWriting(inp));
       updateCounter(q);
       autoGrow(inp);
     }
@@ -2596,6 +2653,8 @@ function renderQ(){
 }
 
 function grade(q, given){
+  const qs = document.getElementById('quiz');
+  if(qs) qs.classList.remove('writing');       // 書き終わったら下の余白を戻す
   const card = document.querySelector('#quiz .qcard');
   const box = document.getElementById('ansbox');
   let ok = null;
