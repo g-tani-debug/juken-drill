@@ -167,6 +167,41 @@ input,textarea{font-family:inherit;font-size:inherit;color:inherit}
 .stat-v small{font-size:.62em;font-weight:400;color:var(--ink-3);margin-left:2px}
 .note{font-size:.72rem;color:var(--ink-3);line-height:1.6}
 
+/* 習得（ちがう3日に続けて○で卒業） */
+.mrow{display:flex;align-items:center;gap:11px;margin-top:8px}
+.mbar{flex:1;height:6px;border-radius:3px;background:var(--line-2);overflow:hidden}
+.mbar i{display:block;height:100%;width:0;background:var(--rika);transition:width .35s}
+.mrow-t{
+  font-family:var(--mono);font-size:.74rem;color:var(--ink-2);
+  font-variant-numeric:tabular-nums;flex:none;
+}
+.mlist{
+  margin-top:14px;border:1px solid var(--line);border-radius:11px;
+  background:var(--surface);overflow:hidden;
+}
+.mlist summary{
+  padding:12px 15px;cursor:pointer;font-size:.82rem;color:var(--ink-2);
+  list-style:none;display:flex;align-items:center;gap:8px;
+}
+.mlist summary::-webkit-details-marker{display:none}
+.mlist summary b{color:var(--rika);font-family:var(--mono);font-size:.95rem}
+.mlist summary .sfx{margin-left:auto;color:var(--ink-3);font-family:var(--mono);font-size:.72rem}
+.mlist summary .sfx::after{content:'一覧を見る'}
+.mlist[open] summary .sfx::after{content:'閉じる'}
+.mitem{
+  display:flex;align-items:center;gap:10px;padding:9px 15px;
+  border-top:1px solid var(--line-2);font-size:.78rem;
+}
+.mitem .mid{font-family:var(--mono);font-size:.7rem;color:var(--ink-3);flex:none;width:3.6em}
+.mitem .mt{flex:1;color:var(--ink-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mitem .mday{font-family:var(--mono);font-size:.68rem;color:var(--rika);flex:none}
+.subj.done{opacity:.55}
+.subj.done .subj-name::after{
+  content:'習得';font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;
+  color:var(--rika);border:1px solid var(--rika);border-radius:3px;
+  padding:1px 4px;margin-left:8px;vertical-align:2px;
+}
+
 /* きょうの記録（スクショ用） */
 .today{margin:20px 0 10px}
 .today-h{display:flex;align-items:baseline;gap:11px;margin-bottom:9px;flex-wrap:wrap}
@@ -579,8 +614,10 @@ textarea.free.tate{
       </div>
     </div>
     <div class="pbar-row"><span class="pbar"><i id="pbar-i"></i></span><span class="pbar-t" id="pbar-t">0%</span></div>
+    <div class="mrow"><span class="mbar"><i id="mbar-i"></i></span><span class="mrow-t" id="mbar-t">習得 0</span></div>
   </div>
-  <p class="note">※「正解」は60問それぞれの<b>いちばん新しい解答</b>が○だった数です。解き直して正解すれば増えます。「本番まで」は例年の日程（3月上旬）からの目安で、令和9年度の正式な日程・出題範囲は、福井県教育委員会が10月に公表する実施要項で確認してください。</p>
+  <p class="note">※「正解」は60問それぞれの<b>いちばん新しい解答</b>が○だった数です。解き直して正解すれば増えます。<b>ちがう3日に続けて○</b>になった問題は「習得」になり、その次の日からは出題されません（下の一覧からいつでも戻せます）。出題の順番は<b>毎回シャッフル</b>されるので、順番を覚えても意味がありません。「本番まで」は例年の日程（3月上旬）からの目安で、令和9年度の正式な日程・出題範囲は、福井県教育委員会が10月に公表する実施要項で確認してください。</p>
+  <div id="masterbox"></div>
 
   <div class="sec-h"><h2>教科から選ぶ</h2><span>12 questions each</span></div>
   <div class="subjects" id="subjects"></div>
@@ -2136,6 +2173,48 @@ const qById = id => Q.find(q=>q.id===id);
 function rec(id){ return store.rec[id] || null; }
 function isCorrect(id){ const r = rec(id); return r && r.v === 1; }
 function isWrong(id){ const r = rec(id); return r && r.v < 1; }
+
+/* ---- 習得（ちがう3日に続けて○になったら卒業）----
+   h は「日付ごとに1件」。同じ日に何回解いても、その日の最後の結果だけを残す。
+   だから1日で3回正解しても習得にはならない。 */
+const MASTER_DAYS = 3;
+function histOf(id){
+  const r = rec(id);
+  if(!r) return [];
+  if(Array.isArray(r.h)) return r.h;
+  return r.t ? [{d: dayKey(new Date(r.t)), v: r.v}] : [];   // h が無い古い記録
+}
+// 末尾から○が続いている日数
+function streak(id){
+  const h = histOf(id);
+  let n = 0;
+  for(let i = h.length - 1; i >= 0; i--){
+    if(h[i].v >= 1) n++; else break;
+  }
+  return n;
+}
+function isMastered(id){ return streak(id) >= MASTER_DAYS; }
+function masteredIds(){ return Q.filter(q => isMastered(q.id)).map(q => q.id); }
+// いま出題する対象。習得ずみは外す
+function activeIds(key){
+  return Q.filter(q => (!key || q.s === key) && !isMastered(q.id)).map(q => q.id);
+}
+// 習得を取り消して出題に戻す（連続を切るだけ。また3日つづけて○なら習得に戻る）
+function unmaster(id){
+  const r = store.rec[id];
+  if(!r) return;
+  r.h = [];
+  save();
+}
+function shuffle(a){
+  a = a.slice();
+  for(let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+const lastDay = id => { const h = histOf(id); return h.length ? h[h.length-1].d : ''; };
 function score(){
   let n = 0, sum = 0;
   for(const q of Q){ const r = rec(q.id); if(r){ n++; sum += r.v; } }
@@ -2167,7 +2246,8 @@ function stats(){
     if(r.v >= 1) ok++;
     if(r.t && dayKey(new Date(r.t)) === tk){ tN++; if(r.v >= 1) tOk++; }
   }
-  return {ok, solved, tOk, tN, total:Q.length};
+  const mst = masteredIds().length;
+  return {ok, solved, tOk, tN, total:Q.length, mst, left:Q.length - mst};
 }
 function daysLeft(){
   const now = new Date();
@@ -2184,6 +2264,10 @@ function show(id){
 function renderHome(){
   const S = stats();
   const pct = Math.round(S.ok / S.total * 100);
+  const mpct = Math.round(S.mst / S.total * 100);
+  document.getElementById('mbar-i').style.width = mpct + '%';
+  document.getElementById('mbar-t').textContent = '習得 ' + S.mst + '　のこり ' + S.left;
+  renderMasterBox(S);
   document.getElementById('td-date').textContent = dateLabel();
   document.getElementById('st-ok').innerHTML = S.ok + '<small>/'+S.total+'</small>';
   document.getElementById('st-today').innerHTML = S.tOk + '<small>/'+S.tN+'問</small>';
@@ -2197,16 +2281,20 @@ function renderHome(){
   box.innerHTML = '';
   for(const s of SUBJECTS){
     const st = subjScore(s.key);
+    const act = activeIds(s.key);          // まだ習得していない問題
+    const done = act.length === 0;
     const pct = st.rate===null ? 0 : st.rate;
     const b = document.createElement('button');
-    b.className = 'subj';
+    b.className = 'subj' + (done ? ' done' : '');
     b.style.setProperty('--sc', s.color);
     b.innerHTML =
       '<span class="subj-rail"></span>' +
       '<span class="subj-kanji">'+s.kanji+'</span>' +
       '<span class="subj-body">' +
         '<span class="subj-name">'+s.key+'</span>' +
-        '<span class="subj-meta">'+st.n+' / '+st.total+' 問　'+s.desc+'</span>' +
+        '<span class="subj-meta">'+(done
+            ? st.total+'問ぜんぶ習得ずみ　押すともう一度解けます'
+            : 'のこり '+act.length+' / '+st.total+' 問　習得 '+(st.total-act.length)+'　'+s.desc)+'</span>' +
       '</span>' +
       '<span class="subj-ring">' +
         '<svg width="40" height="40" viewBox="0 0 40 40">' +
@@ -2215,11 +2303,14 @@ function renderHome(){
         '</svg>' +
         '<b>'+(st.rate===null?'—':st.rate)+'</b>' +
       '</span>';
-    b.addEventListener('click', ()=> startSet(Q.filter(q=>q.s===s.key).map(q=>q.id), s.key));
+    // 出題は毎回シャッフル。順番を覚えても答えられないようにする
+    b.addEventListener('click', ()=> done
+      ? startSet(shuffle(Q.filter(q=>q.s===s.key).map(q=>q.id)), s.key+'（復習）')
+      : startSet(shuffle(act), s.key));
     box.appendChild(b);
   }
 
-  const wrongIds = Q.filter(q=>isWrong(q.id)).map(q=>q.id);
+  const wrongIds = shuffle(activeIds().filter(id=>isWrong(id)));
   const rb = document.getElementById('m-rev');
   rb.disabled = wrongIds.length === 0;
   document.getElementById('m-rev-d').textContent = wrongIds.length
@@ -2228,13 +2319,68 @@ function renderHome(){
 }
 
 document.getElementById('m-mix').addEventListener('click', ()=>{
-  const pool = Q.map(q=>q.id);
-  for(let i=pool.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); [pool[i],pool[j]]=[pool[j],pool[i]]; }
-  startSet(pool.slice(0,10), '実戦ミックス');
+  const pool = activeIds();
+  const src = pool.length ? pool : Q.map(q=>q.id);   // 全部習得ずみなら全体から
+  startSet(shuffle(src).slice(0,10), '実戦ミックス');
 });
 document.getElementById('m-rev').addEventListener('click', ()=>{
-  startSet(Q.filter(q=>isWrong(q.id)).map(q=>q.id), '間違い直し');
+  startSet(shuffle(activeIds().filter(id=>isWrong(id))), '間違い直し');
 });
+
+/* ---- 習得ずみの一覧（出題に戻す／いまの状態をコピー） ---- */
+function renderMasterBox(S){
+  const box = document.getElementById('masterbox');
+  const ms = masteredIds();
+  let html = '';
+  if(S.left === 0){
+    html += '<p class="note" style="color:var(--rika);font-size:.8rem;margin-top:12px">' +
+      '<b>'+Q.length+'問ぜんぶ習得しました。</b>次の'+Q.length+'問を入れる時期です。' +
+      '下の一覧から「いまの状態をコピー」を押して、お父さんに送ってください。</p>';
+  }
+  if(ms.length){
+    html += '<details class="mlist"><summary>習得ずみ <b>'+ms.length+'</b> 問' +
+      '<span class="sfx"></span></summary>' +
+      ms.map(id=>{
+        const q = qById(id);
+        return '<div class="mitem">' +
+          '<span class="mid">'+id+'</span>' +
+          '<span class="mt">'+q.s+'　'+q.unit+'</span>' +
+          '<span class="mday">'+lastDay(id).slice(5).replace('-','/')+'</span>' +
+          '<button class="linkbtn" data-back="'+id+'">出題に戻す</button>' +
+        '</div>';
+      }).join('') +
+      '<div class="mitem"><span class="mt">次の60問を作るときの材料</span>' +
+      '<button class="linkbtn" id="copystate">いまの状態をコピー</button></div>' +
+      '</details>';
+  }
+  box.innerHTML = html;
+  box.querySelectorAll('[data-back]').forEach(b=>{
+    b.addEventListener('click', ()=>{ unmaster(b.dataset.back); renderHome(); });
+  });
+  const cp = document.getElementById('copystate');
+  if(cp) cp.addEventListener('click', copyState);
+}
+
+function copyState(){
+  const ms = masteredIds();
+  const act = activeIds();
+  const wrong = act.filter(id => isWrong(id));
+  const yet   = act.filter(id => !rec(id));
+  const txt = [
+    '武生高校 入試ドリル　' + dateLabel(),
+    '習得 ' + ms.length + ' / ' + Q.length + '　のこり ' + (Q.length - ms.length),
+    '習得ずみ：'       + (ms.join(' ')    || 'なし'),
+    '間違えたまま：'   + (wrong.join(' ') || 'なし'),
+    'まだ解いていない：' + (yet.join(' ')   || 'なし')
+  ].join('\n');
+  const fail = ()=> prompt('この文をコピーして送ってください', txt);
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(
+      ()=> alert('コピーしました。LINE などに貼って送ってください。'),
+      fail
+    );
+  }else{ fail(); }
+}
 document.getElementById('reset').addEventListener('click', ()=>{
   if(confirm('これまでの解答記録をすべて消します。よろしいですか？')){
     store = {rec:{}}; save(); renderHome();
@@ -2246,7 +2392,7 @@ let SET = null;
 
 function startSet(ids, label){
   if(!ids.length) return;
-  SET = {ids, label, i:0, results:{}, t0:Date.now()};
+  SET = {ids, label, i:0, results:{}, t0:Date.now(), newMaster:[]};
   show('quiz');
   renderQ();
 }
@@ -2417,8 +2563,17 @@ function grade(q, given){
 
 function commit(q, v){
   SET.results[q.id] = v;
-  store.rec[q.id] = {v, t: Date.now()};
+  const was = isMastered(q.id);
+  const h = histOf(q.id).slice();
+  const d = dayKey();
+  // 同じ日に何回解いても、その日の記録は1件だけ（最後の結果で上書き）。
+  // 1日に3回正解しても習得にはならない。
+  if(h.length && h[h.length-1].d === d) h[h.length-1].v = v;
+  else h.push({d, v});
+  if(h.length > 40) h.splice(0, h.length - 40);
+  store.rec[q.id] = {v, t: Date.now(), h};
   save();
+  if(!was && isMastered(q.id) && SET.newMaster.indexOf(q.id) < 0) SET.newMaster.push(q.id);
 }
 
 /* ---- result ---- */
@@ -2446,7 +2601,10 @@ function renderResult(){
       '<div class="score-v">'+pct+'<small>%</small></div>' +
       '<div class="score-k">'+ids.length+' 問中 '+(Math.round(sum*10)/10)+' 問正解　/　'+min+' 分</div>' +
       '<div class="score-c">'+comment+'</div>' +
-      '<div class="score-sum">'+dateLabel()+'　通算 <b>'+stats().ok+' / '+stats().total+'</b> 問正解</div>' +
+      '<div class="score-sum">'+dateLabel()+'　通算 <b>'+stats().ok+' / '+stats().total+'</b> 問正解　習得 <b>'+stats().mst+'</b> 問</div>' +
+      (SET.newMaster.length
+        ? '<div class="score-sum" style="color:var(--rika)">ちがう3日に続けて○になったので、<b>'+SET.newMaster.length+'</b> 問が習得になりました（'+SET.newMaster.join(' ')+'）。あしたからは出ません。</div>'
+        : '') +
     '</div>' +
     (wrong.length
       ? '<div class="sec-h"><h2>解き直す問題</h2><span>'+wrong.length+' questions</span></div>' +
