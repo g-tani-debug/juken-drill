@@ -2089,7 +2089,7 @@ Q.push({
 
 const KEY = 'takefu-drill-v1';
 // 配信用に build_web.py が日時へ置き換える。置き換わっていなければ出さない
-const BUILD = '20260912-1418';
+const BUILD = '20260912-1423';
 const EXAM = new Date(2027, 2, 4); // 令和9年度 一般選抜（例年3月上旬）の目安
 
 let store = load();
@@ -2376,6 +2376,8 @@ function reportDone(label, ok, n, mins){
     tot: S.ok,
     mst: S.mst,
     min: mins,
+    sv:  S.solved,          // 60問のうち、いちどでも答えた問題の数
+
     d:   (now.getMonth() + 1) + '月' + now.getDate() + '日',
     hm:  String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0')
   };
