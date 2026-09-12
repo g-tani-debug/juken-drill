@@ -2094,7 +2094,7 @@ Q.push({
 
 const KEY = 'takefu-drill-v1';
 // 配信用に build_web.py が日時へ置き換える。置き換わっていなければ出さない
-const BUILD = '20260912-2138';
+const BUILD = '20260912-2151';
 const EXAM = new Date(2027, 2, 4); // 令和9年度 一般選抜（例年3月上旬）の目安
 
 let store = load();
@@ -2602,9 +2602,12 @@ function renderQ(){
       '<p class="hint">'+(q.hint||'')+'</p>' +
       '<div class="actions"><button class="btn" id="go">採点する</button></div>';
   }else{
-    // カウンタは欄の「上」。欄が画面いっぱいに伸びると、下に置いた字数が見えなくなる
+    // カウンタは欄の「上」。欄が画面いっぱいに伸びると、下に置いた字数が見えなくなる。
+    // 入力欄は国語でも横書き（2026-09-12 谷さんの指示）。
+    // 息子さんは iPhone で使っていて、WebKit は縦書きの入力欄で不具合が出やすい。
+    // 問題文・自分の解答・模範解答の表示は縦書きのまま。
     ansHTML = counterHTML(q) +
-      '<textarea class="free'+(tate?' tate':'')+'" id="in" placeholder="ここに解答を書く"></textarea>' +
+      '<textarea class="free" id="in" placeholder="ここに解答を書く"></textarea>' +
       '<p class="hint">'+(q.hint||'')+'　／　書き終えたら模範解答と見比べて自己採点します。</p>' +
       '<div class="actions"><button class="btn" id="go">模範解答を見る</button></div>';
   }
