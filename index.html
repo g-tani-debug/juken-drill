@@ -388,8 +388,12 @@ input,textarea{font-family:inherit;font-size:inherit;color:inherit}
 .hint{font-size:.74rem;color:var(--ink-3);margin-top:7px}
 textarea.free{
   width:100%;background:var(--surface-2);border:1px solid var(--line);
-  border-radius:9px;padding:12px 13px;min-height:110px;resize:vertical;
+  border-radius:9px;padding:12px 13px;resize:vertical;
   font-family:var(--mincho);line-height:1.9;font-size:.97rem;
+  /* 高さは CSS だけで決める。キーボードが出ても隠れない大きさにし、
+     はみ出したぶんは欄の中でスクロールする（カーソルはブラウザが追う）。
+     JS で高さを変えると iPhone の日本語入力が壊れる（2026-09-12） */
+  height:clamp(150px, 32vh, 290px);min-height:150px;
 }
 textarea.free:focus{outline:2px solid var(--accent);outline-offset:-1px;border-color:var(--accent)}
 
@@ -572,11 +576,6 @@ textarea.free.tate{
 #diag{margin-top:14px;padding:14px;border:1px solid var(--line);border-radius:10px;background:var(--surface-2)}
 #diag[hidden]{display:none}
 #diaginfo{font-size:.7rem;line-height:1.7}
-
-/* 書いている間は、入力欄を画面のいちばん上まで持ち上げられるように
-   下へ余白を足す。余白が無いと、スマホでキーボードが出たとき
-   入力欄が画面の下のほうに残り、書いた字がキーボードの裏に隠れる（2026-09-12） */
-#quiz.writing::after{content:'';display:block;height:82vh}
 
 @media (max-width:560px){
   .hero h1{font-size:1.55rem}
@@ -2105,7 +2104,7 @@ Q.push({
 
 const KEY = 'takefu-drill-v1';
 // 配信用に build_web.py が日時へ置き換える。置き換わっていなければ出さない
-const BUILD = '20260912-2203';
+const BUILD = '20260912-2207';
 const EXAM = new Date(2027, 2, 4); // 令和9年度 一般選抜（例年3月上旬）の目安
 
 let store = load();
@@ -2187,89 +2186,13 @@ function counterHTML(q){
       '<span class="cbar"><i></i></span>' +
     '</div>';
 }
-/* 記述欄は「いま見えている範囲」に収める。
-   スマホはキーボードが出ると画面の半分が隠れるのに、vh も innerHeight も縮まない。
-   高さを決め打ちにすると、縦書きは1列がキーボードの裏まで伸びて、
-   30字あたりから書いた字が見えなくなる（2026-09-12 谷さんの指摘・2回目）。
-   visualViewport が「キーボードの上までの高さ」を教えてくれるので、それに合わせる。 */
-function visibleBottom(){
-  const vv = window.visualViewport;
-  return vv ? (vv.offsetTop + vv.height) : (window.innerHeight || 700);
-}
-// 欄の上端から、画面の見えている下端までの余り（カウンタ・ボタンのぶんを残す）
-function roomFor(el){
-  const top = el.getBoundingClientRect().top;
-  return Math.round(visibleBottom() - top - 64);
-}
-// 縦書きは新しい列が左に増える。末尾を書いているあいだは左端を見せる。
-// vertical-rl の scrollLeft は Chrome では「0 が右端・左へ行くほど負」（実測）。
-// iPhone（WebKit）で符号が逆でも動くよう、両方ためす
-function followCaret(el){
-  if(el.selectionStart !== el.value.length) return;
-  const max = el.scrollWidth - el.clientWidth;
-  if(max <= 0) return;
-  el.scrollLeft = -max;
-  if(el.scrollLeft === 0) el.scrollLeft = max;
-}
-// 日本語を変換している最中（IME）に欄の高さを変えると、iPhone では
-// 変換が途切れたり文字が入らなくなることがある。変換中はいっさい触らない。
-let IME = false;
-function autoGrow(el){
-  if(!el || el.tagName !== 'TEXTAREA' || IME) return;
-  const room = roomFor(el);
-  if(el.classList.contains('tate')){
-    // 縦書きは高さ＝1列に入る字数。見えている範囲いっぱいまで使う
-    el.style.height = Math.min(Math.max(room, 200), 560) + 'px';
-    followCaret(el);
-    return;
-  }
-  // 横書きも「見えている範囲いっぱい」に開ける。
-  // 中身に合わせて伸ばすには height:auto で測り直す必要があり、
-  // その一瞬のレイアウトの揺れが iPhone の日本語入力をじゃまする恐れがある。
-  // 先に開けておけば、書いている間は高さを一度も触らずに済む（200字でも入る）。
-  el.style.height = Math.min(Math.max(room, 130), 560) + 'px';
-}
-// 書きはじめたら、欄を画面の上のほうへ寄せてから高さを合わせる。
-// キーボードが出きるまで少し待つ（出た瞬間に visualViewport の resize でもう一度合わせる）
-function liftUp(el){
-  // 字数カウンタごと持ち上げる（欄だけ上端に寄せるとカウンタが画面の外に出る）。
-  // 上の帯（.bar）は貼りついたままなので、その高さのぶん下に寄せる
-  const head = document.getElementById('cnt') || el;
-  const bar = document.querySelector('.bar');
-  const off = (bar ? bar.getBoundingClientRect().height : 0) + 8;
-  const y = head.getBoundingClientRect().top + window.scrollY - off;
-  window.scrollTo(0, Math.max(0, y));
-  // iPhone はキーボードが出ている間 scrollTo が効かないことがある。ずれていたら別の手で寄せる
-  if(Math.abs(head.getBoundingClientRect().top - off) > 40 && head.scrollIntoView){
-    try{ head.scrollIntoView({block:'start'}); }catch(e){ head.scrollIntoView(true); }
-  }
-  autoGrow(el);
-}
-function focusWriting(el){
-  IME = false;                                 // 変換の途中で抜けていた場合の戻し
-  const q = document.getElementById('quiz');
-  if(q) q.classList.add('writing');            // 下に余白（これが無いと上まで持ち上がらない）
-  // requestAnimationFrame は画面が裏にまわると止まるので使わない（2026-09-12 実測）
-  setTimeout(()=>liftUp(el), 0);
-  // 書いている最中に画面が何度も飛ぶと書きづらい。
-  // 2回目からは「欄が見えていない／はみ出している」ときだけ直す
-  const fix = ()=>{
-    if(IME) return;
-    const r = el.getBoundingClientRect();
-    if(r.top < 0 || r.bottom > visibleBottom() + 8) liftUp(el);
-  };
-  setTimeout(fix, 350);
-  setTimeout(fix, 900);                        // iPhone はキーボードが出きるまで遅い
-}
-if(window.visualViewport){
-  const refit = ()=>{
-    if(IME) return;
-    const inp = document.getElementById('in');
-    if(inp && inp.tagName === 'TEXTAREA' && document.activeElement === inp) autoGrow(inp);
-  };
-  window.visualViewport.addEventListener('resize', refit);
-  window.visualViewport.addEventListener('scroll', refit);   // iPhone はキーボードでページごとずれる
-}
+/* 記述欄には JavaScript でいっさい触らない（2026-09-12）。
+
+   「9/11 までは書けていたのに、9/12 から書けなくなった」と分かったため、
+   その日に入れた「入力のたびに欄の高さを測り直す」処理を全部やめた。
+   iPhone は入力欄のレイアウトが変わると日本語の変換が壊れることがある。
+   欄の高さは CSS で決め、キーボードが出たときの寄せ方はブラウザ任せにする
+   （iOS は書いている欄を自分で画面の中に入れてくれる）。 */
 function updateCounter(q){
   const el = document.getElementById('cnt');
   const inp = document.getElementById('in');
@@ -2395,7 +2318,6 @@ function setupDiag(){
   });
   t.addEventListener('input', diagUpdate);
   t.addEventListener('compositionend', diagUpdate);
-  t.addEventListener('focus', ()=> focusWriting(t));
   if(window.visualViewport) window.visualViewport.addEventListener('resize', diagUpdate);
 }
 
@@ -2638,8 +2560,6 @@ function startSet(ids, label){
 
 function renderQ(){
   saveRun();                      // ここまでの進み具合を毎回残す（落ちても続きから）
-  const qsec = document.getElementById('quiz');
-  if(qsec) qsec.classList.remove('writing');
   const q = qById(SET.ids[SET.i]);
   const s = subjOf(q.s);
   const tate = tateOn(q);
@@ -2698,7 +2618,7 @@ function renderQ(){
     setTate(!tate);
     renderQ();
     const back = document.getElementById('in');
-    if(back && keep){ back.value = keep; updateCounter(q); autoGrow(back); }
+    if(back && keep){ back.value = keep; updateCounter(q); }
   });
   if(tate) toStart(document.getElementById('qtext'));
 
@@ -2712,22 +2632,16 @@ function renderQ(){
     if(q.type === 'short'){
       inp.addEventListener('keydown', e=>{ if(e.key === 'Enter') grade(q, inp.value); });
     }else{
-      // 入力のたびに高さを変えない（iPhone の変換をじゃまするため）。
-      // 高さを決めるのは、書きはじめたときとキーボードが開け閉めされたときだけ
+      // 数えるだけ。欄の見た目には触らない（上のコメント参照）
       inp.addEventListener('input', ()=> updateCounter(q));
-      inp.addEventListener('compositionstart', ()=>{ IME = true; });
-      inp.addEventListener('compositionend', ()=>{ IME = false; updateCounter(q); });
-      inp.addEventListener('focus', ()=> focusWriting(inp));
+      inp.addEventListener('compositionend', ()=> updateCounter(q));
       updateCounter(q);
-      autoGrow(inp);
     }
     inp.focus();
   }
 }
 
 function grade(q, given){
-  const qs = document.getElementById('quiz');
-  if(qs) qs.classList.remove('writing');       // 書き終わったら下の余白を戻す
   const card = document.querySelector('#quiz .qcard');
   const box = document.getElementById('ansbox');
   let ok = null;
@@ -2896,8 +2810,14 @@ if ('serviceWorker' in navigator) {
      これが無いと、直したあと「2回目の起動」まで古い版のままになる。 */
   var __hadSW = !!navigator.serviceWorker.controller;
   var __reloaded = false;
+  var __opened = Date.now();
   navigator.serviceWorker.addEventListener('controllerchange', function () {
     if (!__hadSW || __reloaded) return;
+    /* 使っている最中に読み込み直すと、書きかけの解答が消える。
+       開いた直後（10秒以内）だけ入れ替え、あとは次に開いたときに回す。
+       2026-09-12：新しい版を出した日に「書けない」と言われたため。 */
+    if (Date.now() - __opened > 10000) return;
+    if (document.activeElement && /^(TEXTAREA|INPUT)$/.test(document.activeElement.tagName)) return;
     __reloaded = true;
     location.reload();
   });
