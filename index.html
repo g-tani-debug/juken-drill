@@ -2155,6 +2155,16 @@ function counterHTML(q){
       '<span class="cbar"><i></i></span>' +
     '</div>';
 }
+// 記述欄は書いたぶんだけ伸ばす。
+// 高さを固定していると、40〜60字の問題で書いた文字が枠の外に出て見えなくなる
+// （端末の文字サイズを大きくしていると30字あたりで隠れる。2026-09-12 谷さんの指摘）
+function autoGrow(el){
+  if(!el || el.tagName !== 'TEXTAREA') return;
+  if(el.classList.contains('tate')) return;        // 縦書きは横に伸びるので別扱い
+  el.style.height = 'auto';
+  const max = Math.round((window.innerHeight || 700) * 0.6);
+  el.style.height = Math.min(Math.max(el.scrollHeight + 2, 110), max) + 'px';
+}
 function updateCounter(q){
   const el = document.getElementById('cnt');
   const inp = document.getElementById('in');
@@ -2452,7 +2462,7 @@ function renderQ(){
     setTate(!tate);
     renderQ();
     const back = document.getElementById('in');
-    if(back && keep){ back.value = keep; updateCounter(q); }
+    if(back && keep){ back.value = keep; updateCounter(q); autoGrow(back); }
   });
   if(tate) toStart(document.getElementById('qtext'));
 
@@ -2466,8 +2476,9 @@ function renderQ(){
     if(q.type === 'short'){
       inp.addEventListener('keydown', e=>{ if(e.key === 'Enter') grade(q, inp.value); });
     }else{
-      inp.addEventListener('input', ()=> updateCounter(q));
+      inp.addEventListener('input', ()=>{ updateCounter(q); autoGrow(inp); });
       updateCounter(q);
+      autoGrow(inp);
     }
     inp.focus();
   }
