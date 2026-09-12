@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>入力のたしかめ</title>
+<style>
+:root{color-scheme:light dark}
+body{margin:0;padding:16px;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;
+     font-size:15px;line-height:1.7;background:#0F161A;color:#E4EDEA}
+@media (prefers-color-scheme: light){body{background:#EDF0EF;color:#14262E}}
+h1{font-size:1.05rem;margin:0 0 4px}
+.note{font-size:.8rem;opacity:.75;margin:0 0 14px}
+.box{border:1px solid rgba(128,128,128,.4);border-radius:10px;padding:12px;margin-bottom:16px}
+.box h2{font-size:.85rem;margin:0 0 8px;letter-spacing:.04em}
+textarea{width:100%;box-sizing:border-box;font-size:1rem}
+#a{height:150px}
+#b{height:clamp(150px,32vh,290px);background:rgba(128,128,128,.12);color:inherit;
+   border:1px solid rgba(128,128,128,.5);border-radius:9px;padding:12px 13px;
+   font-family:"Hiragino Mincho ProN",serif;line-height:1.9;font-size:.97rem;resize:vertical}
+.cnt{font-family:ui-monospace,monospace;font-size:.85rem;margin-top:8px}
+.cnt b{font-size:1.15rem}
+.warn{color:#E8734A;font-weight:600}
+#info{font-family:ui-monospace,monospace;font-size:.72rem;line-height:1.6;
+      border:1px dashed rgba(128,128,128,.5);border-radius:8px;padding:10px;margin-bottom:16px;word-break:break-all}
+.last{font-size:.9rem;font-weight:600;margin-top:6px}
+</style>
+</head>
+<body>
+
+<h1>入力のたしかめ</h1>
+<p class="note">2つの欄に、いつもどおり日本語で書いてみてください。<b>書けなくなったところで、この画面をそのまま写真に撮って送ってください。</b></p>
+
+<div id="info"></div>
+
+<div class="box">
+  <h2>① かざりを全部外した欄</h2>
+  <textarea id="a" placeholder="ここに書いてみてください"></textarea>
+  <div class="cnt" id="ca"></div>
+</div>
+
+<div class="box">
+  <h2>② ドリルと同じ見た目の欄</h2>
+  <textarea id="b" placeholder="ここにも書いてみてください"></textarea>
+  <div class="cnt" id="cb"></div>
+</div>
+
+<p class="last">写真を撮って送ってください。①と②で違いがあるかどうかが大事です。</p>
+
+<script>
+var V = '20260912-2211';
+function info(){
+  var vv = window.visualViewport;
+  document.getElementById('info').textContent =
+    '版 ' + V +
+    ' ／ 画面 ' + window.innerWidth + '×' + window.innerHeight +
+    ' ／ 見えている高さ ' + (vv ? Math.round(vv.height) : '—') +
+    ' ／ ' + (window.matchMedia('(display-mode: standalone)').matches ? 'アプリ' : 'ブラウザ') +
+    ' ／ ' + navigator.userAgent.replace(/^Mozilla\/5\.0\s*/, '');
+}
+function watch(id, out){
+  var t = document.getElementById(id), el = document.getElementById(out), max = 0;
+  function upd(){
+    var n = t.value.length;
+    if(n > max) max = n;
+    el.innerHTML = 'いま <b>' + n + '</b> 字　（ここまでの最高 ' + max + ' 字）' +
+      (max - n > 3 ? ' <span class="warn">← ' + (max - n) + '字 消えました</span>' : '');
+  }
+  t.addEventListener('input', upd);
+  t.addEventListener('compositionend', upd);
+  t.addEventListener('keyup', upd);
+  upd();
+}
+info();
+watch('a','ca');
+watch('b','cb');
+if(window.visualViewport) window.visualViewport.addEventListener('resize', info);
+</script>
+</body>
+</html>
