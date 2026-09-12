@@ -271,6 +271,16 @@ input,textarea{font-family:inherit;font-size:inherit;color:inherit}
 .mode:disabled{opacity:.45;cursor:not-allowed}
 .mode:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .mode-t{font-weight:500;font-size:.9rem}
+
+/* 前回の続き（とちゅうで終わったセット） */
+.resumebox{margin:18px 0 0}
+.mode.resume{
+  display:block;width:100%;border-color:var(--shu);background:var(--shu-soft);
+  padding:15px 16px;
+}
+.mode.resume .mode-t{font-size:.98rem;color:var(--ink)}
+.mode.resume .mode-d{color:var(--ink-2);font-size:.76rem}
+.resume-foot{display:flex;justify-content:flex-end;margin-top:6px}
 .mode-d{font-size:.72rem;color:var(--ink-3);margin-top:3px;line-height:1.5}
 
 .foot{
@@ -425,7 +435,9 @@ textarea.free:focus{outline:2px solid var(--accent);outline-offset:-1px;border-c
 
 textarea.free.tate{
   writing-mode:vertical-rl;
-  height:clamp(240px, 44vh, 400px);
+  /* 縦書きは「高さ＝1列に入る字数」。低いと列が増えて横にあふれるので、
+     160〜200字の問題でも見渡せるよう高くとる（2026-09-12） */
+  height:clamp(280px, 56vh, 520px);
   min-height:0;width:100%;resize:none;
   line-height:2.0;padding:14px 12px;
   overflow-x:auto;overflow-y:hidden;
@@ -593,6 +605,8 @@ textarea.free.tate{
     <h1>本番で差がつく60問を、<br>解けるまで繰り返す。</h1>
     <p class="hero-lede">福井県入試の出題形式に合わせた発展・難関レベルの問題です。5教科500点満点のうち、上位校で合否を分けるのは「最後の1〜2問」。そこだけを集めました。</p>
   </div>
+
+  <div id="resumebox"></div>
 
   <div class="today">
     <div class="today-h">
@@ -2278,6 +2292,7 @@ function renderHome(){
   document.getElementById('mbar-i').style.width = mpct + '%';
   document.getElementById('mbar-t').textContent = '習得 ' + S.mst + '　のこり ' + S.left;
   renderMasterBox(S);
+  renderResume();
   document.getElementById('td-date').textContent = dateLabel();
   document.getElementById('st-ok').innerHTML = S.ok + '<small>/'+S.total+'</small>';
   document.getElementById('st-today').innerHTML = S.tOk + '<small>/'+S.tN+'問</small>';
@@ -2336,6 +2351,48 @@ document.getElementById('m-mix').addEventListener('click', ()=>{
 document.getElementById('m-rev').addEventListener('click', ()=>{
   startSet(shuffle(activeIds().filter(id=>isWrong(id))), '間違い直し');
 });
+
+/* ---- 前回の続き（とちゅうで終わったセット）----
+   「採点が済んで答え・解説が出た問題」を終わったものとみなし、その次から再開する。
+   アプリが落ちても、画面を閉じても、最初からやり直しにならない。 */
+function saveRun(){
+  if(!SET) return;
+  store.run = {ids:SET.ids, label:SET.label, i:SET.i,
+               results:SET.results, t0:SET.t0, newMaster:SET.newMaster};
+  save();
+}
+function clearRun(){ store.run = null; save(); }
+function runLeft(r){
+  if(!r || !r.ids || !r.ids.length) return 0;
+  const done = r.results || {};
+  return r.ids.filter(id => done[id] === undefined).length;
+}
+function resumeRun(){
+  const r = store.run;
+  if(runLeft(r) === 0){ clearRun(); renderHome(); return; }
+  SET = {ids:r.ids, label:r.label, i:0, results:r.results || {},
+         t0:r.t0 || Date.now(), newMaster:r.newMaster || []};
+  const i = SET.ids.findIndex(id => SET.results[id] === undefined);
+  SET.i = i < 0 ? 0 : i;
+  show('quiz');
+  renderQ();
+}
+function renderResume(){
+  const box = document.getElementById('resumebox');
+  const r = store.run;
+  const left = runLeft(r);
+  if(!left){ if(r) clearRun(); box.innerHTML = ''; box.className = ''; return; }
+  const doneN = r.ids.length - left;
+  box.className = 'resumebox';
+  box.innerHTML =
+    '<button class="mode resume" id="m-resume">' +
+      '<div class="mode-t">前回の続き　'+r.label+'　'+(doneN+1)+'問め / '+r.ids.length+'問</div>' +
+      '<div class="mode-d">とちゅうで終わったところから始めます。答えを見た問題はとばします。</div>' +
+    '</button>' +
+    '<div class="resume-foot"><button class="linkbtn" id="dropresume">続きを捨てる</button></div>';
+  document.getElementById('m-resume').addEventListener('click', resumeRun);
+  document.getElementById('dropresume').addEventListener('click', ()=>{ clearRun(); renderHome(); });
+}
 
 /* ---- 習得ずみの一覧（出題に戻す／いまの状態をコピー） ---- */
 function renderMasterBox(S){
@@ -2408,6 +2465,7 @@ function startSet(ids, label){
 }
 
 function renderQ(){
+  saveRun();                      // ここまでの進み具合を毎回残す（落ちても続きから）
   const q = qById(SET.ids[SET.i]);
   const s = subjOf(q.s);
   const tate = tateOn(q);
@@ -2585,10 +2643,12 @@ function commit(q, v){
   store.rec[q.id] = {v, t: Date.now(), h};
   save();
   if(!was && isMastered(q.id) && SET.newMaster.indexOf(q.id) < 0) SET.newMaster.push(q.id);
+  saveRun();                      // 採点のたびに進み具合を残す
 }
 
 /* ---- result ---- */
 function renderResult(){
+  clearRun();                     // 最後まで解いたので「続き」は消す
   const ids = SET.ids;
   let sum = 0;
   ids.forEach(id => sum += (SET.results[id] || 0));
@@ -2644,8 +2704,19 @@ renderHome();
 
 <script>
 if ('serviceWorker' in navigator) {
+  /* 新しい版が入ったら、その場で1回だけ読み込み直す。
+     これが無いと、直したあと「2回目の起動」まで古い版のままになる。 */
+  var __hadSW = !!navigator.serviceWorker.controller;
+  var __reloaded = false;
+  navigator.serviceWorker.addEventListener('controllerchange', function () {
+    if (!__hadSW || __reloaded) return;
+    __reloaded = true;
+    location.reload();
+  });
   window.addEventListener('load', function () {
-    navigator.serviceWorker.register('sw.js').catch(function () {});
+    navigator.serviceWorker.register('sw.js').then(function (reg) {
+      try { reg.update(); } catch (e) {}
+    }).catch(function () {});
   });
 }
 </script>
