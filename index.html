@@ -381,7 +381,7 @@ input,textarea{font-family:inherit;font-size:inherit;color:inherit}
 .field input{
   flex:1;min-width:180px;background:var(--surface-2);
   border:1px solid var(--line);border-radius:9px;padding:11px 13px;
-  font-family:var(--mono);font-size:1rem;
+  font-family:var(--mono);font-size:16px;   /* iPhone が拡大しないよう 16px を下回らない */
 }
 .field input:focus{outline:2px solid var(--accent);outline-offset:-1px;border-color:var(--accent)}
 .field .unit{font-family:var(--mono);font-size:.86rem;color:var(--ink-2)}
@@ -389,12 +389,22 @@ input,textarea{font-family:inherit;font-size:inherit;color:inherit}
 textarea.free{
   width:100%;background:var(--surface-2);border:1px solid var(--line);
   border-radius:9px;padding:12px 13px;resize:vertical;
-  font-family:var(--mincho);line-height:1.9;font-size:.97rem;
-  /* 高さは CSS だけで決める。キーボードが出ても隠れない大きさにし、
+  font-family:var(--mincho);line-height:1.85;
+  /* ★16px を下回らせない（2026-09-16）。
+     iPhone は 16px 未満の入力欄にさわると、画面を勝手に拡大する。
+     拡大されると欄の下半分がキーボードの裏に入り、2〜3行（＝30字ほど）で
+     書いた字が見えなくなる。これが「30文字以上打てない」の正体。 */
+  font-size:16px;
+  /* 高さは CSS だけで決める。キーボードが出ても丸ごと収まる大きさにし、
      はみ出したぶんは欄の中でスクロールする（カーソルはブラウザが追う）。
      JS で高さを変えると iPhone の日本語入力が壊れる（2026-09-12） */
-  height:clamp(150px, 32vh, 290px);min-height:150px;
+  height:clamp(140px, 26vh, 220px);min-height:140px;
+  overflow-y:auto;
 }
+/* 記述のときだけ、欄の下に大きな余白を置く（2026-09-16）。
+   これが無いと画面の一番下で書くことになり、ブラウザが欄をキーボードの
+   上まで持ち上げられない。採点すると解答欄ごと差し替わるので自然に消える。 */
+.kbspace{height:78vh;pointer-events:none}
 textarea.free:focus{outline:2px solid var(--accent);outline-offset:-1px;border-color:var(--accent)}
 
 /* ---------- 縦書き（国語） ---------- */
@@ -443,7 +453,7 @@ textarea.free.tate{
      160〜200字の問題でも見渡せるよう高くとる（2026-09-12） */
   height:clamp(280px, 56vh, 520px);
   min-height:0;width:100%;resize:none;
-  line-height:2.0;padding:14px 12px;
+  line-height:2.0;font-size:16px;padding:14px 12px;
   overflow-x:auto;overflow-y:hidden;
 }
 .exp-model.tate{
@@ -2104,7 +2114,7 @@ Q.push({
 
 const KEY = 'takefu-drill-v1';
 // 配信用に build_web.py が日時へ置き換える。置き換わっていなければ出さない
-const BUILD = '20260912-2211';
+const BUILD = '20260916-2037';
 const EXAM = new Date(2027, 2, 4); // 令和9年度 一般選抜（例年3月上旬）の目安
 
 let store = load();
@@ -2584,7 +2594,8 @@ function renderQ(){
     ansHTML = counterHTML(q) +
       '<textarea class="free" id="in" placeholder="ここに解答を書く"></textarea>' +
       '<p class="hint">'+(q.hint||'')+'　／　書き終えたら模範解答と見比べて自己採点します。</p>' +
-      '<div class="actions"><button class="btn" id="go">模範解答を見る</button></div>';
+      '<div class="actions"><button class="btn" id="go">模範解答を見る</button></div>' +
+      '<div class="kbspace" aria-hidden="true"></div>';
   }
 
   el.innerHTML =
@@ -2630,7 +2641,8 @@ function renderQ(){
     const inp = document.getElementById('in');
     document.getElementById('go').addEventListener('click', ()=> grade(q, inp.value));
     if(q.type === 'short'){
-      inp.addEventListener('keydown', e=>{ if(e.key === 'Enter') grade(q, inp.value); });
+      // 変換中の Enter（漢字の確定）で採点しない（2026-09-16）
+      inp.addEventListener('keydown', e=>{ if(e.key === 'Enter' && !e.isComposing) grade(q, inp.value); });
     }else{
       // 数えるだけ。欄の見た目には触らない（上のコメント参照）
       inp.addEventListener('input', ()=> updateCounter(q));

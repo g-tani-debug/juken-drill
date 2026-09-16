@@ -15,9 +15,15 @@ h1{font-size:1.05rem;margin:0 0 4px}
 .box h2{font-size:.85rem;margin:0 0 8px;letter-spacing:.04em}
 textarea{width:100%;box-sizing:border-box;font-size:1rem}
 #a{height:150px}
-#b{height:clamp(150px,32vh,290px);background:rgba(128,128,128,.12);color:inherit;
+#b{height:clamp(140px,26vh,220px);background:rgba(128,128,128,.12);color:inherit;
+   border:1px solid rgba(128,128,128,.5);border-radius:9px;padding:12px 13px;
+   font-family:"Hiragino Mincho ProN",serif;line-height:1.85;font-size:16px;resize:vertical}
+/* ③ は直す前の欄（文字 15.5px）。iPhone は 16px 未満の欄にさわると画面を勝手に拡大する。
+   ②と③で見え方が変わるかどうかが、原因の決め手になる。 */
+#c{height:clamp(150px,32vh,290px);background:rgba(128,128,128,.12);color:inherit;
    border:1px solid rgba(128,128,128,.5);border-radius:9px;padding:12px 13px;
    font-family:"Hiragino Mincho ProN",serif;line-height:1.9;font-size:.97rem;resize:vertical}
+.space{height:78vh}
 .cnt{font-family:ui-monospace,monospace;font-size:.85rem;margin-top:8px}
 .cnt b{font-size:1.15rem}
 .warn{color:#E8734A;font-weight:600}
@@ -45,10 +51,17 @@ textarea{width:100%;box-sizing:border-box;font-size:1rem}
   <div class="cnt" id="cb"></div>
 </div>
 
-<p class="last">写真を撮って送ってください。①と②で違いがあるかどうかが大事です。</p>
+<div class="box">
+  <h2>③ 直す前の欄（比べる用）</h2>
+  <textarea id="c" placeholder="ここにも書いてみてください"></textarea>
+  <div class="cnt" id="cc"></div>
+</div>
+
+<p class="last">写真を撮って送ってください。①②③で違いがあるかどうかが大事です。</p>
+<div class="space"></div>
 
 <script>
-var V = '20260912-2211';
+var V = '20260916-2037';
 function info(){
   var vv = window.visualViewport;
   document.getElementById('info').textContent =
@@ -74,6 +87,7 @@ function watch(id, out){
 info();
 watch('a','ca');
 watch('b','cb');
+watch('c','cc');
 if(window.visualViewport) window.visualViewport.addEventListener('resize', info);
 </script>
 </body>
