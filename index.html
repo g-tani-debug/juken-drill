@@ -2114,7 +2114,7 @@ Q.push({
 
 const KEY = 'takefu-drill-v1';
 // 配信用に build_web.py が日時へ置き換える。置き換わっていなければ出さない
-const BUILD = '20260916-2037';
+const BUILD = '20260919-1439';
 const EXAM = new Date(2027, 2, 4); // 令和9年度 一般選抜（例年3月上旬）の目安
 
 let store = load();
@@ -2411,13 +2411,14 @@ document.getElementById('m-rev').addEventListener('click', ()=>{
    送るのは「教科・問題数・正解数・通算・習得・かかった時間・時刻」だけ。
    答えの中身や個人が分かるものは送らない。合言葉が合った分だけ受け取られ、
    文面は PC 側（report_watch.py）で組んで、橘 静から谷さんへ Slack の DM で届く。 */
-const REPORT_URL  = 'https://hook.eu1.make.com/fjbiqu2ui7w2j1p7svns4c9lyd9yd54k';
+const REPORT_URL  = 'https://script.google.com/macros/s/AKfycbyJDph-fMXhruNsCnJzm5X4kEgoXE7ZX9naI2rqaJzMYtTbxgnlpLI4OEFmuK5Msgyk/exec';   // 2026-09-19 Make の Webhook から GAS のウェブアプリへ
 const REPORT_WORD = 'jd7x2m9qkt4v';
 
 function reportDone(label, ok, n, mins){
   const S = stats();
   const now = new Date();
   const q = {
+    'do': 'drill',          // GAS 側の入口の振り分け
     k:   REPORT_WORD,
     id:  String(Date.now()),
     t:   String(label || '').slice(0, 14),
