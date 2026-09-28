@@ -332,6 +332,7 @@ input,textarea{font-family:inherit;font-size:inherit;color:inherit}
   border-inline-start:3px solid var(--line);border-radius:0 8px 8px 0;
   padding:14px 16px;margin-block:12px;
 }
+.qtext .refnote{font-size:.8rem;color:var(--ink-3);margin:0 0 .3em}
 .qtext .passage.en{font-family:var(--gothic);line-height:1.85;letter-spacing:0}
 .qtext .src{
   display:block;text-align:end;font-size:.76rem;color:var(--ink-3);
@@ -3511,7 +3512,7 @@ Q.push({
 
 const KEY = 'takefu-drill-v1';
 // 配信用に build_web.py が日時へ置き換える。置き換わっていなければ出さない
-const BUILD = '20260928-2018';
+const BUILD = '20260928-2027';
 const EXAM = new Date(2027, 2, 4); // 令和9年度 一般選抜（例年3月上旬）の目安
 
 let store = load();
@@ -3966,6 +3967,18 @@ function startSet(ids, label){
   renderQ();
 }
 
+/* ---- 「J18 の文章について」のように別の問題の本文を使う問題には、その本文を添える ----
+   出題は毎回シャッフルなので、本文のある問題が直前に出るとは限らない（2026-09-28） */
+function refPassage(q){
+  const m = String(q.q).match(/^\s*<p>\s*([MEJSC]\d{2})\s*の(文章|英文|メール|資料)/);
+  if(!m) return '';
+  const src = qById(m[1]);
+  if(!src || src.id === q.id) return '';
+  const parts = String(src.q).match(/<p class="passage[^"]*">[\s\S]*?<\/p>/g);
+  if(!parts) return '';
+  return '<div class="refnote">（'+m[1]+' の'+m[2]+'）</div>' + parts.join('');
+}
+
 function renderQ(){
   saveRun();                      // ここまでの進み具合を毎回残す（落ちても続きから）
   const q = qById(SET.ids[SET.i]);
@@ -4006,7 +4019,7 @@ function renderQ(){
     '</div>' +
     '<div class="qcard">' +
       '<div class="qbody'+(tate?' tate':'')+'"><div class="qnum">'+q.id+'</div>' +
-        '<div class="qtext'+(tate?' tate':'')+'" id="qtext">'+q.q+'</div></div>' +
+        '<div class="qtext'+(tate?' tate':'')+'" id="qtext">'+refPassage(q)+q.q+'</div></div>' +
       '<div class="answer" id="ansbox">'+ansHTML+'</div>' +
     '</div>' +
     '<div class="nav">' +

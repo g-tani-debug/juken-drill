@@ -1,5 +1,5 @@
 /* 武生高校 入試ドリル — オフラインでも開けるようにする */
-const V = 'drill-20260928-2018';
+const V = 'drill-20260928-2027';
 const ASSETS = [
   './', './index.html', './manifest.webmanifest',
   './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png'
