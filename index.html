@@ -3506,13 +3506,1328 @@ Q.push({
   tip:'<b>総会＝1 国 1 票／安全保障理事会＝常任理事国に拒否権</b>の対比を最優先で押さえる。常任理事国 5 か国は<b>第二次世界大戦の主な戦勝国</b>と覚えれば日本やドイツが入らない理由も分かる。'
 });
 
+/* ---------------- 数学（第3弾 2026-10-01） ---------------- */
+Q.push({
+  id:'M25', s:'数学', unit:'因数分解（おきかえ）', lv:2, type:'choice',
+  q:`<p><span class="frag">(x + 3)&sup2; - 5(x + 3) - 24</span> を因数分解しなさい。正しいものを 1 つ選びなさい。</p>`,
+  choices:[
+    '(x - 8)(x + 3)',
+    '(x - 5)(x + 6)',
+    '(x + 5)(x - 6)',
+    '(x - 5)(x + 3)'
+  ],
+  ansIdx:1, ans:'イ',
+  exp:`<p>同じかたまり <span class="frag">x + 3</span> が 2 回出てくるので、<span class="lead">A とおきかえる</span>。</p>
+<div class="calc">x + 3 = A とおく
+A&sup2; - 5A - 24
+ = (A - 8)(A + 3)      ← 積 -24、和 -5 の 2 数は -8 と 3
+ = (x + 3 - 8)(x + 3 + 3)
+ = (x - 5)(x + 6)
+
+検算（展開して元の式と比べる）
+  元の式 = x&sup2; + 6x + 9 - 5x - 15 - 24 = x&sup2; + x - 30
+  (x - 5)(x + 6) = x&sup2; + x - 30  … 一致</div>
+<p>ア は A のまま答えてしまった形、ウ は符号が逆（展開すると x&sup2; - x - 30）。</p>`,
+  tip:'おきかえた文字は<b>最後に必ず元にもどす</b>。もどしたあと「x + 3 - 8」のような<b>かっこの中の計算</b>まで済ませて答える。選択問題なら、展開して x の係数だけ比べるのが一番速い検算。'
+});
+
+Q.push({
+  id:'M26', s:'数学', unit:'二次方程式（解から係数）', lv:2, type:'short',
+  q:`<p>x についての二次方程式 <span class="frag">x&sup2; + ax - 12 = 0</span> の解の 1 つが <span class="frag">2</span> であるとき、<span class="lead">もう 1 つの解</span>を求めなさい。</p>`,
+  hint:'数だけを入力（例：-3）', accept:['-6','−6','x=-6','x=−6'],
+  ans:'x = -6（a = 4）',
+  exp:`<p>解とは「代入すると式が成り立つ数」。まず x = 2 を代入して a を決める。</p>
+<div class="calc">&#9312; x = 2 を代入
+  2&sup2; + 2a - 12 = 0
+  2a = 8 → a = 4
+
+&#9313; a = 4 を入れて解き直す
+  x&sup2; + 4x - 12 = 0
+  (x + 6)(x - 2) = 0
+  x = -6, 2
+
+→ もう 1 つの解は -6</div>`,
+  tip:'「解の 1 つが ○」は<b>代入の合図</b>。a を求めたところで止めず、<b>方程式を解き直してもう 1 つの解</b>まで出す。問われているのが a なのか解なのかを、最後にもう一度読み返すこと。'
+});
+
+Q.push({
+  id:'M27', s:'数学', unit:'一次関数の利用（料金）', lv:2, type:'short',
+  q:`<p>ある携帯電話の料金プランは次の 2 つである。</p>
+<div class="qwrapscroll"><table>
+<tr><th>プラン</th><th>月の基本料金</th><th>通話料</th></tr>
+<tr><th>A</th><td>1200 円</td><td>1 分ごとに 20 円</td></tr>
+<tr><th>B</th><td>3000 円</td><td>1 分ごとに 8 円</td></tr>
+</table></div>
+<p>1 か月の通話時間が<span class="lead">何分より長いと</span>、B のほうが安くなるか。</p>`,
+  hint:'数だけを入力（単位不要）', accept:['150','150分'],
+  ans:'150 分',
+  exp:`<p>通話時間を x 分、料金を y 円とすると、どちらも<span class="lead">一次関数</span>になる。</p>
+<div class="calc">A：y = 20x + 1200
+B：y = 8x + 3000
+
+同じ料金になるとき
+  20x + 1200 = 8x + 3000
+  12x = 1800
+  x = 150
+
+検算  A：20 &times; 150 + 1200 = 4200 円
+      B： 8 &times; 150 + 3000 = 4200 円
+
+x &gt; 150 では、1 分あたりの料金が安い B のほうが安い</div>`,
+  tip:'料金比べは<b>2 本の直線の交点</b>を求める問題。交点より右では<b>傾き（1 分あたりの料金）が小さいほう</b>が安くなる。グラフを描かなくても「基本料の差 1800 円 &divide; 1 分あたりの差 12 円」で 150 分と出せる。'
+});
+
+Q.push({
+  id:'M28', s:'数学', unit:'反比例', lv:1, type:'short',
+  q:`<p>y は x に反比例し、そのグラフは点 <span class="frag">(3, -4)</span> を通る。<span class="frag">x = -6</span> のときの y の値を求めなさい。</p>`,
+  hint:'数だけを入力（例：-5）', accept:['2','y=2'],
+  ans:'y = 2',
+  exp:`<div class="calc">反比例の式 y = a / x
+(3, -4) を通る → -4 = a / 3 → a = -12
+  （反比例は xy = a なので 3 &times; (-4) = -12 でもよい）
+
+y = -12 / x に x = -6 を代入
+  y = -12 / (-6) = 2</div>`,
+  tip:'反比例は<b>xy が一定（= 比例定数 a）</b>。点の座標をかけ算するだけで a が出る。負の数どうしのわり算は<b>答えが正</b>になることに注意。'
+});
+
+Q.push({
+  id:'M29', s:'数学', unit:'平行四辺形になる条件', lv:2, type:'choice',
+  q:`<p>四角形 ABCD について、次の条件のうち、四角形 ABCD が<span class="lead">平行四辺形になるとは限らない</span>ものを 1 つ選びなさい。</p>`,
+  choices:[
+    'AB // DC、AB = DC',
+    'AB = DC、AD = BC',
+    'AB // DC、AD = BC',
+    '&ang;A = &ang;C、&ang;B = &ang;D'
+  ],
+  ansIdx:2, ans:'ウ',
+  exp:`<div class="calc">平行四辺形になる 5 つの条件
+  1  2 組の対辺がそれぞれ平行
+  2  2 組の対辺がそれぞれ等しい      … イ
+  3  2 組の対角がそれぞれ等しい      … エ
+  4  対角線がそれぞれの中点で交わる
+  5  1 組の対辺が平行で、その長さが等しい … ア
+
+ウ「1 組が平行」＋「もう 1 組が等しい」
+  → 等脚台形（AB // DC、AD = BC）も
+    この条件を満たす。平行四辺形とは限らない</div>`,
+  tip:'条件 5 は<b>「同じ 1 組の辺」が平行かつ等しい</b>ときだけ使える。平行な辺と等しい辺が<b>別の組</b>になっていたら、等脚台形を思い浮かべて反例にする。'
+});
+
+Q.push({
+  id:'M30', s:'数学', unit:'円錐の表面積', lv:2, type:'short',
+  q:`<p>母線の長さが <span class="frag">12cm</span>、底面の半径が <span class="frag">4cm</span> の円錐がある。この円錐の<span class="lead">表面積</span>を求めなさい。ただし、円周率は &pi; とする。</p>`,
+  hint:'π を使って入力（例：20π）', accept:['64π','64πcm2','64πcm²','64パイ'],
+  ans:'64π cm²',
+  exp:`<div class="calc">側面（おうぎ形）
+  半径 12、弧の長さ = 底面の円周 = 2&pi; &times; 4 = 8&pi;
+  半径 12 の円の円周は 24&pi; なので、
+  おうぎ形は円全体の 8&pi; / 24&pi; = 1/3
+  面積 = &pi; &times; 12&sup2; &times; 1/3 = 48&pi;
+  （公式：側面積 = &pi; &times; 母線 &times; 底面の半径 = &pi; &times; 12 &times; 4 = 48&pi;）
+
+底面
+  &pi; &times; 4&sup2; = 16&pi;
+
+表面積 = 48&pi; + 16&pi; = 64&pi; cm&sup2;</div>`,
+  tip:'円錐の側面は<b>「おうぎ形の弧 = 底面の円周」</b>が出発点。中心角は 360&deg; &times; 4/12 = 120&deg;。<b>側面積 = &pi; &times; 母線 &times; 半径</b>を使えば一行で出るが、底面を足し忘れて 48&pi; と答える失点が多い。'
+});
+
+Q.push({
+  id:'M31', s:'数学', unit:'中点連結定理（台形）', lv:3, type:'short',
+  q:`<p>下の図のように、<span class="frag">AD // BC</span>、<span class="frag">AD = 6cm</span>、<span class="frag">BC = 14cm</span> の台形 ABCD がある。辺 AB の中点を E、辺 DC の中点を F とし、線分 EF と対角線 AC、BD との交点をそれぞれ G、H とする。線分 <span class="lead">GH</span> の長さを求めなさい。</p>
+<figure><svg width="200" height="175" viewBox="0 0 200 175" role="img" aria-label="AD平行BCの台形ABCDと、辺AB・DCの中点E・Fを結ぶ線分、対角線AC・BDとの交点G・H">
+<path d="M60 30 L120 30 L160 150 L20 150 Z" fill="none" stroke="var(--ink-2)" stroke-width="1.5"/>
+<g stroke="var(--ink-2)" stroke-width="1.2">
+<line x1="60" y1="30" x2="160" y2="150"/>
+<line x1="120" y1="30" x2="20" y2="150"/>
+</g>
+<line x1="40" y1="90" x2="140" y2="90" stroke="var(--shu)" stroke-width="1.6"/>
+<g fill="var(--ink-2)"><circle cx="70" cy="90" r="2.6"/><circle cx="110" cy="90" r="2.6"/></g>
+<g font-family="IBM Plex Mono" font-size="11" fill="var(--ink-2)" text-anchor="middle">
+<text x="56" y="22">A</text><text x="126" y="22">D</text><text x="14" y="163">B</text><text x="166" y="163">C</text>
+<text x="30" y="94">E</text><text x="150" y="94">F</text><text x="70" y="104">H</text><text x="110" y="104">G</text>
+<text x="90" y="22">6</text><text x="90" y="168">14</text>
+</g>
+</svg></figure>`,
+  hint:'数だけを入力（単位不要）', accept:['4','4cm'],
+  ans:'4 cm',
+  exp:`<p>E、F が中点なので <span class="frag">EF // BC // AD</span>。三角形を 2 つ取り出して<span class="lead">中点連結定理</span>を使う。</p>
+<div class="calc">&triangle;ABC で
+  E は AB の中点、EG // BC → G は AC の中点
+  EG = BC &divide; 2 = 14 &divide; 2 = 7
+
+&triangle;BAD で
+  E は BA の中点、EH // AD → H は BD の中点
+  EH = AD &divide; 2 = 6 &divide; 2 = 3
+
+GH = EG - EH = 7 - 3 = 4 cm</div>
+<p>参考：EF = (AD + BC) &divide; 2 = 10、GH = (BC - AD) &divide; 2 = 4 と覚えておくと検算に使える。</p>`,
+  tip:'台形の中点の問題は、<b>対角線で三角形に分けて中点連結定理を 2 回</b>使う。E から近い順に H、G と並ぶので、GH は<b>大きいほう（7）から小さいほう（3）をひく</b>。図で順番を確かめずに足してしまう誤りが多い。'
+});
+
+Q.push({
+  id:'M32', s:'数学', unit:'確率（2 つのさいころ）', lv:2, type:'short',
+  q:`<p>大小 2 つのさいころを同時に投げ、大きいさいころの出た目を a、小さいさいころの出た目を b とする。<span class="frag">b &divide; a</span> が<span class="lead">整数になる確率</span>を求めなさい。</p>`,
+  hint:'分数で入力（例：1/6）', accept:['7/18'],
+  ans:'7/18',
+  exp:`<p>b &divide; a が整数 ＝ <span class="lead">b が a の倍数</span>。a ごとに数える。</p>
+<div class="calc">a = 1  b = 1,2,3,4,5,6  … 6 通り
+a = 2  b = 2,4,6        … 3 通り
+a = 3  b = 3,6          … 2 通り
+a = 4  b = 4            … 1 通り
+a = 5  b = 5            … 1 通り
+a = 6  b = 6            … 1 通り
+                合計  14 通り
+
+全体は 6 &times; 6 = 36 通り
+確率 = 14/36 = 7/18</div>`,
+  tip:'2 つのさいころは<b>表（6 &times; 6）か、片方を固定して数える</b>のが確実。a = 1 のときは b が何でも整数になる――ここを 1 通りと数えてしまう誤りに注意。最後の<b>約分</b>も忘れない。'
+});
+
+Q.push({
+  id:'M33', s:'数学', unit:'度数分布表と平均値', lv:2, type:'short',
+  q:`<p>次の表は、ある学級の生徒 20 人の通学時間をまとめた度数分布表である。この表から<span class="lead">平均値</span>を求めなさい。</p>
+<div class="qwrapscroll"><table>
+<tr><th>通学時間（分）</th><th>度数（人）</th></tr>
+<tr><td>0 以上 10 未満</td><td>2</td></tr>
+<tr><td>10 〜 20</td><td>5</td></tr>
+<tr><td>20 〜 30</td><td>8</td></tr>
+<tr><td>30 〜 40</td><td>3</td></tr>
+<tr><td>40 〜 50</td><td>2</td></tr>
+<tr><th>合計</th><th>20</th></tr>
+</table></div>`,
+  hint:'数だけを入力（単位不要）', accept:['24','24分','24.0'],
+  ans:'24 分',
+  exp:`<p>度数分布表の平均値は、各階級の<span class="lead">階級値（真ん中の値）</span>がその人数ぶんあると考えて計算する。</p>
+<div class="calc">階級値 &times; 度数
+   5 &times; 2 =  10
+  15 &times; 5 =  75
+  25 &times; 8 = 200
+  35 &times; 3 = 105
+  45 &times; 2 =  90
+  合計      480
+
+平均値 = 480 &divide; 20 = 24 分
+
+参考
+  最頻値（度数が最も多い階級の階級値） 25 分
+  中央値（10 番目と 11 番目）は 20〜30 分の階級
+    （累積度数 2, 7, 15 … 10・11 番目は 3 つ目の階級）</div>`,
+  tip:'階級値は<b>(下の端 + 上の端) &divide; 2</b>。「0 以上 10 未満」なら 5。<b>平均値・中央値・最頻値の 3 つ</b>をセットで出せるようにしておくと、どの聞かれ方にも対応できる。'
+});
+
+Q.push({
+  id:'M34', s:'数学', unit:'関数 y=ax² の変化の割合', lv:2, type:'short',
+  q:`<p>関数 <span class="frag">y = ax&sup2;</span> について、x の値が 2 から 6 まで増加するときの<span class="lead">変化の割合が -4</span> であった。a の値を求めなさい。</p>`,
+  hint:'分数で入力（例：-1/3）', accept:['-1/2','−1/2','-0.5','a=-1/2'],
+  ans:'a = -1/2',
+  exp:`<div class="calc">変化の割合 = (y の増加量) / (x の増加量)
+
+x = 2 のとき y = 4a
+x = 6 のとき y = 36a
+
+(36a - 4a) / (6 - 2) = 32a / 4 = 8a
+
+8a = -4 → a = -1/2
+
+近道：y = ax&sup2; で x が p から q まで増えるとき
+      変化の割合 = a(p + q)
+      a(2 + 6) = -4 → a = -1/2</div>`,
+  tip:'y = ax&sup2; の変化の割合は<b>a &times; (はじめの x + 終わりの x)</b>。この形を知っていれば一瞬で解ける。ただし記述で使うときは、上のように y の値を出す途中式も書けるようにしておく。'
+});
+
+Q.push({
+  id:'M35', s:'数学', unit:'相似と面積比（平行四辺形）', lv:3, type:'short',
+  q:`<p>平行四辺形 ABCD の辺 BC 上に、<span class="frag">BE : EC = 2 : 1</span> となる点 E をとる。線分 AE と対角線 BD の交点を F とする。平行四辺形 ABCD の面積は、&triangle;BEF の面積の<span class="lead">何倍</span>か。</p>`,
+  hint:'数だけを入力（分数でも小数でもよい）', accept:['15/2','7.5','15/2倍','7.5倍'],
+  ans:'15/2 倍（7.5 倍）',
+  exp:`<p>平行四辺形 ABCD の面積を S とする。</p>
+<div class="calc">&#9312; 相似比を出す
+  AD // BE なので &triangle;FAD ∽ &triangle;FEB
+  AD : EB = BC : EB = 3 : 2
+  → AF : FE = 3 : 2
+
+&#9313; &triangle;ABE の面積
+  &triangle;ABC = S/2、BE : BC = 2 : 3
+  &triangle;ABE = S/2 &times; 2/3 = S/3
+
+&#9314; &triangle;BEF の面積
+  &triangle;ABE を FE : AE = 2 : 5 で分ける
+  &triangle;BEF = S/3 &times; 2/5 = 2S/15
+
+S &divide; (2S/15) = 15/2 倍
+
+検算：&triangle;ABF = S/3 &times; 3/5 = S/5
+      &triangle;ABD = S/2、BF : BD = 2 : 5 より
+      &triangle;ABF = S/2 &times; 2/5 = S/5 … 一致</div>`,
+  tip:'面積比は<b>「相似で辺の比」→「高さが共通な三角形は底辺の比」</b>の 2 段で求める。平行四辺形全体を S とおき、<b>半分（対角線で切った三角形）から順に</b>小さくしていくと迷わない。'
+});
+
+Q.push({
+  id:'M36', s:'数学', unit:'立方体の切断と点と平面の距離', lv:3, type:'short',
+  q:`<p>1 辺が <span class="frag">6cm</span> の立方体 ABCD-EFGH がある（上の面が ABCD、A の真下が E、B の真下が F、C の真下が G、D の真下が H）。3 点 B、D、E を通る平面で切ったとき、<span class="lead">頂点 A からこの平面までの距離</span>を求めなさい。</p>`,
+  hint:'√ を使って入力（例：3√2）', accept:['2√3','2√3cm','2ルート3'],
+  ans:'2√3 cm',
+  exp:`<p>切り取られる三角錐 A-BDE の体積を<span class="lead">2 通りに表して</span>高さを求める。</p>
+<div class="calc">&#9312; 体積（底面 &triangle;ABD、高さ AE）
+  1/3 &times; (1/2 &times; 6 &times; 6) &times; 6 = 36 cm&sup3;
+
+&#9313; &triangle;BDE の面積
+  BD = DE = EB = 6&radic;2（どれも正方形の対角線）
+  → 正三角形
+  面積 = &radic;3/4 &times; (6&radic;2)&sup2; = &radic;3/4 &times; 72 = 18&radic;3
+
+&#9314; &triangle;BDE を底面としたときの高さ h
+  1/3 &times; 18&radic;3 &times; h = 36
+  h = 108 / (18&radic;3) = 6/&radic;3 = 2&radic;3 cm</div>`,
+  tip:'「点から平面までの距離」は<b>体積を 2 通りに表して高さを逆算</b>するのが定石。切り口の三角形の 3 辺が<b>すべて面の対角線</b>なら正三角形になる。1 辺 a の正三角形の面積 <b>&radic;3/4 &times; a&sup2;</b> は必ず覚えておく。'
+});
+
+/* ---------------- 英語（第3弾 2026-10-01） ---------------- */
+Q.push({
+  id:'E25', s:'英語', unit:'不定詞（形容詞的用法）', lv:1, type:'choice',
+  q:`<p class="passage en">I can't go to the movies today. I have a lot of homework ( &nbsp;&nbsp; ).</p><p>( ) に入る最も適切なものを選びなさい。</p>`,
+  choices:['do','to do','doing','did'],
+  ansIdx:1, ans:'イ（to do）',
+  exp:`<p>「するべき宿題」「やらなければならない宿題」。<span class="lead">名詞 homework を後ろから説明する to + 動詞の原形</span>（不定詞の形容詞的用法）。</p>
+<div class="calc">a lot of homework [ to do ]
+  たくさんの宿題 ←― するべき
+
+同じ形
+  something to drink   何か飲むもの
+  a place to visit     訪れるべき場所
+  time to go           行く時間</div>
+<p>ア do・エ did は動詞なので、文の中に動詞が 2 つ並んでしまう。ウ doing は「している宿題」となり意味が通らない。</p>`,
+  tip:'名詞のすぐ後ろに空所があって、日本語にすると<b>「〜するための」「〜するべき」</b>になれば to + 原形。something to ~ / nothing to ~ はとくによく出る。'
+});
+
+Q.push({
+  id:'E26', s:'英語', unit:'too ~ to ...（書きかえ）', lv:3, type:'short',
+  q:`<p>2 つの英文がほぼ同じ意味になるように、( ) に入る適切な語を 1 語ずつ書きなさい。</p>
+<p class="passage en">This box is so heavy that I can't carry it.<br>= This box is ( &nbsp;&nbsp; ) heavy ( &nbsp;&nbsp; ) me ( &nbsp;&nbsp; ) carry.</p>`,
+  hint:'英単語 3 語を左から順に入力', accept:['tooforto'],
+  ans:'too / for / to',
+  exp:`<p><b>This box is too heavy for me to carry.</b>（この箱は重すぎて私には運べない）</p>
+<div class="calc">so 形容詞 that 主語 can't 動詞
+  = too 形容詞 (for 人) to 動詞の原形
+
+注意：書きかえると最後の it が消える
+  × This box is too heavy for me to carry it.
+  文の主語（This box）が carry の目的語を
+  かねているので、it をくり返さない</div>`,
+  tip:'too ~ to ... は<b>「〜すぎて…できない」</b>で、<b>not を使わずに否定の意味</b>になる。that 節の主語が人なら <b>for + 人</b> を入れる。書きかえで<b>最後の it を消す</b>のが一番の得点差ポイント。'
+});
+
+Q.push({
+  id:'E27', s:'英語', unit:'関係代名詞（目的格）', lv:2, type:'choice',
+  q:`<p class="passage en">The pictures ( &nbsp;&nbsp; ) my brother took in Okinawa were really beautiful.</p><p>( ) に入る最も適切なものを選びなさい。</p>`,
+  choices:['who','which','whose','what'],
+  ansIdx:1, ans:'イ（which）',
+  exp:`<p>先行詞 <span class="frag">The pictures</span> は<b>もの</b>。空所の後ろは <span class="frag">my brother took ___</span> で、took の<span class="lead">目的語が欠けている</span>ので、目的格の関係代名詞 <b>which</b>（that でもよい）。</p>
+<div class="calc">The pictures [ which my brother took in Okinawa ] were ...
+  写真 ←―――― 兄が沖縄で撮った
+
+ア who   先行詞が人のとき
+ウ whose 後ろに名詞が続き「～の」を表すとき
+エ what  先行詞をふくむ（the thing(s) which）。
+         前に名詞 The pictures があるので使えない
+
+目的格の which / that は省略できる
+  The pictures my brother took ... でも正しい</div>`,
+  tip:'関係代名詞は<b>&#9312; 先行詞が人かものか &#9313; 後ろに何が欠けているか</b>の 2 つで決める。<b>what は前に名詞があったら使えない</b>――これを知っていれば エ をすぐ消せる。'
+});
+
+Q.push({
+  id:'E28', s:'英語', unit:'現在完了（継続）since / for', lv:2, type:'choice',
+  q:`<p class="passage en">My grandmother has lived in this town ( &nbsp;&nbsp; ) she was a child.</p><p>( ) に入る最も適切なものを選びなさい。</p>`,
+  choices:['for','since','during','while'],
+  ansIdx:1, ans:'イ（since）',
+  exp:`<p>現在完了の継続「ずっと～している」。空所の後ろは <span class="frag">she was a child</span>（主語＋動詞）で、<span class="lead">いつから</span>かを表しているので <b>since</b>（～以来）。</p>
+<div class="calc">since + 起点（いつから）
+  since 2020 / since last year / since she was a child
+for + 期間（どれくらいの間）
+  for ten years / for a long time
+
+ア for    後ろが「期間」でないので不可
+ウ during 前置詞。後ろに主語＋動詞は続かない
+エ while  「～している間に」。継続の起点にならない</div>`,
+  tip:'since の後ろには<b>語句も文（主語＋動詞の過去形）も</b>置ける。<b>since の文の中は過去形、主節は現在完了</b>という組み合わせをそのまま覚えておくと、英作文でも使える。'
+});
+
+Q.push({
+  id:'E29', s:'英語', unit:'語順整序（how to ~）', lv:2, type:'short',
+  q:`<p>[ &nbsp;] 内の語を並べかえて、「<span class="lead">駅への行き方を教えていただけますか。</span>」という意味の英文を完成させなさい。</p>
+<p class="passage en">[ how / me / tell / to / get / could / you ] to the station?</p>`,
+  hint:'完成した英文を ? まで含めて入力',
+  accept:['couldyoutellmehowtogettothestation'],
+  ans:'Could you tell me how to get to the station?',
+  exp:`<p><b>Could you tell me how to get to the station?</b></p>
+<div class="calc">Could you ~ ?        ～していただけますか（ていねいな依頼）
+tell + 人 + もの       人にものを教える
+  tell me [ how to get to the station ]
+          ～への行き方
+
+how to ~   ～のしかた
+what to ~  何を～すべきか
+where to ~ どこへ～すべきか</div>`,
+  tip:'tell / show / teach は<b>〈動詞 + 人 + もの〉</b>の順。「もの」の位置に <b>how to ~</b> のかたまりがそのまま入る。先に<b>Could you + 動詞の原形</b>の骨組みを置いてから残りを並べると速い。'
+});
+
+Q.push({
+  id:'E30', s:'英語', unit:'命令文, or ~', lv:2, type:'choice',
+  q:`<p class="passage en">Hurry up, ( &nbsp;&nbsp; ) you will miss the last bus.</p><p>( ) に入る最も適切なものを選びなさい。</p>`,
+  choices:['and','or','but','so'],
+  ansIdx:1, ans:'イ（or）',
+  exp:`<p>「急ぎなさい。<span class="lead">そうしないと</span>最終バスに乗り遅れますよ」。</p>
+<div class="calc">命令文, and ~   …しなさい、そうすれば～
+  Hurry up, and you will catch the bus.
+命令文, or ~    …しなさい、そうしないと～
+  Hurry up, or you will miss the bus.
+
+if を使った書きかえ
+  If you don't hurry up, you will miss the last bus.</div>`,
+  tip:'後ろの内容が<b>よいこと → and</b>、<b>困ること → or</b>。miss（乗り遅れる）は困ることなので or。<b>If you don’t ~</b> への書きかえもセットで出題される。'
+});
+
+Q.push({
+  id:'E31', s:'英語', unit:'語形変化（最上級・現在完了）', lv:2, type:'short',
+  q:`<p>( ) 内の語を、それぞれ適切な形に直しなさい。</p>
+<p class="passage en">This is the ( large ) museum that I have ever ( visit ).</p>`,
+  hint:'英単語 2 語を左から順に入力', accept:['largestvisited'],
+  ans:'largest / visited',
+  exp:`<p><b>This is the largest museum that I have ever visited.</b>（これは私が今までに訪れた中でいちばん大きな博物館だ）</p>
+<div class="calc">&#9312; the ___ museum → 前に the があり、後ろで範囲を
+   しぼっている → 最上級
+   large は e で終わるので st だけをつける → largest
+
+&#9313; have ever ___ → 現在完了（経験）なので過去分詞
+   visit → visited
+
+the + 最上級 + 名詞 + (that) I have ever + 過去分詞
+  「今までに～した中でいちばん…」</div>`,
+  tip:'<b>the + 最上級 ~ I have ever + 過去分詞</b>はひとかたまりで覚える。e で終わる語（large, nice, wide）は <b>-st / -r だけ</b>つける。largeest と書く誤りに注意。'
+});
+
+Q.push({
+  id:'E32', s:'英語', unit:'会話表現（買い物）', lv:2, type:'choice',
+  q:`<p class="passage en">Clerk: May I help you?<br>
+Aya: Yes. I'm looking for a T-shirt for my brother.<br>
+Clerk: How about this blue one? It's a large.<br>
+Aya: ( &nbsp;&nbsp; )<br>
+Clerk: Sure. Here's a medium one.</p>
+<p>( ) に入る最も適切なものを選びなさい。</p>`,
+  choices:[
+    'It looks nice. Do you have a smaller one?',
+    'No, thank you. I\'m just looking.',
+    'How much is it?',
+    'OK. I\'ll take it.'
+  ],
+  ansIdx:0, ans:'ア',
+  exp:`<p>空所の後で店員が「<span class="lead">はい、こちらが M サイズです</span>」と答えている。つまり Aya は<b>もっと小さいサイズ</b>を頼んだ。</p>
+<div class="calc">イ 「見ているだけです」→ 店員が別のサイズを出すのは不自然
+ウ 「いくらですか」    → 返事が値段になるはず
+エ 「それにします」    → 別のサイズを出す必要がない
+
+買い物の決まり文句
+  May I help you?          いらっしゃいませ
+  I'm just looking.        見ているだけです
+  Can I try it on?         試着してもいいですか
+  I'll take it.            それをください</div>`,
+  tip:'会話の空所は、<b>空所の直後の返事</b>から逆算するのが最短。Here’s a medium one. → 「別のサイズ」を頼んだ、と分かる。'
+});
+
+Q.push({
+  id:'E33', s:'英語', unit:'長文読解（資料・内容一致）', lv:3, type:'choice',
+  q:`<p class="passage en">　Our class did a survey about how we come to school. There are 36 students in our class. Riding a bike is the most popular way. Fifteen students come to school by bike. ［ア］ Twelve students walk, and most of them live near the school. ［イ］ Six students use the bus, and only three come by train. ［ウ］<br>
+　When I saw the results, I was surprised that so few students use the train. My friend Ken told me the reason. "The station is far from our school, so it takes a long time to walk from there." ［エ］ I think more students would come by train if there were a bus from the station to the school.<br>
+<span class="src">（Aya のスピーチ）</span></p>
+<p>本文の内容と合うものを 1 つ選びなさい。</p>`,
+  choices:[
+    'More than half of the students in Aya\'s class come to school by bike.',
+    'The number of students who walk to school is twice as large as the number of students who use the bus.',
+    'Ken lives near the station, so he comes to school by train.',
+    'Aya thinks the school should stop the bus service.'
+  ],
+  ansIdx:1, ans:'イ',
+  exp:`<div class="calc">本文の数字
+  bike 15 ／ walk 12 ／ bus 6 ／ train 3 ／ 合計 36
+
+ア 15 人は 36 人の半分（18 人）より少ない → ×
+イ 歩き 12 人 = バス 6 人 &times; 2 → ○
+ウ Ken は理由を説明しただけ。
+   どこに住み、どう通学しているかは書かれていない → ×
+エ Aya は「駅から学校へのバスがあれば」と言っている。
+   バスをやめるべきとは言っていない → ×</div>`,
+  tip:'数字の出る長文は、<b>読みながら表にメモ</b>する。選択肢の more than half / twice as ~ as / only などの<b>数量の表現</b>は、メモした数字で計算すれば確実に判定できる。本文に<b>書かれていないこと</b>（ウ）は×。'
+});
+
+Q.push({
+  id:'E34', s:'英語', unit:'長文読解（文の挿入）', lv:3, type:'choice',
+  q:`<p>E33 の英文の［ア］〜［エ］のどこに次の 1 文を入れるのが最も適切か。</p>
+<p class="passage en">In winter, however, some of them walk because it is dangerous to ride a bike on snowy roads.</p>`,
+  choices:['［ア］','［イ］','［ウ］','［エ］'],
+  ansIdx:0, ans:'ア',
+  exp:`<p>入れる文の <span class="frag">some of them</span> の them と、<span class="frag">ride a bike</span> が手がかり。「冬は雪道で自転車は危ないので、<span class="lead">彼ら（自転車通学の生徒）</span>の何人かは歩く」。</p>
+<div class="calc">［ア］の直前 Fifteen students come to school by bike.
+  → them = 自転車で来る 15 人  … つながる
+     however（しかし）＝ふだんは自転車、でも冬は
+
+［イ］の直前は歩く生徒 → 「歩く人の何人かが歩く」で変
+［ウ］の直前はバス・電車 → 自転車の話とつながらない
+［エ］の直前は Ken の言葉（駅が遠い）→ 話題がちがう</div>`,
+  tip:'文の挿入は<b>代名詞（them, it, this）と接続語（however, so, also）</b>を手がかりにする。them が<b>何を指すか</b>を決めれば、入る場所は 1 つにしぼれる。'
+});
+
+Q.push({
+  id:'E35', s:'英語', unit:'条件英作文（理由を書く）', lv:3, type:'free',
+  q:`<p>海外に住む友人の Tom が、来年福井に遊びに来る予定である。Tom から次の質問が届いた。あなたならどう答えるか。<span class="lead">理由をふくめて 25 語程度</span>の英語で書きなさい（2 文以上）。</p>
+<p class="passage en">Which season is the best to visit Fukui? Why?</p>`,
+  hint:'25語程度（2文以上）',
+  model:'I recommend winter. You can enjoy beautiful snow in the mountains. Also, crabs from the Sea of Japan are very delicious in winter, so you should try them.',
+  points:`<b>採点の観点（6点）</b><br>
+&#9312; 質問に正面から答えている（季節を 1 つ選んで述べている） … 1点<br>
+&#9313; 理由が具体的で、その季節と結びついている … 2点<br>
+&#9314; 2 文以上で、語数が目安（20〜30 語）に近い … 1点<br>
+&#9315; 文法・つづりの誤りがない（1 か所 −1 点、2 点まで） … 2点`,
+  exp:`<div class="calc">組み立ての型（3 文）
+  &#9312; 結論   I recommend ~. / I think ~ is the best.
+  &#9313; 理由1  You can ~.
+  &#9314; 理由2  Also, ~. / ~, so you should ~.
+
+使える表現
+  You can enjoy ~ / You can see ~
+  ~ is famous for ...（～は…で有名だ）
+  It is ~ to ...（…するのは～だ）</div>
+<p>模範解答は 28 語。季節は春（桜）、夏（海）、秋（紅葉）でもよい。<b>自分が確実に書ける単語と文法</b>で組み立てることが大切。</p>`,
+  tip:'条件英作文は<b>内容より正確さ</b>で点が決まる。むずかしい単語を使ってつづりを間違えるより、<b>中1・中2 の文法で確実に書く</b>ほうが高得点。書いたら<b>三単現の s・時制・複数形</b>を見直す。'
+});
+
+Q.push({
+  id:'E36', s:'英語', unit:'語彙（英英定義）', lv:2, type:'short',
+  q:`<p>次の英文の説明に合う語を、与えられた文字で書き始めて 1 語で答えなさい。</p>
+<p class="passage en">a book that you use to find the meanings of words &nbsp;&rarr;&nbsp; ( d &nbsp;&nbsp; )</p>`,
+  hint:'英単語 1 語で入力', accept:['dictionary'],
+  ans:'dictionary',
+  exp:`<p>「語の意味を調べるために使う本」＝ <b>dictionary</b>（辞書）。</p>
+<div class="calc">英英定義でよく出る語
+  library    a place where you can borrow books
+  hospital   a place where sick people are taken care of
+  museum     a place where you can see old or famous things
+  calendar   a thing that shows the days and months of a year
+  doctor     a person whose job is to help sick people</div>
+<p>説明文は <span class="frag">a book / a place / a person + that / where / who ~</span> の形が多い。最初の名詞で<b>ものか場所か人か</b>を決めてから考える。</p>`,
+  tip:'英英定義は<b>関係詞の後ろ</b>（that you use to find the meanings of words）に答えのヒントが全部ある。つづりは <b>dic-tion-ar-y</b> と区切って覚えると書きまちがえにくい。'
+});
+
+/* ---------------- 国語（第3弾 2026-10-01） ---------------- */
+Q.push({
+  id:'J25', s:'国語', unit:'漢字（読み）', lv:2, type:'short',
+  q:`<p>次の――線部の漢字の読みを、ひらがなで書きなさい。</p>
+<p class="passage">与えられた任務を最後まで<span class="bousen">遂行</span>する。</p>`,
+  hint:'ひらがなで入力', accept:['すいこう'],
+  ans:'すいこう',
+  exp:`<p><b>遂行（すいこう）</b>＝物事をやりとげること。</p>
+<div class="calc">「遂」を使う語
+  遂行（すいこう）  やりとげる
+  完遂（かんすい）  最後までやりとげる
+  未遂（みすい）    やろうとして、まだ果たしていない
+  遂げる（とげる）  訓読み
+
+同じ音で別の語
+  推敲（すいこう）  文章を練り直すこと</div>`,
+  tip:'「遂」は<b>「つい」</b>と読みたくなるが、音読みは<b>「スイ」</b>。「遂に（ついに）」は訓読み。同じ「すいこう」でも、<b>やりとげる＝遂行／文章を練る＝推敲</b>と、意味で書き分ける。'
+});
+
+Q.push({
+  id:'J26', s:'国語', unit:'漢字（書き）', lv:2, type:'short',
+  q:`<p>次の――線部のカタカナを、漢字に直して書きなさい。</p>
+<p class="passage">司会の工夫で、話し合いが<span class="bousen">エンカツ</span>に進んだ。</p>`,
+  hint:'漢字2字で入力', accept:['円滑'],
+  ans:'円滑',
+  exp:`<p><b>円滑（えんかつ）</b>＝物事がすらすらと、とどこおりなく進むこと。</p>
+<div class="calc">「円」＝まるい・角がない
+「滑」＝なめらか（滑る＝すべる）
+  → 角がなく、なめらかに進む
+
+「滑」を使う語
+  滑走（かっそう）  潤滑（じゅんかつ）</div>`,
+  tip:'「滑」は<b>さんずい</b>（水でなめらか）。「骨」の部分を「月」にしない。<b>「円＋滑」＝まるく、なめらか</b>と字の意味から組み立てると、「援活」「円活」のような当て字を防げる。'
+});
+
+Q.push({
+  id:'J27', s:'国語', unit:'同音異義語', lv:2, type:'choice',
+  q:`<p>次の文の――線部「ホショウ」に当たる漢字として、最も適切なものを選びなさい。</p>
+<p class="passage">購入した冷蔵庫には、一年間のメーカー<span class="bousen">ホショウ</span>がついている。</p>`,
+  choices:['保障','補償','保証','補正'],
+  ansIdx:2, ans:'ウ（保証）',
+  exp:`<div class="calc">保証（ほしょう）  まちがいない、大丈夫だと請け合うこと
+  品質の保証・保証書・身元の保証
+保障（ほしょう）  地位や権利をおかされないように守ること
+  安全保障・社会保障
+補償（ほしょう）  受けた損害をつぐなうこと
+  損害を補償する・補償金
+補正（ほせい）    足りないところを補い、正すこと（読みが違う）</div>
+<p>メーカーが「一年間は品質に責任をもちます」と<span class="lead">請け合う</span>ので<b>保証</b>。</p>`,
+  tip:'3 つの「ほしょう」は<b>「請け合う＝保証」「守る＝保障」「つぐなう＝補償」</b>。<b>証</b>＝証明書、<b>障</b>＝さえぎって守る、<b>償</b>＝つぐなう（弁償）と、字の意味で覚える。'
+});
+
+Q.push({
+  id:'J28', s:'国語', unit:'熟語の構成', lv:2, type:'choice',
+  q:`<p>「<span class="lead">登山</span>」と同じ構成の熟語を、次から 1 つ選びなさい。</p>`,
+  choices:['温暖','読書','国立','新年'],
+  ansIdx:1, ans:'イ（読書）',
+  exp:`<p>登山＝「山に登る」。<span class="lead">下の字が上の字の目的や対象</span>になっている（「～を」「～に」と読める）。読書＝「書を読む」で同じ構成。</p>
+<div class="calc">熟語の構成
+  似た意味を重ねる      温暖（温かい・暖かい）
+  反対の意味を重ねる    明暗・損得
+  上が主語、下が述語    国立（国が立てる）
+  上が下を修飾する      新年（新しい年）
+  下が上の目的・対象    登山・読書・帰国・着席</div>`,
+  tip:'構成は<b>訓読みにして文にしてみる</b>と判定できる。「山に登る」「書を読む」のように<b>下の字から上の字へ返って読める</b>なら、目的・対象の関係。'
+});
+
+Q.push({
+  id:'J29', s:'国語', unit:'文法（動詞の活用の種類）', lv:3, type:'choice',
+  q:`<p>次の――線部の動詞と<span class="lead">活用の種類が同じもの</span>を、あとから 1 つ選びなさい。</p>
+<p class="passage">図書館で本を<span class="bousen">借りる</span>。</p>`,
+  choices:['走る','蹴る','生きる','受ける'],
+  ansIdx:2, ans:'ウ（生きる）',
+  exp:`<p>活用の種類は、<span class="lead">「ない」をつけたときの直前の音</span>で見分ける。</p>
+<div class="calc">借り-ない  「り」＝イ段 → 上一段活用
+
+ア 走ら-ない  ア段 → 五段活用
+イ 蹴ら-ない  ア段 → 五段活用（「ける」でも五段）
+ウ 生き-ない  イ段 → 上一段活用  … 同じ
+エ 受け-ない  エ段 → 下一段活用
+
+その他
+  来る → カ行変格活用  する → サ行変格活用</div>`,
+  tip:'「蹴る」は<b>形が「受ける」に似ているのに五段</b>――入試で狙われる例外。「切る」「知る」「帰る」も<b>「ない」をつけると ア段</b>になるので五段。必ず「ない」をつけて確かめる。'
+});
+
+Q.push({
+  id:'J30', s:'国語', unit:'副詞の呼応', lv:2, type:'choice',
+  q:`<p>――線部の副詞の使い方が<span class="lead">適切でないもの</span>を 1 つ選びなさい。</p>`,
+  choices:[
+    '<span class="bousen">まるで</span>夢を見ているようだ。',
+    '<span class="bousen">たとえ</span>雨が降っても、試合は行う。',
+    '<span class="bousen">どうして</span>そんなことを言ったのだろうか。',
+    'この問題は<span class="bousen">少しも</span>難しい。'
+  ],
+  ansIdx:3, ans:'エ',
+  exp:`<p>「少しも」は後ろに<span class="lead">打ち消し</span>がくる副詞。「少しも難しく<b>ない</b>」とするのが正しい。</p>
+<div class="calc">決まった言い方と結びつく副詞（呼応の副詞）
+  少しも・決して・全然  → ～ない（打ち消し）
+  まるで・あたかも      → ～ようだ（たとえ）
+  たとえ・もし          → ～ても・～ならば（仮定）
+  どうして・なぜ        → ～か（疑問）
+  おそらく・たぶん      → ～だろう（推量）
+  どうか・ぜひ          → ～ください（願望）</div>`,
+  tip:'呼応の副詞は<b>副詞と文末をセット</b>で覚える。誤りを探すときは、副詞に線を引いて<b>文末だけを読む</b>と、組み合わせのずれがすぐ見つかる。'
+});
+
+Q.push({
+  id:'J31', s:'国語', unit:'論説文（段落の役割）', lv:2, type:'choice',
+  q:`<p class="passage">&#9312;　私たちは、分からないことがあると、すぐに検索して答えを得ようとする。数秒で答えが手に入るのは、確かに便利だ。<br>
+&#9313;　しかし、<span class="bousen">答えにすぐたどり着けることは、必ずしも理解が深まることを意味しない</span>。人がものごとを深く理解するのは、多くの場合、分からない状態にしばらくとどまり、自分なりの仮説を立てては崩すことをくり返したときである。<br>
+&#9314;　たとえば、数学の難しい問題に一晩取り組んだ経験を思い出してほしい。翌朝ふと解き方がひらめいたとき、その解き方は忘れられないものになる。考えあぐねた時間が、答えを受けとめる土台をつくっていたのである。<br>
+&#9315;　つまり、「分からない」時間は無駄な空白ではなく、理解を育てるための助走なのだ。すぐに答えを求める前に、少しだけ分からなさと付き合ってみる。その小さな我慢が、知識を自分のものにする第一歩になる。</p>
+<p>第&#9314;段落の役割として、最も適切なものを選びなさい。</p>`,
+  choices:[
+    '第&#9313;段落で述べた考えを、身近な体験の例を挙げて裏付けている。',
+    '第&#9313;段落とは反対の意見を示して、新たな問題を提起している。',
+    'それまでの内容をまとめて、文章全体の結論を述べている。',
+    '新しい話題を示して、議論の方向を転換している。'
+  ],
+  ansIdx:0, ans:'ア',
+  exp:`<div class="calc">&#9312; 話題の提示  すぐ検索して答えを得る（便利）
+&#9313; 主張      「しかし」… すぐ答えに着く ≠ 理解が深まる
+              分からない状態にとどまると深く理解する
+&#9314; 具体例    「たとえば」… 一晩考えた数学の問題
+&#9315; 結論      「つまり」… 分からない時間は理解の助走</div>
+<p>第&#9314;段落は「たとえば」で始まり、第&#9313;段落の主張を<span class="lead">具体的な体験</span>で支えている。</p>
+<p>イ 反対意見ではない／ウ 結論は「つまり」で始まる第&#9315;段落／エ 話題は変わっていない。</p>`,
+  tip:'段落の役割は<b>段落の最初の接続語</b>が大きなヒント。<b>しかし＝主張・転換／たとえば＝具体例／つまり＝まとめ・結論</b>。まず各段落を一行に縮めてから選択肢を見る。'
+});
+
+Q.push({
+  id:'J32', s:'国語', unit:'論説文（抜き出し）', lv:3, type:'short',
+  q:`<p>J31 の文章で、筆者は「分からない」時間を、理解を育てるうえで<span class="lead">どのようなもの</span>だと考えているか。第&#9315;段落から <span class="lead">2 字</span>で抜き出しなさい。</p>`,
+  hint:'本文の2字をそのまま入力', accept:['助走'],
+  ans:'助走',
+  exp:`<p>第&#9315;段落「『分からない』時間は無駄な空白<b>ではなく</b>、理解を育てるための<span class="lead">助走</span>なのだ」。</p>
+<div class="calc">「A ではなく B」の文
+  A＝筆者が否定している考え  → 空白
+  B＝筆者の考え              → 助走
+
+「空白」と答えると、筆者の考えと逆になる</div>
+<p>助走＝跳ぶ前に勢いをつけるために走ること。すぐには結果が出ないが、<b>あとの理解につながる準備の時間</b>だということをたとえている。</p>`,
+  tip:'抜き出し問題は<b>字数で候補をしぼり、否定されていないか</b>を確かめる。「～ではなく」「～のではない」の前にある語は、<b>筆者が退けている考え</b>なので答えにならない。'
+});
+
+Q.push({
+  id:'J33', s:'国語', unit:'論説文（理由の記述）', lv:3, type:'free',
+  q:`<p>J31 の文章の――線部「<span class="bousen">答えにすぐたどり着けることは、必ずしも理解が深まることを意味しない</span>」と筆者が述べるのはなぜか。本文の言葉を使って、<span class="lead">五十字以内</span>で説明しなさい。</p>`,
+  hint:'50字以内',
+  model:'人は分からない状態にとどまり、仮説を立てては崩すことをくり返したときに深く理解するから。',
+  points:`<b>採点の観点（5点）</b><br>
+&#9312; 深く理解するのは<b>分からない状態にしばらくとどまった</b>とき、という内容がある … 2点<br>
+&#9313; <b>仮説を立てては崩すことをくり返す</b>（自分で考える）過程にふれている … 2点<br>
+&#9314; 「～から。」と理由の形で結び、字数内に収まっている … 1点`,
+  exp:`<p>根拠は――線部の<span class="lead">すぐ後の一文</span>。</p>
+<div class="calc">――線部（主張）
+  すぐ答えに着く ≠ 理解が深まる
+理由（直後の文）
+  人が深く理解するのは、
+  分からない状態にしばらくとどまり、
+  自分なりの仮説を立てては崩すことを
+  くり返したとき
+→ すぐ答えに着くと、この過程を通らない</div>`,
+  tip:'理由の記述は、――線部の<b>前後一文</b>をまず見る。主張の直後に「人が～するのは、～ときである」のような<b>説明の文</b>があれば、それを「～から。」に組み替えるだけでよい。'
+});
+
+Q.push({
+  id:'J34', s:'国語', unit:'古文（内容理解）', lv:3, type:'choice',
+  q:`<p class="passage">　仁和寺にある法師、年寄るまで石清水を拝まざりければ、心うく覚えて、ある時思ひ立ちて、ただひとり、かちより詣でけり。極楽寺・高良などを拝みて、かばかりと心得て帰りにけり。<br>
+　さて、かたへの人にあひて、「年ごろ思ひつること、果たし侍りぬ。聞きしにも過ぎて尊くこそおはしけれ。そも、参りたる人ごとに山へ登りしは、何事かありけん、ゆかしかりしかど、神へ参るこそ本意なれと思ひて、山までは見ず」とぞ言ひける。<br>
+　少しのことにも、先達はあらまほしき事なり。<span class="src">『徒然草』第五十二段</span></p>
+<p class="passage">（注）石清水＝石清水八幡宮。京都府の男山の山の上にある神社　極楽寺・高良＝男山のふもとにある寺と神社　かちより＝徒歩で　かたへの人＝仲間　ゆかしかりしかど＝知りたかったけれど　先達＝案内人・指導者</p>
+<p>法師はどのような失敗をしたのか。最も適切なものを選びなさい。</p>`,
+  choices:[
+    '山の上にある本社を知らず、ふもとの寺社だけを拝んで、参拝を果たしたと思いこんだ。',
+    '年をとって足が弱っていたため、山の上まで登ることができずに引き返した。',
+    '案内人の説明を聞きちがえて、石清水とは別の神社に参ってしまった。',
+    '参拝する人が多すぎたため、本社には入れずに帰ってきた。'
+  ],
+  ansIdx:0, ans:'ア',
+  exp:`<div class="calc">極楽寺・高良などを拝みて、かばかりと心得て帰りにけり
+  → ふもとの寺社を拝んで、これだけ（が石清水）だと
+    思いこんで帰ってしまった
+
+参りたる人ごとに山へ登りしは、何事かありけん
+  → みんな山へ登っていたのは何があったのだろう
+    （本社は山の上なのに、気づいていない）
+
+神へ参るこそ本意なれと思ひて、山までは見ず
+  → 神に参るのが目的だから、と山には行かなかった</div>
+<p>最後の一文「少しのことにも、先達はあらまほしき事なり」＝<span class="lead">ちょっとしたことにも、案内人はあってほしいものだ</span>、が筆者（兼好法師）の感想。</p>
+<p>イ 足が弱った記述はない／ウ 法師は「ただひとり」で行っており案内人はいない／エ そのような記述はない。</p>`,
+  tip:'古文の笑い話は<b>「本人だけが気づいていないこと」</b>を見つけるのがコツ。法師は「みんなが山に登るのはなぜだろう」と言いながら、それが本社だと気づいていない。<b>あらまほし＝あってほしい</b>は頻出の古語。'
+});
+
+Q.push({
+  id:'J35', s:'国語', unit:'漢詩（形式・押韻）', lv:2, type:'choice',
+  q:`<p class="passage">春眠不<small>レ</small>覚<small>レ</small>暁　　処処聞<small>二</small>啼鳥<small>一</small><br>
+夜来風雨声　　花落知多少<span class="src">孟浩然「春暁」</span></p>
+<p class="passage">（書き下し文）春眠暁を覚えず　処処啼鳥を聞く　夜来風雨の声　花落つること知る多少</p>
+<p>この漢詩の<span class="lead">形式</span>として、最も適切なものを選びなさい。</p>`,
+  choices:['五言絶句','七言絶句','五言律詩','七言律詩'],
+  ansIdx:0, ans:'ア（五言絶句）',
+  exp:`<div class="calc">1 句の字数  春眠不覚暁 → 5 字 → 五言
+句の数      4 句 → 絶句
+
+形式の見分け方
+  1 句 5 字 → 五言 ／ 7 字 → 七言
+  4 句     → 絶句 ／ 8 句 → 律詩
+
+押韻（句末の字の響きをそろえる）
+  暁（ギョウ）・鳥（チョウ）・少（ショウ）
+  五言の詩は偶数句の末、七言の詩は第一句と偶数句の末で
+  韻をふむのが原則（この詩は第一句も韻をふんでいる）</div>
+<p>意味：春の眠りは心地よく、夜が明けたのにも気づかない。あちこちで鳥の鳴く声が聞こえる。昨夜は風雨の音がしていた。花はどれほど散ったことだろう。</p>`,
+  tip:'形式は<b>「1 句の字数」×「句の数」</b>で決まる。返り点や送りがなは字数に数えない。<b>4 句＝絶句、8 句＝律詩</b>。押韻の問題では、<b>句末の字を音読み</b>して響きの合うものを探す。'
+});
+
+Q.push({
+  id:'J36', s:'国語', unit:'条件作文（資料の読み取り）', lv:3, type:'free',
+  q:`<p>次の資料は、ある中学校で全校生徒に「平日、授業以外に本を読む時間」をたずねた結果である（この問題のために作った資料）。</p>
+<div class="qwrapscroll"><table>
+<tr><th>読む時間</th><th>割合</th></tr>
+<tr><td>0 分（読まない）</td><td>38%</td></tr>
+<tr><td>1 分〜30 分</td><td>45%</td></tr>
+<tr><td>30 分より長い</td><td>17%</td></tr>
+</table></div>
+<p>資料から分かることと、それをふまえたあなたの考えを、次の条件にしたがって書きなさい。</p>
+<p>・二段落構成とし、第一段落に資料から分かること、第二段落にあなたの考えを書く。<br>・<span class="lead">百字以上百四十字以内</span>で書く。</p>`,
+  hint:'100〜140字・二段落',
+  model:'　資料から、平日に本をまったく読まない生徒が約四割いる一方、読む生徒の多くは三十分以内であることが分かる。\n　私は、短い時間でも毎日本にふれることが大切だと考える。朝の十分間だけでも読めば、一冊を読み切る力が少しずつ身につく。まずは自分の好きな分野の本から始めたい。',
+  points:`<b>採点の観点（8点）</b><br>
+&#9312; 第一段落で、資料の<b>数値に基づいて</b>分かることを正しく書いている … 2点<br>
+&#9313; 第二段落で、第一段落の内容を<b>ふまえた</b>自分の考えを書いている … 2点<br>
+&#9314; 考えに<b>具体的な理由や方法</b>がある … 2点<br>
+&#9315; 二段落構成・字数（100〜140字）・原稿用紙の使い方が守られている … 2点`,
+  exp:`<div class="calc">組み立て
+  第一段落  資料から分かること（事実）
+    「〇〇が約〇割」「一方で〇〇」と数値を使う
+  第二段落  自分の考え（意見）
+    「私は～と考える」＋理由・具体的な方法
+
+資料の読み方
+  38% → 約四割 ／ 45% + 17% = 62% → 約六割は読んでいる
+  読む生徒のうち 45% は 30 分以内 → 短い時間が多い</div>
+<p>模範解答は句読点をふくめて 130 字前後。第一段落は<b>事実だけ</b>、第二段落で<b>意見</b>――と書き分けると、条件を満たしていることが採点者に伝わりやすい。</p>`,
+  tip:'資料作文は<b>第一段落で数値を一つは引用</b>する。「多い」「少ない」だけでは読み取りの点がもらえない。第二段落の最初に<b>「私は～と考える」</b>と結論を置き、あとに理由を続けると字数を調整しやすい。'
+});
+
+/* ---------------- 理科（第3弾 2026-10-01） ---------------- */
+Q.push({
+  id:'S25', s:'理科', unit:'仕事と仕事率（動滑車）', lv:3, type:'short',
+  q:`<p>質量 <span class="frag">2kg</span> の物体を、<span class="lead">動滑車</span>を使ってゆっくりと <span class="frag">1.5m</span> 引き上げたところ、<span class="frag">5 秒</span>かかった。このときの<span class="lead">仕事率</span>は何 W か。ただし、100g の物体にはたらく重力の大きさを 1N とし、滑車やひもの質量、摩擦は考えないものとする。</p>`,
+  hint:'数だけを入力（単位不要）', accept:['6','6W','6ワット'],
+  ans:'6 W',
+  exp:`<div class="calc">物体にはたらく重力  2kg = 2000g → 20 N
+
+動滑車を使うと
+  ひもを引く力   20 &divide; 2 = 10 N（半分）
+  ひもを引く距離 1.5 &times; 2 = 3 m（2 倍）
+  仕事 = 10 N &times; 3 m = 30 J
+
+直接持ち上げても
+  20 N &times; 1.5 m = 30 J（同じ）← 仕事の原理
+
+仕事率 = 仕事 &divide; 時間 = 30 J &divide; 5 秒 = 6 W</div>`,
+  tip:'<b>仕事の原理</b>：道具を使っても仕事の大きさは変わらない。だから動滑車でも<b>「物体の重さ &times; 持ち上げた高さ」</b>で仕事を出してよい。kg を N に直すとき、<b>1kg = 10 N</b>（100g = 1N）を忘れない。'
+});
+
+Q.push({
+  id:'S26', s:'理科', unit:'圧力', lv:2, type:'short',
+  q:`<p>縦 10cm、横 20cm、高さ 5cm の直方体のレンガがあり、質量は <span class="frag">4kg</span> である。このレンガをいずれかの面を下にして水平な床に置くとき、床が受ける<span class="lead">圧力の最大値</span>は何 Pa か。ただし、100g の物体にはたらく重力の大きさを 1N とする。</p>`,
+  hint:'数だけを入力（単位不要）', accept:['8000','8000Pa','8,000'],
+  ans:'8000 Pa',
+  exp:`<p>圧力 = 力 &divide; 面積。力（レンガの重さ）はどの面でも同じなので、<span class="lead">面積がいちばん小さい面</span>を下にしたとき圧力が最大になる。</p>
+<div class="calc">レンガの重さ  4kg → 40 N
+
+3 種類の面
+  10 &times; 20 = 200 cm&sup2;
+  20 &times;  5 = 100 cm&sup2;
+  10 &times;  5 =  50 cm&sup2; ← 最小
+
+50 cm&sup2; を m&sup2; に直す
+  1 m&sup2; = 100 cm &times; 100 cm = 10000 cm&sup2;
+  50 cm&sup2; = 0.005 m&sup2;
+
+圧力 = 40 N &divide; 0.005 m&sup2; = 8000 Pa</div>`,
+  tip:'Pa（パスカル）は<b>N/m&sup2;</b>。cm&sup2; のまま割ると 0.8 になり、答えが 1 万分の 1 にずれる。<b>1 m&sup2; = 10000 cm&sup2;</b> を最初に書いてから計算する。'
+});
+
+Q.push({
+  id:'S27', s:'理科', unit:'力学的エネルギーの保存', lv:2, type:'choice',
+  q:`<p>糸の一端を固定し、おもりをつるしたふりこをつくった。おもりを点 A まで持ち上げて静かに手をはなすと、おもりは最も低い点 B を通り、反対側の点 C まで上がった。空気の抵抗や摩擦はないものとする。正しいものを 1 つ選びなさい。</p>`,
+  choices:[
+    'おもりの速さは、点 B より点 A のほうが速い。',
+    '点 B での運動エネルギーは、点 A での位置エネルギー（点 B の高さを基準）と等しい。',
+    '点 C の高さは、点 A の高さより低くなる。',
+    '力学的エネルギーは、点 B で最も大きくなる。'
+  ],
+  ansIdx:1, ans:'イ',
+  exp:`<div class="calc">力学的エネルギー = 位置エネルギー + 運動エネルギー
+抵抗や摩擦がなければ、どこでも一定（保存）
+
+点 A  位置エネルギー 最大／運動エネルギー 0（止まっている）
+点 B  位置エネルギー 0（基準）／運動エネルギー 最大
+点 C  点 A と同じ高さで止まる
+
+ア × A では止まっている（速さ 0）。最も速いのは B
+イ ○ A の位置エネルギーがすべて B で運動エネルギーに変わる
+ウ × 摩擦がなければ A と同じ高さまで上がる
+エ × 力学的エネルギーはどこでも同じ</div>`,
+  tip:'ふりこやジェットコースターは<b>「高さ ⇔ 速さ」の交換</b>と考える。<b>力学的エネルギーは一定</b>なので、「どこで最大か」という選択肢はまず疑う。摩擦があるときだけ、熱などに変わって少しずつ減る。'
+});
+
+Q.push({
+  id:'S28', s:'理科', unit:'気体の性質と集め方', lv:2, type:'choice',
+  q:`<p>塩化アンモニウムと水酸化カルシウムを混ぜて加熱すると、<span class="lead">アンモニア</span>が発生する。アンモニアの性質と集め方の組み合わせとして、正しいものを選びなさい。</p>`,
+  choices:[
+    '水に溶けにくい ― 水上置換法',
+    '水に非常に溶けやすく、空気より軽い ― 上方置換法',
+    '水に非常に溶けやすく、空気より重い ― 下方置換法',
+    '水に少し溶け、空気より重い ― 下方置換法'
+  ],
+  ansIdx:1, ans:'イ',
+  exp:`<div class="calc">集め方の決め方
+  水に溶けにくい            → 水上置換法
+  水に溶けやすく空気より軽い → 上方置換法
+  水に溶けやすく空気より重い → 下方置換法
+
+アンモニアの性質
+  ・刺激臭がある
+  ・水に非常に溶けやすい → 水溶液はアルカリ性
+  ・空気より軽い → 上方置換法
+  ・フェノールフタレイン液を加えた水に入れると
+    赤い噴水ができる（噴水実験）
+
+エ は二酸化炭素の性質（下方置換法・水上置換法でも集められる）</div>`,
+  tip:'集め方は<b>「水に溶けるか」→「空気より重いか軽いか」</b>の順に判断する。水に溶けやすく空気より軽い代表は<b>アンモニア</b>。<b>水溶液がアルカリ性になる気体</b>としても必ず問われる。'
+});
+
+Q.push({
+  id:'S29', s:'理科', unit:'密度', lv:2, type:'short',
+  q:`<p>ある金属のかたまりの質量をはかると <span class="frag">54.0g</span> だった。水を 50.0cm&sup3; 入れたメスシリンダーにこのかたまりを沈めると、水面の目もりは <span class="frag">70.0cm&sup3;</span> になった。この金属の<span class="lead">密度</span>は何 g/cm&sup3; か。</p>`,
+  hint:'数だけを入力（単位不要）', accept:['2.7','2.7g/cm3','2.7g/cm³','2.70'],
+  ans:'2.7 g/cm³',
+  exp:`<div class="calc">金属の体積 = 増えた水面の目もり
+  70.0 - 50.0 = 20.0 cm&sup3;
+
+密度 = 質量 &divide; 体積
+  54.0 g &divide; 20.0 cm&sup3; = 2.7 g/cm&sup3;
+
+おもな物質の密度（g/cm&sup3;）
+  アルミニウム 2.70 ／ 鉄 7.87 ／ 銅 8.96
+  → この金属はアルミニウムと考えられる</div>`,
+  tip:'密度は<b>物質ごとに決まった値</b>なので、物質の見分けに使う。体積は<b>水面の差</b>で求める（70.0 をそのまま使わない）。水の密度 <b>1.0 g/cm&sup3;</b> より大きければ水に沈む。'
+});
+
+Q.push({
+  id:'S30', s:'理科', unit:'炭酸水素ナトリウムの熱分解', lv:2, type:'choice',
+  q:`<p>炭酸水素ナトリウムを試験管に入れて加熱したところ、気体が発生し、試験管の口付近には液体がつき、試験管には白い固体が残った。正しいものを 1 つ選びなさい。</p>`,
+  choices:[
+    '発生した気体は石灰水を白くにごらせたので、酸素である。',
+    '口付近の液体は、青色の塩化コバルト紙を赤色（桃色）に変えたので、水である。',
+    '残った白い固体は、炭酸水素ナトリウムより水に溶けにくい。',
+    '残った白い固体の水溶液にフェノールフタレイン液を加えると、炭酸水素ナトリウムの水溶液より、うすい赤色になる。'
+  ],
+  ansIdx:1, ans:'イ',
+  exp:`<div class="calc">炭酸水素ナトリウム → 炭酸ナトリウム + 二酸化炭素 + 水
+2NaHCO&#8323; → Na&#8322;CO&#8323; + CO&#8322; + H&#8322;O
+
+ア × 石灰水を白くにごらせるのは二酸化炭素
+イ ○ 塩化コバルト紙 青 → 赤（桃色）は水の確認
+ウ × 炭酸ナトリウムは水によく溶ける
+エ × 炭酸ナトリウムのほうが強いアルカリ性
+       → 濃い赤色になる</div>
+<p>この実験では、<span class="lead">試験管の口を少し下げて</span>加熱する。生じた水が加熱部分に流れこむと、試験管が急に冷えて割れるおそれがあるから。</p>`,
+  tip:'熱分解は<b>「何ができたか」と「その確かめ方」</b>をセットで覚える。<b>二酸化炭素＝石灰水／水＝塩化コバルト紙／炭酸ナトリウム＝よく溶けて強いアルカリ性</b>。'
+});
+
+Q.push({
+  id:'S31', s:'理科', unit:'光合成と呼吸（対照実験）', lv:3, type:'choice',
+  q:`<p>青色の BTB 溶液に息をふきこんで緑色にし、3 本の試験管 A〜C に入れて、次のようにして光の当たる場所に数時間置いた。</p>
+<div class="qwrapscroll"><table>
+<tr><th>試験管</th><th>入れたもの</th><th>光</th><th>結果（色）</th></tr>
+<tr><th>A</th><td>オオカナダモ</td><td>当てる</td><td>青</td></tr>
+<tr><th>B</th><td>なし</td><td>当てる</td><td>緑</td></tr>
+<tr><th>C</th><td>オオカナダモ</td><td>アルミニウムはくでおおう</td><td>黄</td></tr>
+</table></div>
+<p>A の色の変化が、光が当たったことだけで起きたのではなく、<span class="lead">オオカナダモのはたらきによるもの</span>だと確かめるには、どれとどれを比べればよいか。</p>`,
+  choices:['A と B','A と C','B と C','A だけで分かる'],
+  ansIdx:0, ans:'ア（A と B）',
+  exp:`<p>確かめたい条件（オオカナダモがあるか）<span class="lead">だけ</span>がちがい、ほかの条件（光が当たる）が同じ 2 本を比べる。</p>
+<div class="calc">A：オオカナダモあり・光あり → 青
+B：オオカナダモなし・光あり → 緑（変化なし）
+  → 光だけでは色は変わらない。
+    A の変化はオオカナダモによる
+
+色の変化の理由
+  BTB溶液  酸性 黄 ／ 中性 緑 ／ アルカリ性 青
+  A：光合成で CO&#8322; が使われ、減った → 青
+  C：光が当たらず呼吸だけ → CO&#8322; が増えた → 黄
+
+A と C を比べると「光が必要か」が分かる（別の目的）</div>`,
+  tip:'対照実験は<b>「調べたい条件 1 つだけがちがう組」</b>を選ぶ。2 つ以上の条件がちがう組（B と C）を比べても、どの条件が原因か決められない。<b>何を確かめたいか</b>を問題文から先に読み取る。'
+});
+
+Q.push({
+  id:'S32', s:'理科', unit:'刺激と反応（反射）', lv:2, type:'choice',
+  q:`<p>次のうち、<span class="lead">反射</span>の例として最も適切なものを選びなさい。</p>`,
+  choices:[
+    '熱いやかんに手がふれて、思わず手を引っこめた。',
+    '信号が青になったのを見て、横断歩道を歩き出した。',
+    '後ろから名前を呼ばれたので、ふり返った。',
+    '飛んできたボールを見て、バットを振った。'
+  ],
+  ansIdx:0, ans:'ア',
+  exp:`<p>反射は、刺激に対して<span class="lead">意識とは関係なく</span>起こる反応。命令を出すのが<b>脳ではなくせきずい</b>なので、反応までの時間が短い。</p>
+<div class="calc">反射（ア）
+  皮膚 → 感覚神経 → せきずい → 運動神経 → 筋肉
+  （脳を通らない → 速い。危険から体を守る）
+
+意識して行う反応（イ・ウ・エ）
+  目・耳 → 感覚神経 → （せきずい）→ 脳で判断
+  → せきずい → 運動神経 → 筋肉
+
+ほかの反射の例
+  明るい所でひとみが小さくなる
+  口に食べ物が入るとだ液が出る</div>`,
+  tip:'見分けは<b>「考えてから動いたか」</b>。信号を見て歩く、名前を聞いてふり返るは<b>脳が判断</b>している。「思わず」「とっさに」体が動き、<b>判断がいらない</b>ものが反射。'
+});
+
+Q.push({
+  id:'S33', s:'理科', unit:'植物の分類', lv:2, type:'choice',
+  q:`<p>次の植物のうち、<span class="lead">種子をつくるが、胚珠が子房に包まれていない</span>ものを選びなさい。</p>`,
+  choices:['アブラナ','イチョウ','イヌワラビ','ゼニゴケ'],
+  ansIdx:1, ans:'イ（イチョウ）',
+  exp:`<div class="calc">植物の分類
+  種子をつくる（種子植物）
+    胚珠が子房の中にある → 被子植物
+      アブラナ・サクラ・イネ
+    胚珠がむき出し      → 裸子植物
+      イチョウ・マツ・スギ・ソテツ
+  種子をつくらない（胞子でふえる）
+    根・茎・葉の区別がある → シダ植物
+      イヌワラビ・スギナ
+    区別がない            → コケ植物
+      ゼニゴケ・スギゴケ</div>
+<p>裸子植物には子房がないので、<span class="lead">果実ができない</span>。イチョウのぎんなんは果実ではなく種子。</p>`,
+  tip:'分類は<b>「種子をつくるか」→「子房があるか」</b>の 2 段の分かれ道で覚える。ぎんなん・まつかさを<b>果実とまちがえない</b>のが得点のポイント。'
+});
+
+Q.push({
+  id:'S34', s:'理科', unit:'火成岩', lv:2, type:'choice',
+  q:`<p>ある岩石をルーペで観察すると、<span class="lead">大きな鉱物がすき間なく組み合わさっていて</span>、全体に白っぽかった。この岩石の名前と、でき方の組み合わせとして正しいものを選びなさい。</p>`,
+  choices:[
+    '安山岩 ― マグマが地表や地表付近で急に冷えて固まった',
+    '花こう岩 ― マグマが地下深くでゆっくり冷えて固まった',
+    '玄武岩 ― マグマが地下深くでゆっくり冷えて固まった',
+    '花こう岩 ― マグマが地表や地表付近で急に冷えて固まった'
+  ],
+  ansIdx:1, ans:'イ',
+  exp:`<div class="calc">深成岩（地下深くでゆっくり冷える）
+  つくり：等粒状組織（大きな鉱物がそろう）
+  白っぽい 花こう岩 → せん緑岩 → はんれい岩 黒っぽい
+
+火山岩（地表や地表付近で急に冷える）
+  つくり：斑状組織（石基の中に斑晶）
+  白っぽい 流紋岩 → 安山岩 → 玄武岩 黒っぽい</div>
+<p>大きな鉱物がすき間なく組み合わさる＝<span class="lead">等粒状組織</span>＝深成岩。白っぽい深成岩は<b>花こう岩</b>。</p>`,
+  tip:'<b>ゆっくり冷える → 結晶が大きく育つ（等粒状）／急に冷える → 結晶が育たず石基ができる（斑状）</b>。6 種の岩石は<b>白っぽい順に「流・安・玄」「花・せん・はんれい」</b>と並べて覚える。'
+});
+
+Q.push({
+  id:'S35', s:'理科', unit:'気圧と風（低気圧）', lv:2, type:'choice',
+  q:`<p>北半球の<span class="lead">低気圧</span>の中心付近の、地上の風のふき方と天気について正しいものを選びなさい。</p>`,
+  choices:[
+    '中心に向かって反時計回りにふきこみ、上昇気流ができるので、雲ができやすい。',
+    '中心から時計回りにふき出し、上昇気流ができるので、雲ができやすい。',
+    '中心に向かって時計回りにふきこみ、下降気流ができるので、晴れやすい。',
+    '中心から反時計回りにふき出し、下降気流ができるので、晴れやすい。'
+  ],
+  ansIdx:0, ans:'ア',
+  exp:`<div class="calc">北半球
+  低気圧  まわりから中心へ 反時計回りにふきこむ
+          → 集まった空気が上へ（上昇気流）
+          → 空気が冷えて雲ができる → くもりや雨
+  高気圧  中心からまわりへ 時計回りにふき出す
+          → 上から空気が下りてくる（下降気流）
+          → 雲ができにくい → 晴れ
+
+風は気圧の高いほうから低いほうへふく</div>`,
+  tip:'<b>低気圧＝ふきこむ・反時計回り・上昇気流・雨</b>、<b>高気圧＝ふき出す・時計回り・下降気流・晴れ</b>。4 つの言葉を<b>まるごと反対</b>にすればもう一方になる、とセットで覚える。'
+});
+
+Q.push({
+  id:'S36', s:'理科', unit:'月の見え方', lv:3, type:'choice',
+  q:`<p>ある日の<span class="lead">日の入りのころ</span>、<span class="lead">南の空</span>に月が見えた。この月の形と、この月が西の空に沈むおよその時刻の組み合わせとして、正しいものを選びなさい。</p>`,
+  choices:[
+    '右半分が光る半月（上弦の月） ― 真夜中ごろ',
+    '左半分が光る半月（下弦の月） ― 真夜中ごろ',
+    '右半分が光る半月（上弦の月） ― 明け方ごろ',
+    '満月 ― 明け方ごろ'
+  ],
+  ansIdx:0, ans:'ア',
+  exp:`<p>日の入りのころ、太陽は<span class="lead">西</span>にある。月は太陽の光を反射して光るので、南の空の月は<b>太陽のある西側（右側）</b>が光る。</p>
+<div class="calc">日の入り（18 時ごろ）に見える位置と月の形
+  東の空  満月
+  南の空  上弦の月（右半分が光る）
+  西の空  三日月
+
+月も太陽と同じく、東から出て南を通り西に沈む
+  南中してから沈むまで約 6 時間
+  → 18 時ごろ南中した上弦の月は、
+    真夜中（0 時ごろ）に西に沈む
+
+満月は日の入りのころ東から出て、明け方に西に沈む</div>`,
+  tip:'月の問題は<b>「月の光っている側に太陽がある」</b>が出発点。日の入りなら太陽は西、日の出なら東。そこから<b>南中 → 沈むまで約 6 時間</b>で時刻を出す。'
+});
+
+/* ---------------- 社会（第3弾 2026-10-01） ---------------- */
+Q.push({
+  id:'C25', s:'社会', unit:'世界地図の図法', lv:2, type:'choice',
+  q:`<p>世界地図の図法について述べた文として、正しいものを 1 つ選びなさい。</p>`,
+  choices:[
+    '東京を中心とした正距方位図法の地図で見ると、東京から真東に進んだとき最初に着く大陸は、南アメリカ大陸である。',
+    'メルカトル図法の地図では、2 つの地点を結んだ直線が、その 2 地点間の最短の経路になる。',
+    '正距方位図法の地図では、図のどの 2 地点を結んでも、その間の距離が正しく表される。',
+    'メルカトル図法の地図では、緯度が高い地域ほど面積が小さく表される。'
+  ],
+  ansIdx:0, ans:'ア',
+  exp:`<div class="calc">正距方位図法
+  図の<b>中心から</b>の距離と方位が正しい
+  → 中心以外の 2 地点間の距離は正しくない … ウ ×
+  東京中心の図で真東（右）へ進むと
+  太平洋をこえて南アメリカ大陸に着く     … ア ○
+
+メルカトル図法
+  経線と緯線が直角に交わる。角度が正しい
+  → 2 地点を結ぶ直線は「等角航路」で、
+    最短経路ではない                   … イ ×
+  高緯度ほど実際より大きく表される       … エ ×
+  （グリーンランドが南アメリカ並みに大きく見える）</div>`,
+  tip:'図法は<b>「何が正しいか」を一語で</b>覚える――<b>正距方位図法＝中心からの距離と方位／メルカトル図法＝角度（航海用）／モルワイデ図法など＝面積</b>。正距方位図法では<b>中心から引いた直線が最短経路</b>になり、真東は中心から右へまっすぐ進む方向になる。'
+});
+
+Q.push({
+  id:'C26', s:'社会', unit:'ヨーロッパ（EU）', lv:2, type:'choice',
+  q:`<p>EU（ヨーロッパ連合）について述べた文として、正しいものを 1 つ選びなさい。</p>`,
+  choices:[
+    'EU のすべての加盟国が、共通通貨のユーロを使っている。',
+    '加盟国の間では関税をなくし、多くの国の間で国境での出入国の審査も省くなど、人や物の移動を自由にしている。',
+    '西ヨーロッパと東ヨーロッパの加盟国の間には、経済的な格差がほとんどない。',
+    'イギリスは、現在も EU の加盟国である。'
+  ],
+  ansIdx:1, ans:'イ',
+  exp:`<div class="calc">EU のしくみ
+  加盟国間の関税をなくす（物の移動が自由）
+  多くの加盟国間で国境のパスポート審査なし
+  → 国境をこえて通勤・買い物ができる
+
+ア × スウェーデンやデンマーク、ポーランドなど、
+     ユーロを使っていない加盟国もある
+ウ × 東ヨーロッパの国は賃金が低く、
+     西ヨーロッパとの経済格差が課題
+     （賃金の安い東へ工場が移り、
+       東から西へ働きに出る人も多い）
+エ × イギリスは 2020 年に EU を離脱した</div>`,
+  tip:'EU は<b>「統合のよい点（関税なし・移動自由・共通通貨）」と「課題（東西の経済格差・離脱）」</b>をセットで問われる。「すべての」「ほとんどない」のような<b>言い切りの表現</b>は誤りの選択肢によく使われる。'
+});
+
+Q.push({
+  id:'C27', s:'社会', unit:'日本の地形', lv:2, type:'choice',
+  q:`<p><span class="lead">扇状地</span>について述べた文として、最も適切なものを選びなさい。</p>`,
+  choices:[
+    '川が海や湖に流れこむ河口付近に、細かい土砂が積もってできた平らな土地で、水田や市街地に利用されることが多い。',
+    '川が山地から平地に出るところに、土砂が扇形に積もってできた土地で、水はけがよいため果樹園などに利用されることが多い。',
+    '山地が海に沈んでできた、出入りの複雑な海岸で、波がおだやかなため養殖業が盛んである。',
+    '周囲より一段高くなった平らな土地で、水が得にくいため、開発が遅れたところが多い。'
+  ],
+  ansIdx:1, ans:'イ',
+  exp:`<div class="calc">ア 三角州（河口付近・細かい土砂・水田や市街地）
+イ 扇状地（山地から平地に出るところ・つぶの大きい
+   土砂・水はけがよい → 果樹園）… ○
+   例：山梨県の甲府盆地（ぶどう・もも）
+ウ リアス海岸（例：福井県の若狭湾、三陸海岸）
+エ 台地（例：関東平野の台地、シラス台地）</div>
+<p>扇状地の中央部は、水が地下にしみこみやすく<span class="lead">水が得にくい</span>ため、かつては桑畑などに、現在は果樹園に利用されている。</p>`,
+  tip:'扇状地と三角州は<b>「どこにできるか」と「土地の使い方」</b>で区別する。<b>山のふもと＝扇状地＝つぶが大きい＝水はけがよい＝果樹園</b>、<b>河口＝三角州＝つぶが細かい＝水田</b>。地形図では扇状地に果樹園の地図記号が並ぶ。'
+});
+
+Q.push({
+  id:'C28', s:'社会', unit:'世界と日本のエネルギー', lv:2, type:'choice',
+  q:`<p>次の国のうち、国内の発電量にしめる<span class="lead">原子力発電の割合が最も高い</span>国を選びなさい。</p>`,
+  choices:['ブラジル','中国','フランス','日本'],
+  ansIdx:2, ans:'ウ（フランス）',
+  exp:`<div class="calc">国ごとの発電の特色
+  フランス  原子力発電の割合が最も高い（半分をこえる）
+  ブラジル  水力発電の割合が高い（大きな川とダム）
+  中国      石炭を使った火力発電が中心
+  日本      火力発電が中心
+            （燃料の石油・石炭・天然ガスは輸入にたよる）</div>
+<p>日本の原子力発電所は、冷却に使う海水が得やすい<span class="lead">海岸ぞい</span>にある。福井県の若狭湾沿岸には原子力発電所が集まっている。</p>`,
+  tip:'エネルギーは<b>「国＝主な発電方法」</b>で覚える――<b>フランス＝原子力、ブラジル・カナダ＝水力、中国・日本＝火力</b>。グラフ問題では、原子力の割合が飛びぬけて高い帯がフランスと判断できる。'
+});
+
+Q.push({
+  id:'C29', s:'社会', unit:'古墳時代とヤマト王権', lv:2, type:'choice',
+  q:`<p><span class="lead">古墳時代</span>のようすを述べた文として、最も適切なものを選びなさい。</p>`,
+  choices:[
+    '大王（おおきみ）を中心とするヤマト王権が、九州地方から東北地方南部までの豪族を従えるようになった。',
+    '邪馬台国の女王卑弥呼が、中国の魏に使いを送り、「親魏倭王」の称号を授けられた。',
+    '大陸から稲作が伝わり、収穫した稲を高床倉庫にたくわえるようになった。',
+    '人々は狩りや漁、採集をして暮らし、土偶をつくってまじないに用いた。'
+  ],
+  ansIdx:0, ans:'ア',
+  exp:`<div class="calc">時代の順に整理
+  縄文時代  狩り・漁・採集、土偶、貝塚       … エ
+  弥生時代  稲作、高床倉庫、金属器         … ウ
+            3 世紀 卑弥呼が魏に使い          … イ
+  古墳時代  大きな古墳（前方後円墳）
+            ヤマト王権が勢力を広げる        … ア
+            渡来人が漢字・仏教・須恵器などを伝える
+
+ヤマト王権の広がりを示す資料
+  埼玉県の稲荷山古墳の鉄剣と
+  熊本県の江田船山古墳の鉄刀に
+  「ワカタケル大王」の名が刻まれている</div>`,
+  tip:'古代は<b>「暮らし・道具・できごと」を時代ごとの箱</b>に入れて覚える。卑弥呼は古墳時代ではなく<b>弥生時代（3 世紀）</b>。東と西の古墳から同じ大王の名が出ることが、<b>ヤマト王権の支配が広い範囲に及んだ</b>証拠になる。'
+});
+
+Q.push({
+  id:'C30', s:'社会', unit:'鎌倉時代（元寇）', lv:2, type:'choice',
+  q:`<p>2 度の元寇（蒙古襲来）のあと、<span class="lead">御家人の生活が苦しくなった</span>おもな理由として、最も適切なものを選びなさい。</p>`,
+  choices:[
+    '防衛のための戦いで新しい領地を得られなかったため、幕府から十分な恩賞が与えられなかったから。',
+    '幕府が朝廷との戦いに敗れ、多くの御家人が領地を失ったから。',
+    '外国との貿易が禁止され、御家人が商売で収入を得られなくなったから。',
+    '大名が 1 年おきに江戸に住むことを命じられ、多くの費用がかかったから。'
+  ],
+  ansIdx:0, ans:'ア',
+  exp:`<div class="calc">御恩と奉公（鎌倉幕府のしくみ）
+  御恩  将軍が御家人の領地を保護し、
+        手がらに応じて新しい領地を与える
+  奉公  御家人は戦いのときに命がけで戦う
+
+元寇（1274 年 文永の役・1281 年 弘安の役）
+  御家人は自分の費用で戦った
+  → 防衛戦なので敵から領地を奪えない
+  → 恩賞（新しい領地）が少ない
+  → 御家人の生活が苦しくなる
+  → 1297 年 幕府は徳政令を出す
+  → 幕府への不満が高まり、滅亡へ
+
+イ × 承久の乱（1221 年）では幕府が勝った
+ウ × 鎌倉時代には、そのような禁止はない
+エ × 参勤交代は江戸時代の制度</div>`,
+  tip:'元寇の影響は<b>「防衛戦 → 恩賞なし → 生活苦 → 徳政令 → 不満」</b>の鎖で覚える。記述問題でも「<b>新しい領地を得られなかった</b>」が必ず採点の中心になる。'
+});
+
+Q.push({
+  id:'C31', s:'社会', unit:'戦国大名（越前の朝倉氏）', lv:2, type:'short',
+  q:`<p>越前（福井県）の戦国大名朝倉氏は、城下町<span class="frag">一乗谷</span>に本拠を置き、「有力な家臣は一乗谷に移り住むこと」などを定めた。このように、戦国大名が<span class="lead">家臣や領国の支配のために独自に定めたきまり</span>を何というか。</p>`,
+  hint:'漢字で入力', accept:['分国法'],
+  ans:'分国法',
+  exp:`<div class="calc">戦国時代
+  応仁の乱（1467 年）のあと、下の身分の者が
+  上の者を実力でたおす「下剋上」の風潮が広がる
+  → 各地に戦国大名が現れる
+
+戦国大名の領国支配
+  分国法   家臣の統制・領国の支配のための独自のきまり
+           例：朝倉氏の「朝倉孝景条々」
+               甲斐の武田氏の「甲州法度之次第」
+  城下町   家臣や商工業者を城の周りに集める
+           例：越前の一乗谷（朝倉氏）</div>
+<p>一乗谷の城下町のあとは、<span class="lead">一乗谷朝倉氏遺跡</span>として福井市に残り、発掘調査が続けられている。</p>`,
+  tip:'分国法は<b>「誰が・何のために」</b>とセットで問われる。<b>戦国大名が・家臣をまとめ領国を治めるために</b>定めたもの。武家諸法度（江戸幕府）・御成敗式目（鎌倉幕府）と<b>出した側</b>で区別する。'
+});
+
+Q.push({
+  id:'C32', s:'社会', unit:'江戸時代の対外関係', lv:3, type:'choice',
+  q:`<p>江戸時代、幕府が貿易や交流を限られた窓口に制限したなかで、「窓口となった場所・藩」と「おもな相手」の組み合わせとして、<span class="lead">すべて正しいもの</span>を選びなさい。</p>`,
+  choices:[
+    '長崎：朝鮮 ／ 対馬藩：オランダ・中国 ／ 薩摩藩：琉球王国 ／ 松前藩：アイヌの人々',
+    '長崎：オランダ・中国 ／ 対馬藩：琉球王国 ／ 薩摩藩：朝鮮 ／ 松前藩：アイヌの人々',
+    '長崎：オランダ・中国 ／ 対馬藩：アイヌの人々 ／ 薩摩藩：琉球王国 ／ 松前藩：朝鮮',
+    '長崎：オランダ・中国 ／ 対馬藩：朝鮮 ／ 薩摩藩：琉球王国 ／ 松前藩：アイヌの人々'
+  ],
+  ansIdx:3, ans:'エ',
+  exp:`<div class="calc">4 つの窓口
+  長崎    オランダ（出島）・中国（唐人屋敷）
+          幕府が直接管理
+  対馬藩  朝鮮
+          朝鮮通信使が将軍の代がわりなどに来日
+  薩摩藩  琉球王国
+          琉球を支配し、中国との貿易の利益を得た
+  松前藩  アイヌの人々（蝦夷地）
+          アイヌの人々と交易。不利な取り引きに対し
+          1669 年 シャクシャインの戦い</div>
+<p>地図で考えると覚えやすい。<span class="lead">朝鮮に近いのは対馬、琉球に近いのは薩摩（鹿児島）、蝦夷地に近いのは松前（北海道南部）</span>。</p>`,
+  tip:'窓口は<b>地図上の位置</b>で結びつける――<b>北から 松前＝アイヌ、長崎＝オランダ・中国、対馬＝朝鮮、薩摩＝琉球</b>。オランダが選ばれたのは<b>キリスト教を布教しなかった</b>から、も合わせて問われる。'
+});
+
+Q.push({
+  id:'C33', s:'社会', unit:'条約改正', lv:3, type:'choice',
+  q:`<p>幕末に結ばれた不平等条約の改正について、人物と、その人物が外務大臣として実現した内容の組み合わせとして、正しいものを選びなさい。</p>`,
+  choices:[
+    '陸奥宗光 ― 関税自主権の完全な回復',
+    '小村寿太郎 ― 領事裁判権（治外法権）の撤廃',
+    '陸奥宗光 ― 領事裁判権（治外法権）の撤廃',
+    '岩倉具視 ― 関税自主権の完全な回復'
+  ],
+  ansIdx:2, ans:'ウ',
+  exp:`<div class="calc">不平等条約（1858 年 日米修好通商条約など）
+  &#9312; 領事裁判権（治外法権）を認める
+  &#9313; 関税自主権がない
+
+改正の流れ
+  1871〜73 年  岩倉使節団 … 改正の交渉は失敗
+  1886 年      ノルマントン号事件
+               → 領事裁判権撤廃を求める世論が高まる
+  1894 年      陸奥宗光 … 領事裁判権の撤廃（イギリスと）
+  1911 年      小村寿太郎 … 関税自主権の完全な回復</div>`,
+  tip:'<b>「む・りょう」→「こ・かん」</b>（陸奥＝領事裁判権、小村＝関税自主権）と頭文字で結ぶ。年代も<b>1894 年は日清戦争の直前、1911 年は日露戦争の後</b>――国力が認められるにつれて改正が進んだ、という流れで理解する。'
+});
+
+Q.push({
+  id:'C34', s:'社会', unit:'戦後の民主化', lv:2, type:'choice',
+  q:`<p>第二次世界大戦後、GHQ（連合国軍総司令部）の指令のもとで行われた民主化政策として、<span class="lead">誤っているもの</span>を 1 つ選びなさい。</p>`,
+  choices:[
+    '日本の経済を支配してきた財閥を解体した。',
+    '政府が地主の土地を買い上げ、小作人に安く売りわたした。',
+    '選挙法を改正し、満 20 歳以上の男女に選挙権を与えた。',
+    '治安維持法を制定し、社会運動を取りしまった。'
+  ],
+  ansIdx:3, ans:'エ',
+  exp:`<div class="calc">戦後のおもな民主化政策
+  経済  財閥解体（ア）
+        農地改革（イ）→ 自作農が大幅に増えた
+        労働組合法などで労働者の権利を保障
+  政治  選挙法改正（1945 年）
+        満 20 歳以上の男女に選挙権（ウ）
+        → 女性の参政権が初めて認められた
+        日本国憲法の公布（1946 年 11 月 3 日）
+  教育  教育基本法（1947 年）
+
+エ × 治安維持法は 1925 年に制定された法律。
+     戦後は民主化の一環として廃止された</div>`,
+  tip:'治安維持法は<b>1925 年、普通選挙法と同じ年</b>に制定された（このときの選挙権は満 25 歳以上の男子のみ）。<b>「戦前に作られ、戦後に廃止」</b>と覚えておけば、この種の誤り選びで迷わない。'
+});
+
+Q.push({
+  id:'C35', s:'社会', unit:'国会（衆議院の優越）', lv:3, type:'choice',
+  q:`<p>国会の議決のうち、<span class="lead">衆議院の優越が認められていないもの</span>を 1 つ選びなさい。</p>`,
+  choices:['予算の議決','条約の承認','内閣総理大臣の指名','憲法改正の発議'],
+  ansIdx:3, ans:'エ（憲法改正の発議）',
+  exp:`<div class="calc">衆議院の優越が認められているもの
+  法律案の議決
+    参議院が否決 → 衆議院で出席議員の 3 分の 2 以上で
+    再可決すれば成立
+  予算の議決（衆議院が先に審議する＝予算先議権）
+  条約の承認
+  内閣総理大臣の指名
+    → 両院の意見が分かれ、両院協議会でも
+      一致しないときは、衆議院の議決が国会の議決になる
+  内閣不信任の決議（衆議院だけができる）
+
+認められていないもの
+  憲法改正の発議
+    各議院の総議員の 3 分の 2 以上の賛成が必要
+    → 衆議院と参議院は対等</div>`,
+  tip:'衆議院が優越するのは<b>任期が短く（4 年）解散もあるので、国民の意見をより反映しやすい</b>から。ただし<b>憲法改正の発議だけは両院が対等</b>――この 1 つを例外として覚えておく。'
+});
+
+Q.push({
+  id:'C36', s:'社会', unit:'消費者の保護（記述）', lv:3, type:'free',
+  q:`<p>訪問販売などで商品を買う契約をした場合、一定の期間内であれば、消費者は理由を問われずに契約を取り消すことができる。この<span class="lead">クーリング・オフ制度</span>が設けられている理由を、「<span class="frag">冷静に</span>」という語を使って説明しなさい。</p>`,
+  hint:'40字以内・「冷静に」を使う',
+  model:'訪問販売では、消費者が冷静に考える時間のないまま契約することがあるから。',
+  points:`<b>採点の観点（4点）</b><br>
+&#9312; 指定語句「<b>冷静に</b>」を正しく使っている … 1点<br>
+&#9313; 訪問販売などでは<b>じっくり考える時間がない・不意をつかれる</b>状況であることを書いている … 2点<br>
+&#9314; 「～から。」と理由の形で結び、字数内に収まっている … 1点`,
+  exp:`<div class="calc">クーリング・オフ制度
+  訪問販売・電話勧誘販売  契約書面を受け取ってから 8 日以内
+  マルチ商法など          20 日以内
+  → 書面（または電磁的記録）で通知する
+
+対象にならないもの
+  自分から店に行って買ったもの
+  通信販売（インターネット・カタログ）
+    → 店ごとの返品のきまりに従う
+
+背景
+  消費者は企業に比べて、商品の情報や交渉の力が少ない
+  → 消費者を守るしくみ
+     消費者基本法・製造物責任法（PL法）・消費者契約法</div>`,
+  tip:'理由の記述は<b>「どんな状況か」＋「何が問題か」</b>で組み立てる。ここでは<b>突然の訪問・電話（状況）→ 冷静に考えられないまま契約（問題）</b>。「自分から店に行った買い物は対象外」も選択問題でよく問われる。'
+});
+
 /* =========================================================
    アプリ本体
    ========================================================= */
 
 const KEY = 'takefu-drill-v1';
 // 配信用に build_web.py が日時へ置き換える。置き換わっていなければ出さない
-const BUILD = '20260928-2027';
+const BUILD = '20261001-1320';
 const EXAM = new Date(2027, 2, 4); // 令和9年度 一般選抜（例年3月上旬）の目安
 
 let store = load();
