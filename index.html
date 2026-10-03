@@ -552,6 +552,22 @@ textarea.free.tate{
 .sg.pick{border-color:var(--shu);background:var(--shu-soft)}
 .sg.pick b{color:var(--shu)}
 
+/* ---------- 手書き（漢字の読み書き。2026-10-03） ---------- */
+.wr{margin:0 0 16px}
+.wr-h{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.wr-n{font-family:var(--mincho);font-size:1.15rem;font-weight:700;flex:1}
+.wr-b{border:1px solid var(--line);border-radius:8px;background:var(--surface);
+  padding:6px 11px;font-size:.78rem;color:var(--ink-2)}
+canvas.wrc{display:block;touch-action:none;-webkit-user-select:none;user-select:none;
+  -webkit-touch-callout:none;background:var(--surface);border-radius:4px}
+.wr.done canvas.wrc{pointer-events:none}
+.wr.done .wr-b{display:none}
+.wr-a{margin-top:8px}
+.wr-a .wr-ans{font-size:.82rem;color:var(--ink-2)}
+.wr-a .wr-ans b{font-family:var(--mincho);font-size:1.9rem;color:var(--shu);margin:0 6px;letter-spacing:.06em}
+.wr-a .selfgrade{margin-top:6px}
+.wr-sum{font-size:.9rem;margin:4px 0 0}
+
 .nav{display:flex;gap:9px;margin:16px 0 40px;align-items:center}
 .dots{display:flex;gap:4px;flex-wrap:wrap;flex:1}
 .dot{width:7px;height:7px;border-radius:50%;background:var(--line);flex:none}
@@ -1200,33 +1216,31 @@ I wish + 主語 + 動詞の過去形
 
 /* ---------------- 国語 ---------------- */
 Q.push({
-  id:'J01', s:'国語', unit:'漢字（読み）', lv:2, type:'short',
+  id:'J01', s:'国語', unit:'漢字（読み）', lv:2, type:'write', mode:'yomi',
   q:`<p>次の――線部の漢字の読みを、ひらがなで書きなさい。</p>
-<p class="passage">祖父は、口数の少ない<span class="bousen">寡黙</span>な職人だった。</p>`,
-  hint:'ひらがなで入力', accept:['かもく'],
-  ans:'かもく',
-  exp:`<p><b>寡黙（かもく）</b>＝口数が少ないこと。</p>
-<div class="calc">「寡」を使う語
-  寡黙（かもく） 口数が少ない
-  寡少（かしょう）非常に少ない
-  多寡（たか）   多いことと少ないこと
-  衆寡（しゅうか）多数と少数</div>`,
-  tip:'「寡」は<b>少ない</b>という意味。同じ漢字を含む語をセットで覚えると、初見の熟語でも意味の見当がつく。'
+<p class="passage">① 祖父は、口数の少ない<span class="bousen">寡黙</span>な職人だった。</p>
+<p class="passage">② 廊下ですれ違った先生に、軽く<span class="bousen">会釈</span>をした。</p>
+<p class="passage">③ 大雪の影響で、荷物の配送が<span class="bousen">滞る</span>。</p>`,
+  items:[{ans:'かもく', w:'寡黙'},{ans:'えしゃく', w:'会釈'},{ans:'とどこおる', w:'滞る'}],
+  ans:'① かもく　② えしゃく　③ とどこおる',
+  exp:`<p>① <b>寡黙（かもく）</b>＝口数が少ないこと。「寡」は<b>少ない</b>。寡少（かしょう）・多寡（たか）。</p>
+<p>② <b>会釈（えしゃく）</b>＝軽く頭を下げてあいさつすること。「釈」を「しゃく」と読む語は少ない。釈明（しゃくめい）・解釈（かいしゃく）。</p>
+<p>③ <b>滞る（とどこおる）</b>＝物事がすらすら進まない。音読みは「タイ」：滞在・停滞・渋滞。</p>`,
+  tip:'送りがなのある訓読み（③）は、<b>送りがなまで含めて書く</b>。「とどこお」で止めない。'
 });
 
 Q.push({
-  id:'J02', s:'国語', unit:'漢字（書き）', lv:2, type:'short',
-  q:`<p>次の――線部のカタカナを、漢字に直して書きなさい。</p>
-<p class="passage">事態の<span class="bousen">スイイ</span>を慎重に見守る。</p>`,
-  hint:'漢字2字で入力', accept:['推移'],
-  ans:'推移',
-  exp:`<p><b>推移（すいい）</b>＝時間とともに移り変わること。</p>
-<div class="calc">同音で書き分けが問われる語
-  推移（すいい） 移り変わり
-  遂行（すいこう）やりとげる
-  衰退（すいたい）おとろえる
-  水位（すいい） 水面の高さ  ← 同音異義語に注意</div>`,
-  tip:'「スイイを見守る」なら<b>推移</b>、「川のスイイが上がる」なら<b>水位</b>。書き取りは必ず<b>文脈で意味を確かめてから</b>書く。'
+  id:'J02', s:'国語', unit:'漢字（書き）', lv:2, type:'write', mode:'kaki',
+  q:`<p>次の――線部のカタカナを、漢字に直して書きなさい。送りがなが必要なものは、送りがなも書くこと。</p>
+<p class="passage">① 事態の<span class="bousen">スイイ</span>を慎重に見守る。</p>
+<p class="passage">② 地域に伝わる祭りを、次の世代へ<span class="bousen">ケイショウ</span>する。</p>
+<p class="passage">③ 迷っている後輩を、正しい方向へ<span class="bousen">ミチビク</span>。</p>`,
+  items:[{ans:'推移', w:'すいい'},{ans:'継承', w:'けいしょう'},{ans:'導く', w:'みちびく'}],
+  ans:'① 推移　② 継承　③ 導く',
+  exp:`<p>① <b>推移</b>＝時間とともに移り変わること。同音の「水位（水面の高さ）」と取り違えない。</p>
+<p>② <b>継承</b>＝前の人から受け継ぐこと。「継」は<b>糸へん</b>（糸をつなぐ）。「承」の横画は<b>3本</b>。</p>
+<p>③ <b>導く</b>＝案内する・教えて正しい方へ連れていく。「道」の下に<b>寸</b>。送りがなは「く」。</p>`,
+  tip:'書き取りは<b>文脈で意味を確かめてから</b>書く。②は「受け継ぐ」の意味だから<b>継</b>。字の意味から組み立てると、見たことのない熟語でも書ける。'
 });
 
 Q.push({
@@ -2582,36 +2596,31 @@ Q.push({
 });
 /* ---------------- 国語（第2弾 2026-09-28） ---------------- */
 Q.push({
-  id:'J13', s:'国語', unit:'漢字（読み）', lv:3, type:'short',
+  id:'J13', s:'国語', unit:'漢字（読み）', lv:3, type:'write', mode:'yomi',
   q:`<p>次の――線部の漢字の読みを、ひらがなで書きなさい。</p>
-<p class="passage">新しい制度は、<span class="bousen">漸次</span>全国に広げられていく予定だ。</p>`,
-  hint:'ひらがなで入力', accept:['ぜんじ'],
-  ans:'ぜんじ',
-  exp:`<p><b>漸次（ぜんじ）</b>＝だんだんと。しだいに。</p>
-<div class="calc">「漸」を使う語
-  漸次（ぜんじ）   だんだんと
-  漸進（ぜんしん） 順を追って少しずつ進む
-  漸増（ぜんぞう） だんだん増える
-  漸減（ぜんげん） だんだん減る</div>`,
-  tip:'「漸」は<b>だんだん・少しずつ</b>という意味。「斬（ざん）」や「暫（ざん）」と形が似ているので「ざんじ」と読みまちがえやすい。「暫時（ざんじ）」は<b>しばらくの間</b>で、別の語。'
+<p class="passage">① 新しい制度は、<span class="bousen">漸次</span>全国に広げられていく予定だ。</p>
+<p class="passage">② 駅前の交差点では、事故が<span class="bousen">頻繁</span>に起きている。</p>
+<p class="passage">③ 三年間の部活動で、粘り強さを<span class="bousen">培う</span>。</p>`,
+  items:[{ans:'ぜんじ', w:'漸次'},{ans:'ひんぱん', w:'頻繁'},{ans:'つちかう', w:'培う'}],
+  ans:'① ぜんじ　② ひんぱん　③ つちかう',
+  exp:`<p>① <b>漸次（ぜんじ）</b>＝だんだんと。「漸」は<b>少しずつ</b>：漸進・漸増・漸減。「暫時（ざんじ）＝しばらくの間」とは別の語。</p>
+<p>② <b>頻繁（ひんぱん）</b>＝たびたび起こること。「頻」は<b>しきりに</b>：頻度・頻発。</p>
+<p>③ <b>培う（つちかう）</b>＝時間をかけて育てる。もとは「土を根にかけて草木を育てる」。音読みは「バイ」：栽培・培養。</p>`,
+  tip:'「漸」は「斬」「暫」と形が似ているので<b>「ざんじ」と読みまちがえやすい</b>。形の似た字は、音とセットで区別しておく。'
 });
 
 Q.push({
-  id:'J14', s:'国語', unit:'漢字（書き）', lv:2, type:'short',
-  q:`<p>次の――線部のカタカナを、漢字に直して書きなさい。</p>
-<p class="passage">話し方に<span class="bousen">カンキュウ</span>をつけると、聞き手を引きつけられる。</p>`,
-  hint:'漢字2字で入力', accept:['緩急'],
-  ans:'緩急',
-  exp:`<p><b>緩急（かんきゅう）</b>＝ゆるやかなことと、急なこと。「緩急をつける」＝速さや強さに変化をつける。</p>
-<div class="calc">反対の意味の字を重ねた熟語
-  緩急  ゆるい ⇔ 急
-  明暗  明るい ⇔ 暗い
-  損得  損 ⇔ 得
-  贈答  贈る ⇔ 答える（返す）
-
-同音に注意
-  緩（ゆるやか）  援（たすける）  暖（あたたか）</div>`,
-  tip:'「緩」は<b>糸へん</b>（ゆるめる＝糸をゆるめる）。「援」（てへん）や「暖」（ひへん）と部首で書き分ける。<b>反対の意味の字の組み合わせ</b>だと気づけば、二字目の「急」はすぐ出てくる。'
+  id:'J14', s:'国語', unit:'漢字（書き）', lv:2, type:'write', mode:'kaki',
+  q:`<p>次の――線部のカタカナを、漢字に直して書きなさい。送りがなが必要なものは、送りがなも書くこと。</p>
+<p class="passage">① 話し方に<span class="bousen">カンキュウ</span>をつけると、聞き手を引きつけられる。</p>
+<p class="passage">② この研究所は、<span class="bousen">ジュンタク</span>な資金に支えられている。</p>
+<p class="passage">③ 説明の重なる部分を<span class="bousen">ハブイテ</span>、短くまとめる。</p>`,
+  items:[{ans:'緩急', w:'かんきゅう'},{ans:'潤沢', w:'じゅんたく'},{ans:'省いて', w:'はぶいて'}],
+  ans:'① 緩急　② 潤沢　③ 省いて',
+  exp:`<p>① <b>緩急</b>＝ゆるやかなことと急なこと。反対の意味の字を重ねた熟語（明暗・損得と同じ型）。「緩」は<b>糸へん</b>。</p>
+<p>② <b>潤沢</b>＝物が豊かにあること。どちらも<b>さんずい</b>（水がゆたか）。「沢」を「択（えらぶ）」にしない。</p>
+<p>③ <b>省いて</b>＝取り除いて。「省」は「かえりみる（反省）」と「はぶく（省略）」の二つの訓をもつ。</p>`,
+  tip:'へんで書き分ける：<b>緩（糸）・援（手）・暖（日）</b>。②は「お金が水のように豊か」なので<b>さんずい</b>が2つ並ぶ、と覚える。'
 });
 
 Q.push({
@@ -4022,53 +4031,47 @@ Q.push({
 
 /* ---------------- 国語（第3弾 2026-10-01） ---------------- */
 Q.push({
-  id:'J25', s:'国語', unit:'漢字（読み）', lv:2, type:'short',
+  id:'J25', s:'国語', unit:'漢字（読み）', lv:2, type:'write', mode:'yomi',
   q:`<p>次の――線部の漢字の読みを、ひらがなで書きなさい。</p>
-<p class="passage">与えられた任務を最後まで<span class="bousen">遂行</span>する。</p>`,
-  hint:'ひらがなで入力', accept:['すいこう'],
-  ans:'すいこう',
-  exp:`<p><b>遂行（すいこう）</b>＝物事をやりとげること。</p>
-<div class="calc">「遂」を使う語
-  遂行（すいこう）  やりとげる
-  完遂（かんすい）  最後までやりとげる
-  未遂（みすい）    やろうとして、まだ果たしていない
-  遂げる（とげる）  訓読み
-
-同じ音で別の語
-  推敲（すいこう）  文章を練り直すこと</div>`,
-  tip:'「遂」は<b>「つい」</b>と読みたくなるが、音読みは<b>「スイ」</b>。「遂に（ついに）」は訓読み。同じ「すいこう」でも、<b>やりとげる＝遂行／文章を練る＝推敲</b>と、意味で書き分ける。'
+<p class="passage">① 与えられた任務を、最後まで<span class="bousen">遂行</span>する。</p>
+<p class="passage">② 失敗を<span class="bousen">殊更</span>に責め立てる必要はない。</p>
+<p class="passage">③ 自分の非を素直に認める、<span class="bousen">潔い</span>態度だった。</p>`,
+  items:[{ans:'すいこう', w:'遂行'},{ans:'ことさら', w:'殊更'},{ans:'いさぎよい', w:'潔い'}],
+  ans:'① すいこう　② ことさら　③ いさぎよい',
+  exp:`<p>① <b>遂行（すいこう）</b>＝やりとげること。「遂に（ついに）」は訓読みで、音読みは<b>スイ</b>：完遂・未遂。</p>
+<p>② <b>殊更（ことさら）</b>＝わざと・とりわけ。「殊」は<b>こと</b>：特殊・殊勝（しゅしょう）。</p>
+<p>③ <b>潔い（いさぎよい）</b>＝未練がなく、態度がきっぱりしている。音読みは「ケツ」：清潔・簡潔。</p>`,
+  tip:'同じ「すいこう」でも、<b>やりとげる＝遂行／文章を練る＝推敲</b>。読みの問題でも、意味まで言えるようにしておくと書き取りにそのまま効く。'
 });
 
 Q.push({
-  id:'J26', s:'国語', unit:'漢字（書き）', lv:2, type:'short',
-  q:`<p>次の――線部のカタカナを、漢字に直して書きなさい。</p>
-<p class="passage">司会の工夫で、話し合いが<span class="bousen">エンカツ</span>に進んだ。</p>`,
-  hint:'漢字2字で入力', accept:['円滑'],
-  ans:'円滑',
-  exp:`<p><b>円滑（えんかつ）</b>＝物事がすらすらと、とどこおりなく進むこと。</p>
-<div class="calc">「円」＝まるい・角がない
-「滑」＝なめらか（滑る＝すべる）
-  → 角がなく、なめらかに進む
-
-「滑」を使う語
-  滑走（かっそう）  潤滑（じゅんかつ）</div>`,
-  tip:'「滑」は<b>さんずい</b>（水でなめらか）。「骨」の部分を「月」にしない。<b>「円＋滑」＝まるく、なめらか</b>と字の意味から組み立てると、「援活」「円活」のような当て字を防げる。'
+  id:'J26', s:'国語', unit:'漢字（書き）', lv:2, type:'write', mode:'kaki',
+  q:`<p>次の――線部のカタカナを、漢字に直して書きなさい。送りがなが必要なものは、送りがなも書くこと。</p>
+<p class="passage">① 司会の工夫で、話し合いが<span class="bousen">エンカツ</span>に進んだ。</p>
+<p class="passage">② この時計は、<span class="bousen">セイミツ</span>な部品を組み合わせて作られている。</p>
+<p class="passage">③ 機械の操作を<span class="bousen">アヤマル</span>と、大きな事故につながる。</p>`,
+  items:[{ans:'円滑', w:'えんかつ'},{ans:'精密', w:'せいみつ'},{ans:'誤る', w:'あやまる'}],
+  ans:'① 円滑　② 精密　③ 誤る',
+  exp:`<p>① <b>円滑</b>＝すらすらと、とどこおりなく進むこと。「円（まるい）＋滑（なめらか）」。「滑」は<b>さんずい</b>。</p>
+<p>② <b>精密</b>＝細かいところまで正確なこと。「精」は<b>米へん</b>（米を細かくついて白くする）。「清」「晴」と混ぜない。</p>
+<p>③ <b>誤る</b>＝まちがえる。<b>謝る</b>（おわびする）と同じ読み。操作を「まちがえる」のだから<b>誤る</b>。</p>`,
+  tip:'③のような<b>同訓異字</b>は、ほかの言葉に言いかえて確かめる。「まちがえる」なら誤る、「わびる」なら謝る。'
 });
 
 Q.push({
-  id:'J27', s:'国語', unit:'同音異義語', lv:2, type:'choice',
-  q:`<p>次の文の――線部「ホショウ」に当たる漢字として、最も適切なものを選びなさい。</p>
-<p class="passage">購入した冷蔵庫には、一年間のメーカー<span class="bousen">ホショウ</span>がついている。</p>`,
-  choices:['保障','補償','保証','補正'],
-  ansIdx:2, ans:'ウ（保証）',
-  exp:`<div class="calc">保証（ほしょう）  まちがいない、大丈夫だと請け合うこと
+  id:'J27', s:'国語', unit:'同音異義語', lv:2, type:'write', mode:'kaki',
+  q:`<p>次の――線部「ホショウ」を、文に合う漢字に直して書きなさい。</p>
+<p class="passage">① 購入した冷蔵庫には、一年間のメーカー<span class="bousen">ホショウ</span>がついている。</p>
+<p class="passage">② 社会<span class="bousen">ホショウ</span>の制度を見直す議論が続いている。</p>
+<p class="passage">③ 工事で受けた損害を、会社が<span class="bousen">ホショウ</span>する。</p>`,
+  items:[{ans:'保証', w:'ほしょう'},{ans:'保障', w:'ほしょう'},{ans:'補償', w:'ほしょう'}],
+  ans:'① 保証　② 保障　③ 補償',
+  exp:`<div class="calc">保証  まちがいない、大丈夫だと請け合う
   品質の保証・保証書・身元の保証
-保障（ほしょう）  地位や権利をおかされないように守ること
+保障  地位や権利をおかされないように守る
   安全保障・社会保障
-補償（ほしょう）  受けた損害をつぐなうこと
-  損害を補償する・補償金
-補正（ほせい）    足りないところを補い、正すこと（読みが違う）</div>
-<p>メーカーが「一年間は品質に責任をもちます」と<span class="lead">請け合う</span>ので<b>保証</b>。</p>`,
+補償  受けた損害をつぐなう
+  損害を補償する・補償金</div>`,
   tip:'3 つの「ほしょう」は<b>「請け合う＝保証」「守る＝保障」「つぐなう＝補償」</b>。<b>証</b>＝証明書、<b>障</b>＝さえぎって守る、<b>償</b>＝つぐなう（弁償）と、字の意味で覚える。'
 });
 
@@ -4827,10 +4830,17 @@ Q.push({
 
 const KEY = 'takefu-drill-v1';
 // 配信用に build_web.py が日時へ置き換える。置き換わっていなければ出さない
-const BUILD = '20261001-1320';
+const BUILD = '20261003-2257';
 const EXAM = new Date(2027, 2, 4); // 令和9年度 一般選抜（例年3月上旬）の目安
 
 let store = load();
+// 漢字の読み書きを手書きに変えた（2026-10-03）。キーボードの予測変換で答えが見えていた頃の
+// 記録は当てにならないので、この問題だけ一度記録を消して出題に戻す
+if(!store.writeV){
+  Q.filter(q=> q.type === 'write').forEach(q=>{ delete store.rec[q.id]; });
+  store.writeV = 1;
+  try{ localStorage.setItem(KEY, JSON.stringify(store)); }catch(e){}
+}
 function load(){
   try{
     const raw = localStorage.getItem(KEY);
@@ -5277,6 +5287,7 @@ let SET = null;
 
 function startSet(ids, label){
   if(!ids.length) return;
+  WR = null;                      // 手書きの途中を次のセットへ持ち越さない
   SET = {ids, label, i:0, results:{}, t0:Date.now(), newMaster:[]};
   show('quiz');
   renderQ();
@@ -5308,7 +5319,9 @@ function renderQ(){
     ansHTML = '<div class="choices">' + q.choices.map((c,i)=>
       '<button class="choice" data-i="'+i+'"><span class="choice-k">'+KANA[i]+'</span><span>'+c+'</span></button>'
     ).join('') + '</div>';
-  }else if(q.type === 'short'){
+  }else if(q.type === 'write'){
+    ansHTML = writeHTML(q);
+}else if(q.type === 'short'){
     ansHTML = '<div class="field"><input type="text" id="in" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="解答を入力"></div>' +
       '<p class="hint">'+(q.hint||'')+'</p>' +
       '<div class="actions"><button class="btn" id="go">採点する</button></div>';
@@ -5363,6 +5376,8 @@ function renderQ(){
     el.querySelectorAll('.choice').forEach(b=>{
       b.addEventListener('click', ()=> grade(q, Number(b.dataset.i)));
     });
+  }else if(q.type === 'write'){
+    setupWrite(q);
   }else{
     const inp = document.getElementById('in');
     document.getElementById('go').addEventListener('click', ()=> grade(q, inp.value));
@@ -5376,6 +5391,160 @@ function renderQ(){
       updateCounter(q);
     }
     inp.focus();
+  }
+}
+
+/* ---- 手書き（漢字の読み書き） ----
+   キーボードで打つと、予測変換の候補に答えの漢字が出てしまう（読みも、打った読みで漢字が出れば当たりと分かる）。
+   本番は手で書くので、指でマスに書いてから正答と見比べ、自分で ○／× をつける（2026-10-03 谷さんの指示）。
+   書いていない題は × に固定する。全題そろったら（書けた数／題数）で記録する */
+const WNUM = ['①','②','③','④','⑤'];
+let WR = null;                    // {id, st:[題ごとの画の配列], done, v:[題ごとの○×]}
+
+function writeHTML(q){
+  if(!WR || WR.id !== q.id) WR = {id:q.id, st:q.items.map(()=>[]), done:false, v:q.items.map(()=>null)};
+  return '<p class="hint" style="margin-top:0">'+(q.mode === 'yomi' ? '読みを<b>ひらがな</b>で' : '<b>漢字</b>（送りがなも）で')+
+      '、マスに指で書く。キーボードは使わない。書けたら「答え合わせ」。</p>' +
+    q.items.map((it,i)=>
+      '<div class="wr" data-i="'+i+'"><div class="wr-h"><span class="wr-n">'+WNUM[i]+'</span>' +
+      '<button class="wr-b" data-a="undo">1画もどす</button><button class="wr-b" data-a="clear">消す</button></div>' +
+      '<canvas class="wrc"></canvas><div class="wr-a"></div></div>'
+    ).join('') +
+    '<div class="actions"><button class="btn" id="go">答え合わせ</button></div>';
+}
+
+function wrSize(q){
+  document.querySelectorAll('#ansbox .wr').forEach(w=>{
+    const i = Number(w.dataset.i), cv = w.querySelector('canvas');
+    const n = Array.from(q.items[i].ans).length;
+    const max = q.mode === 'yomi' ? 76 : 104;
+    const box = Math.max(40, Math.min(max, Math.floor((w.clientWidth - 2) / n)));
+    const dpr = window.devicePixelRatio || 1;
+    cv.style.width = (box*n)+'px'; cv.style.height = box+'px';
+    cv.width = Math.round(box*n*dpr); cv.height = Math.round(box*dpr);
+    cv._box = box; cv._n = n; cv._dpr = dpr;
+    wrDraw(cv, WR.st[i]);
+  });
+}
+
+function wrDraw(cv, strokes){
+  const c = cv.getContext('2d'), b = cv._box, n = cv._n;
+  const cs = getComputedStyle(document.documentElement);
+  c.setTransform(cv._dpr,0,0,cv._dpr,0,0);
+  c.clearRect(0,0,b*n,b);
+  // マス目と十字の補助線（漢字練習帳と同じ）
+  c.strokeStyle = cs.getPropertyValue('--line').trim() || '#ccc';
+  c.lineWidth = 1; c.setLineDash([]);
+  for(let k=0;k<n;k++) c.strokeRect(k*b+.5, .5, b-1, b-1);
+  c.setLineDash([3,4]);
+  c.beginPath();
+  for(let k=0;k<n;k++){ c.moveTo(k*b+b/2, 4); c.lineTo(k*b+b/2, b-4); c.moveTo(k*b+4, b/2); c.lineTo(k*b+b-4, b/2); }
+  c.stroke(); c.setLineDash([]);
+  // 画（座標はマスの大きさで割って持っている。画面の幅が変わっても崩れない）
+  c.strokeStyle = cs.getPropertyValue('--ink').trim() || '#000';
+  c.lineWidth = Math.max(2.5, b*.055); c.lineCap = 'round'; c.lineJoin = 'round';
+  strokes.forEach(s=>{
+    c.beginPath();
+    s.forEach((p,j)=>{ const x=p[0]*b, y=p[1]*b; if(j) c.lineTo(x,y); else c.moveTo(x,y); });
+    if(s.length === 1) c.lineTo(s[0][0]*b+.1, s[0][1]*b+.1);
+    c.stroke();
+  });
+}
+
+function setupWrite(q){
+  wrSize(q);
+  document.querySelectorAll('#ansbox .wr').forEach(w=>{
+    const i = Number(w.dataset.i), cv = w.querySelector('canvas');
+    let cur = null;
+    const pt = e => { const r = cv.getBoundingClientRect(); return [(e.clientX-r.left)/cv._box, (e.clientY-r.top)/cv._box]; };
+    cv.addEventListener('pointerdown', e=>{
+      if(WR.done) return;
+      e.preventDefault();
+      try{ cv.setPointerCapture(e.pointerId); }catch(_){}
+      cur = [pt(e)]; WR.st[i].push(cur); wrDraw(cv, WR.st[i]);
+    });
+    cv.addEventListener('pointermove', e=>{
+      if(!cur) return;
+      e.preventDefault();
+      (e.getCoalescedEvents ? e.getCoalescedEvents() : [e]).forEach(ev=> cur.push(pt(ev)));
+      wrDraw(cv, WR.st[i]);
+    });
+    const end = ()=>{ cur = null; };
+    cv.addEventListener('pointerup', end);
+    cv.addEventListener('pointercancel', end);
+    // iPhone で書いている最中に画面がスクロールしないように
+    cv.addEventListener('touchstart', e=> e.preventDefault(), {passive:false});
+    cv.addEventListener('touchmove', e=> e.preventDefault(), {passive:false});
+    w.querySelectorAll('.wr-b').forEach(b=> b.addEventListener('click', ()=>{
+      if(WR.done) return;
+      if(b.dataset.a === 'undo') WR.st[i].pop(); else WR.st[i] = [];
+      wrDraw(cv, WR.st[i]);
+    }));
+  });
+  document.getElementById('go').addEventListener('click', ()=> gradeWrite(q));
+  if(WR.done) gradeWrite(q, true);
+}
+
+window.addEventListener('resize', ()=>{
+  if(!SET || !WR || !document.querySelector('#ansbox canvas.wrc')) return;
+  const q = qById(SET.ids[SET.i]);
+  if(q && q.id === WR.id) wrSize(q);
+});
+
+function gradeWrite(q, again){
+  WR.done = true;
+  const card = document.querySelector('#quiz .qcard');
+  const go = document.getElementById('go');
+  if(go) go.parentNode.remove();
+  document.querySelectorAll('#ansbox .wr').forEach(w=>{
+    const i = Number(w.dataset.i), it = q.items[i];
+    w.classList.add('done');
+    const blank = !WR.st[i].length;
+    if(blank) WR.v[i] = 0;
+    w.querySelector('.wr-a').innerHTML =
+      '<div class="wr-ans">正答<b>'+it.ans+'</b>（'+it.w+'）</div>' +
+      (blank
+        ? '<div class="wr-ans" style="color:var(--ai)">書いていないので ×</div>'
+        : '<div class="selfgrade">' +
+            '<button class="sg'+(WR.v[i]===1?' pick':'')+'" data-v="1"><b>&#9711;</b><span>そっくり書けた</span></button>' +
+            '<button class="sg'+(WR.v[i]===0?' pick':'')+'" data-v="0"><b>&#215;</b><span>ちがう・1画でもあやしい</span></button>' +
+          '</div>');
+    w.querySelectorAll('.sg').forEach(b=> b.addEventListener('click', ()=>{
+      w.querySelectorAll('.sg').forEach(x=> x.classList.remove('pick'));
+      b.classList.add('pick');
+      WR.v[i] = Number(b.dataset.v);
+      done();
+    }));
+  });
+
+  card.insertAdjacentHTML('beforeend',
+    '<div class="exp">' +
+      '<div class="exp-h">自己採点</div><div class="exp-body">上の答えと見比べて、題ごとに ○／× を押す。<b>とめ・はね・はらい、点や横画の数</b>まで見て、1画でもちがえば ×（本番も × になる）。</div>' +
+      '<div class="exp-h">解説</div><div class="exp-body">'+q.exp+'</div>' +
+      '<div class="exp-h">ここで差がつく</div><div class="exp-tip">'+q.tip+'</div>' +
+      '<p class="wr-sum" id="wrsum"></p>' +
+      '<div class="actions" id="nextbox"></div>' +
+    '</div>');
+  done();
+
+  function done(){
+    const n = q.items.length, got = WR.v.filter(x=> x !== null).length;
+    const ok = WR.v.filter(x=> x === 1).length;
+    const sum = document.getElementById('wrsum');
+    if(got < n){ sum.textContent = 'のこり '+(n-got)+' 題の ○／× を押してください。'; return; }
+    sum.innerHTML = n+' 題中 <b>'+ok+'</b> 題 書けた';
+    commit(q, Math.round(ok/n*100)/100);
+    const nb = document.getElementById('nextbox');
+    if(nb.dataset.on) return;
+    nb.dataset.on = '1';
+    const last = SET.i === SET.ids.length - 1;
+    nb.innerHTML = '<button class="btn" id="next">'+(last ? '結果を見る' : '次の問題へ')+'</button>';
+    document.getElementById('next').addEventListener('click', ()=>{
+      WR = null;
+      if(last){ renderResult(); }
+      else { SET.i++; renderQ(); }
+    });
+    if(!again) nb.scrollIntoView({behavior:'smooth', block:'nearest'});
   }
 }
 
