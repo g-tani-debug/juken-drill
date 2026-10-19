@@ -7,4 +7,4 @@
 
 問題はすべて書き下ろしのオリジナル。実際の過去問は収録していない。
 
-元ファイルと直し方: `02_案件\82_juken-drill\`（`build_web.py` で生成）
+元ファイルと直し方: `03_staff\10_gmk\gmk_06_tachibana\82_juken-drill\`（`build_web.py` で生成）
